@@ -1,4 +1,4 @@
-﻿# SmartSummery
+﻿# ResQDoc
 
 ## Table of Contents
 
