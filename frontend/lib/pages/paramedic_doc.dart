@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/pages/tools.dart';
 
 class ParamedicDoc extends StatefulWidget {
   const ParamedicDoc({super.key});
