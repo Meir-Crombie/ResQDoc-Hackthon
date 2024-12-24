@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ParamedicDoc extends StatefulWidget {
   const ParamedicDoc({super.key});
@@ -770,7 +771,36 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
   final TextEditingController _controller = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    _loadTextFieldData();
+  }
+
+  void _loadTextFieldData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? textFieldValue = prefs.getString(widget.labelText);
+    bool? checkedNodeState = prefs.getBool('${widget.labelText}_checkedNode');
+
+    if (textFieldValue != null) {
+      _controller.text = textFieldValue;
+    }
+
+    if (checkedNodeState != null) {
+      setState(() {
+        widget.checkedNode = checkedNodeState;
+      });
+    }
+  }
+
+  void _saveTextFieldData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(widget.labelText, _controller.text);
+    prefs.setBool('${widget.labelText}_checkedNode', widget.checkedNode);
+  }
+
+  @override
   void dispose() {
+    _saveTextFieldData();
     _controller.dispose();
     super.dispose();
   }
@@ -779,36 +809,29 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
   Widget build(BuildContext context) {
     return InkWell(
       onDoubleTap: () {
-        if (widget.checkedNode == true) {
-          setState(() {
-            widget.checkedNode =
-                false; // Change checkedNode to true on double-tap
-          });
-        } else {
-          setState(() {
-            widget.checkedNode =
-                true; // Change checkedNode to true on double-tap
-          });
-        }
+        setState(() {
+          widget.checkedNode = !widget.checkedNode;
+          _saveTextFieldData(); // Save data when checkedNode changes
+        });
       },
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
         ),
-        padding: const EdgeInsets.all(
-            8), // Optional: Adds padding inside the container
+        padding: const EdgeInsets.all(8),
         child: TextField(
           controller: _controller,
           focusNode: widget.focusNode,
           textInputAction: widget.textInputAction,
-          onSubmitted: widget.onSubmitted,
+          onSubmitted: (value) {
+            if (widget.onSubmitted != null) widget.onSubmitted!(value);
+            _saveTextFieldData();
+          },
           decoration: InputDecoration(
             labelText: widget.labelText,
             border: OutlineInputBorder(),
             filled: true,
-            fillColor: widget.checkedNode
-                ? Colors.green
-                : Colors.red, // Background based on checkedNode
+            fillColor: widget.checkedNode ? Colors.green : Colors.red,
           ),
         ),
       ),
