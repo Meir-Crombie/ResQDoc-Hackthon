@@ -176,7 +176,7 @@ class _HomeState extends State<Home> {
                       color: Color.fromARGB(255, 0, 0, 0),
                     ),
                     onPressed: () {
-                      Navigator.pushNamed(context, '/Settings');
+                      Navigator.pushNamed(context, '/settings');
                     },
                   ),
                   IconButton(
