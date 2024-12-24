@@ -60,26 +60,23 @@ class _HomeState extends State<Home> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 26, 199, 49),
       appBar: AppBar(
-        title: Text('תיעוד כונן'),
+        title: Text('כונן'),
+        titleTextStyle: TextStyle(
+          fontSize: 30,
+          fontWeight: FontWeight.bold,
+          fontFamily: 'David',
+          color: const Color.fromARGB(255, 0, 0, 0),
+        ),
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 255, 123, 0),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.settings),
-            onPressed: () {
-              // Add your settings page navigation here
-              Navigator.pushNamed(context, '/Settings');
-            },
-          ),
-        ],
       ),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              const Color.fromARGB(255, 255, 255, 255),
-              const Color.fromARGB(255, 255, 243, 133),
-              const Color.fromARGB(255, 255, 145, 0)
+              const Color.fromARGB(255, 255, 169, 89),
+              const Color.fromARGB(255, 255, 169, 89),
+              const Color.fromARGB(255, 151, 55, 0)
             ], // צבעי השיפוע
             begin: Alignment.topLeft, // תחילת השיפוע
             end: Alignment.bottomRight, // סוף השיפוע
@@ -87,20 +84,55 @@ class _HomeState extends State<Home> {
         ),
         child: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              ElevatedButton(
-                onPressed: isRecording ? stopRecording : startRecording,
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: const Color.fromARGB(255, 0, 0, 0),
-                  backgroundColor: const Color.fromARGB(255, 255, 17, 0),
-                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 50),
-                  textStyle:
-                      TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              Spacer(),
+              SizedBox(
+                width: 300, // רוחב התמונה
+                height: 250, // גובה התמונה
+                child: Image.asset('assets/svgviewer-png-output.png'),
+              ), // הוספת התמונה עם שינוי ג
+
+              Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      const Color.fromARGB(255, 255, 169, 89),
+                      const Color.fromARGB(255, 255, 169, 89),
+                      const Color.fromARGB(255, 151, 55, 0)
+                    ],
+                  ),
+                  borderRadius: BorderRadius.circular(0),
                 ),
-                child: Text(isRecording ? 'הפסק הקלטה' : 'התחל הקלטה'),
+                child: ElevatedButton(
+                  onPressed: isRecording ? stopRecording : startRecording,
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: const Color.fromARGB(255, 0, 0, 0),
+                    backgroundColor: const Color.fromARGB(255, 255, 60, 0),
+                    padding: EdgeInsets.symmetric(horizontal: 50, vertical: 50),
+                    textStyle: TextStyle(
+                        fontSize: 30,
+                        fontFamily: 'David',
+                        fontWeight: FontWeight.bold),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(0), // הפוך למרובע
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.mic,
+                        size: 30,
+                        color: Colors.black,
+                      ),
+                      SizedBox(width: 10),
+                      Text(isRecording ? 'הפסק הקלטה' : 'התחל הקלטה'),
+                    ],
+                  ),
+                ),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -113,36 +145,43 @@ class _HomeState extends State<Home> {
                           const Color.fromARGB(255, 0, 0, 0), // צבע הטקסט
                       backgroundColor:
                           const Color.fromARGB(255, 255, 89, 0), // צבע הרקע
-                      elevation: 10, // גובה הצל
+                      elevation: 0, // גובה הצל
                       shape: RoundedRectangleBorder(
                         borderRadius:
                             BorderRadius.circular(0), // פינות לא מעוגלות
                       ),
                       padding: EdgeInsets.symmetric(
-                          horizontal: 30, vertical: 20), // שוליים פנימיים
+                          horizontal: 100, vertical: 15), // שוליים פנימיים
                       textStyle:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     child: const Text('תיעוד'),
                   ),
-                  ElevatedButton(
+                ],
+              ),
+              Spacer(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    icon: Icon(
+                      Icons.settings,
+                      size: 40,
+                      color: Color.fromARGB(255, 0, 0, 0),
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/Settings');
+                    },
+                  ),
+                  IconButton(
+                    icon: Icon(
+                      Icons.info,
+                      size: 40,
+                      color: Color.fromARGB(255, 0, 0, 0),
+                    ),
                     onPressed: () {
                       Navigator.pushNamed(context, '/about');
                     },
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: const Color.fromARGB(255, 0, 0, 0),
-                      backgroundColor: const Color.fromARGB(
-                          255, 255, 89, 0), // צבע טקסט הכפתור
-                      elevation: 10, // גובה הצל
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(0), // פינות מעוגלות
-                      ),
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 30, vertical: 20), // שוליים פנימיים
-                      textStyle:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                    child: const Text('עלינו'),
                   ),
                 ],
               ),
