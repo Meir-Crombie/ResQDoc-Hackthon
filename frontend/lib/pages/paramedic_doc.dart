@@ -117,14 +117,6 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                           return FocusScope.of(context)
                               .requestFocus(focusNodes[1]);
                         },
-                        onSubmitted: (_) {
-                          setState(() {
-                            checkedNodes[0] =
-                                true; // Change checkedNode to true on double-tap
-                          });
-                          return FocusScope.of(context)
-                              .requestFocus(focusNodes[1]);
-                        },
                       ),
                     ),
                     SizedBox(width: 8),
@@ -837,8 +829,8 @@ class DefaultTextField extends StatefulWidget {
     this.focusNode,
     this.textInputAction,
     this.onSubmitted,
-    super.key,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
   _DefaultTextFieldState createState() => _DefaultTextFieldState();
@@ -850,77 +842,43 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
   @override
   void initState() {
     super.initState();
-    _loadTextFieldData();
-  }
-
-  void _loadTextFieldData() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? textFieldValue = prefs.getString(widget.labelText);
-    bool? checkedNodeState = prefs.getBool('${widget.labelText}_checkedNode');
-
-    if (textFieldValue != null) {
-      _controller.text = textFieldValue;
-    }
-
-    if (checkedNodeState != null) {
-      setState(() {
-        widget.checkedNode = checkedNodeState;
-      });
-    }
-  }
-
-  void _saveTextFieldData() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString(widget.labelText, _controller.text);
-    prefs.setBool('${widget.labelText}_checkedNode', widget.checkedNode);
+    _controller = TextEditingController(
+        text: widget.initialValue); // שימוש ב-initialValue
   }
 
   @override
   void dispose() {
-    _saveTextFieldData();
-    _saveTextFieldData();
     _controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-    return InkWell(
+    return GestureDetector(
       onDoubleTap: () {
         setState(() {
-          widget.checkedNode = !widget.checkedNode;
-          _saveTextFieldData(); // Save data when checkedNode changes
-        });
-        setState(() {
-          widget.checkedNode = !widget.checkedNode;
-          _saveTextFieldData(); // Save data when checkedNode changes
+          widget.checkedNode =
+              !widget.checkedNode; // Toggle checkedNode on double-tap
         });
       },
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
         ),
-        padding: const EdgeInsets.all(8),
-        padding: const EdgeInsets.all(8),
+        padding: const EdgeInsets.all(
+            8), // Optional: Adds padding inside the container
         child: TextField(
           controller: _controller, // השתמש בקונטרולר עם הערך ההתחלתי
           focusNode: widget.focusNode,
           textInputAction: widget.textInputAction,
-          onSubmitted: (value) {
-            if (widget.onSubmitted != null) widget.onSubmitted!(value);
-            _saveTextFieldData();
-          },
-          onSubmitted: (value) {
-            if (widget.onSubmitted != null) widget.onSubmitted!(value);
-            _saveTextFieldData();
-          },
+          onSubmitted: widget.onSubmitted,
           decoration: InputDecoration(
             labelText: widget.labelText,
             border: OutlineInputBorder(),
             filled: true,
-            fillColor: widget.checkedNode ? Colors.green : Colors.red,
-            fillColor: widget.checkedNode ? Colors.green : Colors.red,
+            fillColor: widget.checkedNode
+                ? Colors.green
+                : Colors.red, // Background based on checkedNode
           ),
         ),
       ),
