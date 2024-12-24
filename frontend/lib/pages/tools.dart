@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class DefaultTextField extends StatefulWidget {
   final String labelText;
-  DefaultTextField({required this.labelText});
+  const DefaultTextField({super.key, required this.labelText});
   @override
   _DefaultTextFieldState createState() => _DefaultTextFieldState();
 }
@@ -23,6 +23,7 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
   Widget build(BuildContext context) {
     return TextField(
       controller: _controller,
+      textAlign: TextAlign.right,
       decoration: InputDecoration(
         labelText: widget.labelText,
         labelStyle: TextStyle(),
