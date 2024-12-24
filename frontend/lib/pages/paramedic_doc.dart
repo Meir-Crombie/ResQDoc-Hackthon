@@ -33,7 +33,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('תיעוד כונן'),
+        title: Text('תיעוד רפואי מלא'),
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 255, 187, 0),
       ),
@@ -69,6 +69,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                   children: [
                     Expanded(
                       child: DefaultTextField(
+                        labelText: 'מזהה כונן',
                         labelText: 'ת.ז. או מספר דרכון',
                         focusNode: _focusNodes[0],
                         textInputAction: TextInputAction.next,
@@ -79,6 +80,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     SizedBox(width: 8),
                     Expanded(
                       child: DefaultTextField(
+                        labelText: 'שם כונן',
                         labelText: 'שם פרטי מטופל',
                         focusNode: _focusNodes[1],
                         textInputAction: TextInputAction.next,
@@ -452,6 +454,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
 
 class DefaultTextField extends StatefulWidget {
   final String labelText;
+  const DefaultTextField({super.key, required this.labelText});
   final FocusNode? focusNode;
   final TextInputAction? textInputAction;
   final ValueChanged<String>? onSubmitted;
