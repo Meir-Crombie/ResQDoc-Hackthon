@@ -58,39 +58,96 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[900],
+      backgroundColor: const Color.fromARGB(255, 26, 199, 49),
       appBar: AppBar(
-        title: Text('Medical Documentation Saves Lives'),
+        title: Text('תיעוד כונן'),
         centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 255, 187, 0),
+        backgroundColor: const Color.fromARGB(255, 255, 123, 0),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.settings),
+            onPressed: () {
+              // Add your settings page navigation here
+              Navigator.pushNamed(context, '/Settings');
+            },
+          ),
+        ],
       ),
-      body: SafeArea(
-        child: Column(
-          mainAxisAlignment:
-              MainAxisAlignment.end, // Position buttons at the bottom
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                  onPressed: isRecording ? stopRecording : startRecording,
-                  child: Text(isRecording ? 'Stop' : 'Record'),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              const Color.fromARGB(255, 255, 255, 255),
+              const Color.fromARGB(255, 255, 243, 133),
+              const Color.fromARGB(255, 255, 145, 0)
+            ], // צבעי השיפוע
+            begin: Alignment.topLeft, // תחילת השיפוע
+            end: Alignment.bottomRight, // סוף השיפוע
+          ),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              ElevatedButton(
+                onPressed: isRecording ? stopRecording : startRecording,
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: const Color.fromARGB(255, 0, 0, 0),
+                  backgroundColor: const Color.fromARGB(255, 255, 17, 0),
+                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 50),
+                  textStyle:
+                      TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/paramedic');
-                  },
-                  child: const Text('Fill Form'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/about');
-                  },
-                  child: const Text('About Us'),
-                ),
-              ],
-            ),
-          ],
+                child: Text(isRecording ? 'הפסק הקלטה' : 'התחל הקלטה'),
+              ),
+              SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/paramedic');
+                    },
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor:
+                          const Color.fromARGB(255, 0, 0, 0), // צבע הטקסט
+                      backgroundColor:
+                          const Color.fromARGB(255, 255, 89, 0), // צבע הרקע
+                      elevation: 10, // גובה הצל
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.circular(0), // פינות לא מעוגלות
+                      ),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 30, vertical: 20), // שוליים פנימיים
+                      textStyle:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    child: const Text('תיעוד'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/about');
+                    },
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: const Color.fromARGB(255, 0, 0, 0),
+                      backgroundColor: const Color.fromARGB(
+                          255, 255, 89, 0), // צבע טקסט הכפתור
+                      elevation: 10, // גובה הצל
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(0), // פינות מעוגלות
+                      ),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 30, vertical: 20), // שוליים פנימיים
+                      textStyle:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    child: const Text('עלינו'),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
