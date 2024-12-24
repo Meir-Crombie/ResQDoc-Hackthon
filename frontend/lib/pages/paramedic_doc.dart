@@ -473,7 +473,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         focusNode: _focusNodes[25],
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) => FocusScope.of(context)
-                            .requestFocus(_focusNodes[21]),
+                            .requestFocus(_focusNodes[26]),
                       ),
                     ),
                     SizedBox(width: 8),
@@ -483,7 +483,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         focusNode: _focusNodes[26],
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) => FocusScope.of(context)
-                            .requestFocus(_focusNodes[22]),
+                            .requestFocus(_focusNodes[27]),
                       ),
                     ),
                   ],
@@ -499,7 +499,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         focusNode: _focusNodes[27],
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) => FocusScope.of(context)
-                            .requestFocus(_focusNodes[21]),
+                            .requestFocus(_focusNodes[28]),
                       ),
                     ),
                     SizedBox(width: 8),
@@ -509,7 +509,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         focusNode: _focusNodes[28],
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) => FocusScope.of(context)
-                            .requestFocus(_focusNodes[22]),
+                            .requestFocus(_focusNodes[29]),
                       ),
                     ),
                   ],
@@ -523,7 +523,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     focusNode: _focusNodes[29],
                     textInputAction: TextInputAction.next,
                     onSubmitted: (_) =>
-                        FocusScope.of(context).requestFocus(_focusNodes[24]),
+                        FocusScope.of(context).requestFocus(_focusNodes[30]),
                   ),
                 ),
               ),
