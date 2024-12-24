@@ -1,8 +1,8 @@
 import express from "express";
 import multer from "multer";
 import { createReadStream } from "fs";
-import { AzureOpenAI } from "openai";
 import crypto from "crypto";
+import { getClient } from "./config/openAI.js";
 
 const port = process.env.PORT || 5000;
 const app = express();
@@ -30,25 +30,6 @@ app.post("/transcribe", upload.single("audio"), async (req, res) => {
 
     // You will need to set these environment variables or edit the following values
     const audioFilePath = req.file.path;
-    console.log(audioFilePath);
-    const endpoint =
-      "https://bakur-m52qaj9o-eastus2.cognitiveservices.azure.com/openai/deployments/whisper/audio/transcriptions?api-version=2024-06-01";
-    const apiKey =
-      "FAcc8bJXrvh6ZA3Bh22r9hYonU4HehnZPTNDj5bNChUrCotnMthTJQQJ99ALACHYHv6XJ3w3AAAAACOG4lUF";
-
-    // Required Azure OpenAI deployment name and API version
-    const apiVersion = "2024-08-01-preview";
-    const deploymentName = "whisper";
-    function getClient() {
-      return new AzureOpenAI({
-        endpoint,
-        apiKey,
-        apiVersion,
-        deployment: deploymentName,
-      });
-    }
-    console.log("== Transcribe Audio Sample ==");
-
     const client = getClient();
     const result = await client.audio.transcriptions.create({
       model: "whisper",
@@ -56,6 +37,7 @@ app.post("/transcribe", upload.single("audio"), async (req, res) => {
       prompt: "Provide the text result in hebrew",
       file: createReadStream(audioFilePath),
     });
+    console.log(res.json(result));
 
     return res.json(result.text);
   } catch (err) {
