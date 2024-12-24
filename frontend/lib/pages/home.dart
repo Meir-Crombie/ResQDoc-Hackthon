@@ -51,7 +51,7 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> stopRecording() async {
-    final path = await recorder.stop();
+    await recorder.stop();
     setState(() {
       isRecording = false;
     });
@@ -75,7 +75,7 @@ class _HomeState extends State<Home> {
                   ? ElevatedButton(
                       onPressed: stopRecording,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.green,
+                        backgroundColor: Colors.red,
                         padding: const EdgeInsets.symmetric(
                             horizontal: 30, vertical: 15),
                       ),
@@ -84,7 +84,7 @@ class _HomeState extends State<Home> {
                   : ElevatedButton(
                       onPressed: startRecording,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.red,
+                        backgroundColor: Colors.green,
                         padding: const EdgeInsets.symmetric(
                             horizontal: 30, vertical: 15),
                       ),
