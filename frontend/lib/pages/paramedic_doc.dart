@@ -821,6 +821,7 @@ class DefaultTextField extends StatefulWidget {
   final FocusNode? focusNode;
   final TextInputAction? textInputAction;
   final ValueChanged<String>? onSubmitted;
+  final TextDirection textDirection;
 
   DefaultTextField({
     required this.labelText,
@@ -829,6 +830,7 @@ class DefaultTextField extends StatefulWidget {
     this.focusNode,
     this.textInputAction,
     this.onSubmitted,
+    this.textDirection = TextDirection.ltr,
     Key? key,
   }) : super(key: key);
 
@@ -872,9 +874,12 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
           focusNode: widget.focusNode,
           textInputAction: widget.textInputAction,
           onSubmitted: widget.onSubmitted,
+          textDirection: widget.textDirection,
+          textAlign: TextAlign.right,
           decoration: InputDecoration(
             labelText: widget.labelText,
             border: OutlineInputBorder(),
+            floatingLabelAlignment: FloatingLabelAlignment.start,
             filled: true,
             fillColor: widget.checkedNode
                 ? Colors.green

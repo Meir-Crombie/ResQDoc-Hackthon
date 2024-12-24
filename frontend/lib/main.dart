@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/pages/settings_page.dart';
 import 'pages/home.dart';
 import 'pages/loading_screen.dart';
 import 'pages/paramedic_doc.dart';
@@ -16,5 +17,6 @@ void main() => runApp(MaterialApp(
         '/': (context) => Loading(),
         '/home': (context) => Home(),
         '/paramedic': (context) => ParamedicDoc(),
+        '/settings': (context) => Settings(),
       },
     )); // Material app

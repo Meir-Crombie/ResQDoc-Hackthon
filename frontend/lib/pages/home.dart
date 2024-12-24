@@ -58,39 +58,133 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[900],
+      backgroundColor: const Color.fromARGB(255, 26, 199, 49),
       appBar: AppBar(
-        title: Text('Medical Documentation Saves Lives'),
+        title: Text('כונן'),
+        titleTextStyle: TextStyle(
+          fontSize: 30,
+          fontWeight: FontWeight.bold,
+          fontFamily: 'David',
+          color: const Color.fromARGB(255, 0, 0, 0),
+        ),
         centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 255, 187, 0),
+        backgroundColor: const Color.fromARGB(255, 255, 123, 0),
+        actions: [],
       ),
-      body: SafeArea(
-        child: Column(
-          mainAxisAlignment:
-              MainAxisAlignment.end, // Position buttons at the bottom
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              const Color.fromARGB(255, 255, 207, 163),
+              const Color.fromARGB(255, 255, 255, 255),
+              const Color.fromARGB(255, 255, 255, 255)
+            ], // צבעי השיפוע
+            begin: Alignment.topLeft, // תחילת השיפוע
+            end: Alignment.bottomRight, // סוף השיפוע
+          ),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Spacer(),
+              SizedBox(
+                width: 300, // רוחב התמונה
+                height: 250, // גובה התמונה
+                child: Image.asset('assets/svgviewer-png-output.png'),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      const Color.fromARGB(255, 255, 122, 122),
+                      const Color.fromARGB(255, 255, 60, 0),
+                      const Color.fromARGB(255, 151, 35, 0)
+                    ],
+                  ),
+                  borderRadius: BorderRadius.circular(100),
+                ),
+                child: ElevatedButton(
                   onPressed: isRecording ? stopRecording : startRecording,
-                  child: Text(isRecording ? 'Stop' : 'Record'),
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: const Color.fromARGB(255, 0, 0, 0),
+                    backgroundColor: const Color.fromARGB(255, 255, 60, 0),
+                    padding: EdgeInsets.symmetric(horizontal: 50, vertical: 50),
+                    textStyle: TextStyle(
+                        fontSize: 30,
+                        fontFamily: 'David',
+                        fontWeight: FontWeight.bold),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(100), // הפוך למרובע
+                    ),
+                  ),
+                  child: Icon(
+                    isRecording ? Icons.stop : Icons.mic, // אייקון דינמי
+                    size: 100,
+                    color: Colors.black,
+                  ),
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/paramedic');
-                  },
-                  child: const Text('Fill Form'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/about');
-                  },
-                  child: const Text('About Us'),
-                ),
-              ],
-            ),
-          ],
+              ),
+              SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/paramedic');
+                    },
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor:
+                          const Color.fromARGB(255, 0, 0, 0), // צבע הטקסט
+                      backgroundColor:
+                          const Color.fromARGB(255, 255, 89, 0), // צבע הרקע
+                      elevation: 0, // גובה הצל
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.circular(30), // פינות לא מעוגלות
+                      ),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 100, vertical: 15), // שוליים פנימיים
+                      textStyle:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    child: const Text('תיעוד'),
+                  ),
+                ],
+              ),
+              SizedBox(
+                width: 150, // רוחב התמונה
+                height: 250, // גובה התמונה
+                child: Image.asset('assets/logo_ichud_2.png'),
+              ),
+              Spacer(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    icon: Icon(
+                      Icons.settings,
+                      size: 40,
+                      color: Color.fromARGB(255, 0, 0, 0),
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/settings');
+                    },
+                  ),
+                  IconButton(
+                    icon: Icon(
+                      Icons.info,
+                      size: 40,
+                      color: Color.fromARGB(255, 0, 0, 0),
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/about');
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
