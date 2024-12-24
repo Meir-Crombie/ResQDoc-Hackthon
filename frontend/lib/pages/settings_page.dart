@@ -39,7 +39,6 @@ class _SettingsState extends State<Settings> {
               ),
               padding: const EdgeInsets.all(16.0),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start, // יישור לשמאל
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -53,14 +52,15 @@ class _SettingsState extends State<Settings> {
                         },
                       ),
                       Text(
-                        'האם לעקוב אחרי המיקום שלך?',
+                        'עקוב אחרי המיקום שלי',
                         style: TextStyle(fontSize: 16),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 8), // מרווח קטן מתחת לשורה
+                  const SizedBox(height: 16), // מרווח אנכי בין השורה להערה
                   Text(
-                    'המכשיר יתחיל הקלטה במקרה שתזוהה קירבה לאירוע.',
+                    'אפליקציה תתחיל הקלטה במקרה שיתקבל זיהוי קירבה לאיזור אירוע',
+                    textAlign: TextAlign.center, // יישור הטקסט למרכז
                     style: TextStyle(
                       fontSize: 14,
                       color: Colors.grey[600], // צבע טקסט אפור כהה
