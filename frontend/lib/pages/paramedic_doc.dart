@@ -665,7 +665,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     SizedBox(width: 8),
                     Expanded(
                       child: DefaultTextField(
-                        labelText: 'האזנה לריאות ',
+                        labelText: 'האזנה',
                         checkedNode: checkedNodes[26],
                         focusNode: focusNodes[26],
                         textInputAction: TextInputAction.next,
@@ -760,8 +760,8 @@ class DefaultTextField extends StatefulWidget {
     this.focusNode,
     this.textInputAction,
     this.onSubmitted,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   _DefaultTextFieldState createState() => _DefaultTextFieldState();
