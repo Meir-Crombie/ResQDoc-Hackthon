@@ -74,6 +74,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) =>
                             FocusScope.of(context).requestFocus(_focusNodes[1]),
+                        textDirection: TextDirection.rtl,
                       ),
                     ),
                     SizedBox(width: 8),
@@ -84,6 +85,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) =>
                             FocusScope.of(context).requestFocus(_focusNodes[2]),
+                        textDirection: TextDirection.rtl,
                       ),
                     ),
                   ],
@@ -121,6 +123,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) =>
                             FocusScope.of(context).requestFocus(_focusNodes[3]),
+                        textDirection: TextDirection.rtl,
                       ),
                     ),
                     SizedBox(width: 8),
@@ -131,6 +134,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) =>
                             FocusScope.of(context).requestFocus(_focusNodes[4]),
+                        textDirection: TextDirection.rtl,
                       ),
                     ),
                   ],
@@ -145,6 +149,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     textInputAction: TextInputAction.next,
                     onSubmitted: (_) =>
                         FocusScope.of(context).requestFocus(_focusNodes[5]),
+                    textDirection: TextDirection.rtl,
                   ),
                 ),
               ),
@@ -159,6 +164,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) =>
                             FocusScope.of(context).requestFocus(_focusNodes[6]),
+                        textDirection: TextDirection.rtl,
                       ),
                     ),
                     SizedBox(width: 8),
@@ -169,6 +175,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) =>
                             FocusScope.of(context).requestFocus(_focusNodes[7]),
+                        textDirection: TextDirection.rtl,
                       ),
                     ),
                   ],
@@ -183,6 +190,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     textInputAction: TextInputAction.next,
                     onSubmitted: (_) =>
                         FocusScope.of(context).requestFocus(_focusNodes[8]),
+                    textDirection: TextDirection.rtl,
                   ),
                 ),
               ),
@@ -197,6 +205,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) =>
                             FocusScope.of(context).requestFocus(_focusNodes[9]),
+                        textDirection: TextDirection.rtl,
                       ),
                     ),
                     SizedBox(width: 8),
@@ -207,6 +216,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) => FocusScope.of(context)
                             .requestFocus(_focusNodes[10]),
+                        textDirection: TextDirection.rtl,
                       ),
                     ),
                   ],
@@ -244,6 +254,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) => FocusScope.of(context)
                             .requestFocus(_focusNodes[11]),
+                        textDirection: TextDirection.rtl,
                       ),
                     ),
                     SizedBox(width: 8),
@@ -254,6 +265,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) => FocusScope.of(context)
                             .requestFocus(_focusNodes[12]),
+                        textDirection: TextDirection.rtl,
                       ),
                     ),
                   ],
@@ -270,6 +282,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) => FocusScope.of(context)
                             .requestFocus(_focusNodes[13]),
+                        textDirection: TextDirection.rtl,
                       ),
                     ),
                     SizedBox(width: 8),
@@ -280,6 +293,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) => FocusScope.of(context)
                             .requestFocus(_focusNodes[14]),
+                        textDirection: TextDirection.rtl,
                       ),
                     ),
                   ],
@@ -294,6 +308,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     textInputAction: TextInputAction.next,
                     onSubmitted: (_) =>
                         FocusScope.of(context).requestFocus(_focusNodes[15]),
+                    textDirection: TextDirection.rtl,
                   ),
                 ),
               ),
@@ -306,6 +321,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     textInputAction: TextInputAction.next,
                     onSubmitted: (_) =>
                         FocusScope.of(context).requestFocus(_focusNodes[16]),
+                    textDirection: TextDirection.rtl,
                   ),
                 ),
               ),
@@ -320,6 +336,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) => FocusScope.of(context)
                             .requestFocus(_focusNodes[17]),
+                        textDirection: TextDirection.rtl,
                       ),
                     ),
                     SizedBox(width: 8),
@@ -344,6 +361,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     textInputAction: TextInputAction.next,
                     onSubmitted: (_) =>
                         FocusScope.of(context).requestFocus(_focusNodes[19]),
+                    textDirection: TextDirection.rtl,
                   ),
                 ),
               ),
@@ -356,6 +374,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     textInputAction: TextInputAction.next,
                     onSubmitted: (_) =>
                         FocusScope.of(context).requestFocus(_focusNodes[20]),
+                    textDirection: TextDirection.rtl,
                   ),
                 ),
               ),
@@ -391,6 +410,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) => FocusScope.of(context)
                             .requestFocus(_focusNodes[21]),
+                        textDirection: TextDirection.rtl,
                       ),
                     ),
                     SizedBox(width: 8),
@@ -401,6 +421,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) => FocusScope.of(context)
                             .requestFocus(_focusNodes[22]),
+                        textDirection: TextDirection.rtl,
                       ),
                     ),
                   ],
@@ -415,6 +436,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     textInputAction: TextInputAction.next,
                     onSubmitted: (_) =>
                         FocusScope.of(context).requestFocus(_focusNodes[23]),
+                    textDirection: TextDirection.rtl,
                   ),
                 ),
               ),
@@ -427,6 +449,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     textInputAction: TextInputAction.next,
                     onSubmitted: (_) =>
                         FocusScope.of(context).requestFocus(_focusNodes[24]),
+                    textDirection: TextDirection.rtl,
                   ),
                 ),
               ),
@@ -439,6 +462,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     textInputAction: TextInputAction.next,
                     onSubmitted: (_) =>
                         FocusScope.of(context).requestFocus(_focusNodes[25]),
+                    textDirection: TextDirection.rtl,
                   ),
                 ),
               ),
@@ -474,6 +498,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) => FocusScope.of(context)
                             .requestFocus(_focusNodes[21]),
+                        textDirection: TextDirection.rtl,
                       ),
                     ),
                     SizedBox(width: 8),
@@ -484,6 +509,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) => FocusScope.of(context)
                             .requestFocus(_focusNodes[22]),
+                        textDirection: TextDirection.rtl,
                       ),
                     ),
                   ],
@@ -500,6 +526,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) => FocusScope.of(context)
                             .requestFocus(_focusNodes[21]),
+                        textDirection: TextDirection.rtl,
                       ),
                     ),
                     SizedBox(width: 8),
@@ -510,6 +537,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) => FocusScope.of(context)
                             .requestFocus(_focusNodes[22]),
+                        textDirection: TextDirection.rtl,
                       ),
                     ),
                   ],
@@ -524,6 +552,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     textInputAction: TextInputAction.next,
                     onSubmitted: (_) =>
                         FocusScope.of(context).requestFocus(_focusNodes[24]),
+                    textDirection: TextDirection.rtl,
                   ),
                 ),
               ),
@@ -540,12 +569,14 @@ class DefaultTextField extends StatefulWidget {
   final FocusNode? focusNode;
   final TextInputAction? textInputAction;
   final ValueChanged<String>? onSubmitted;
+  final TextDirection textDirection;
 
   const DefaultTextField({
     required this.labelText,
     this.focusNode,
     this.textInputAction,
     this.onSubmitted,
+    this.textDirection = TextDirection.ltr,
     Key? key,
   }) : super(key: key);
 
@@ -569,6 +600,7 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
       focusNode: widget.focusNode,
       textInputAction: widget.textInputAction,
       onSubmitted: widget.onSubmitted,
+      textDirection: widget.textDirection,
       decoration: InputDecoration(
         labelText: widget.labelText,
         border: OutlineInputBorder(),
