@@ -39,6 +39,7 @@ dependencies:
   just_audio: ^0.9.42
   path_provider: ^2.1.5
   material: ^1.0.0+2
+  permission_handler: ^11.3.1
 
 dev_dependencies:
   flutter_test:
@@ -96,3 +97,4 @@ flutter:
     - assets/svgviewer-png-output.png
     - assets/ichud_logo.png
     - assets/logo_ichud_2.png
+    - assets/daniel_pilant.jpg
