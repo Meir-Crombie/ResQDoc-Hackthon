@@ -10,4 +10,4 @@ void main() => runApp(MaterialApp(
         '/home': (context) => Home(),
         '/paramedic': (context) => ParamedicDoc(),
       },
-    ));
+    )); // Material app
