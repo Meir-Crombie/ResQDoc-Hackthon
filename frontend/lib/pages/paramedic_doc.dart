@@ -500,20 +500,22 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'רמת הכרה',
-                        focusNode: _focusNodes[25],
+                        checkedNode: checkedNodes[25],
+                        focusNode: focusNodes[25],
                         textInputAction: TextInputAction.next,
-                        onSubmitted: (_) => FocusScope.of(context)
-                            .requestFocus(_focusNodes[26]),
+                        onSubmitted: (_) =>
+                            FocusScope.of(context).requestFocus(focusNodes[26]),
                       ),
                     ),
                     SizedBox(width: 8),
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'האזנה לריאות ',
-                        focusNode: _focusNodes[26],
+                        checkedNode: checkedNodes[26],
+                        focusNode: focusNodes[26],
                         textInputAction: TextInputAction.next,
-                        onSubmitted: (_) => FocusScope.of(context)
-                            .requestFocus(_focusNodes[27]),
+                        onSubmitted: (_) =>
+                            FocusScope.of(context).requestFocus(focusNodes[27]),
                       ),
                     ),
                   ],
@@ -526,20 +528,22 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'מצב נשימה',
-                        focusNode: _focusNodes[27],
+                        checkedNode: checkedNodes[27],
+                        focusNode: focusNodes[27],
                         textInputAction: TextInputAction.next,
-                        onSubmitted: (_) => FocusScope.of(context)
-                            .requestFocus(_focusNodes[28]),
+                        onSubmitted: (_) =>
+                            FocusScope.of(context).requestFocus(focusNodes[28]),
                       ),
                     ),
                     SizedBox(width: 8),
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'קצב נשימה',
-                        focusNode: _focusNodes[28],
+                        checkedNode: checkedNodes[28],
+                        focusNode: focusNodes[28],
                         textInputAction: TextInputAction.next,
-                        onSubmitted: (_) => FocusScope.of(context)
-                            .requestFocus(_focusNodes[29]),
+                        onSubmitted: (_) =>
+                            FocusScope.of(context).requestFocus(focusNodes[29]),
                       ),
                     ),
                   ],
@@ -550,10 +554,11 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                 child: Center(
                   child: DefaultTextField(
                     labelText: 'מצב העור',
-                    focusNode: _focusNodes[29],
+                    checkedNode: checkedNodes[29],
+                    focusNode: focusNodes[29],
                     textInputAction: TextInputAction.next,
                     onSubmitted: (_) =>
-                        FocusScope.of(context).requestFocus(_focusNodes[30]),
+                        FocusScope.of(context).requestFocus(focusNodes[30]),
                   ),
                 ),
               ),
