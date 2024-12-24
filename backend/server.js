@@ -2,7 +2,11 @@ import express from "express";
 import multer from "multer";
 import { createReadStream } from "fs";
 import crypto from "crypto";
-import { getWhissperClient, getJsonFieldsFilled } from "./config/openAI.js";
+import {
+  getWhissperClient,
+  getJsonFieldsFilled,
+  formatModelResponse,
+} from "./config/openAI.js";
 
 const port = process.env.PORT || 5000;
 const app = express();
@@ -55,20 +59,20 @@ app.post("/analyze", upload.single("audio"), async (req, res) => {
     }
 
     // Only on production
-    // const audioFilePath = req.file.path;
-    // const client = getWhissperClient();
-    // const resultText = await client.audio.transcriptions.create({
-    //   model: "whisper",
-    //   language: "he",
-    //   prompt: "Provide the text result in hebrew",
-    //   file: createReadStream(audioFilePath),
-    // });
-    // const resultJson = await getJsonFieldsFilled(resultText.text);
+    const audioFilePath = req.file.path;
+    const client = getWhissperClient();
+    const resultText = await client.audio.transcriptions.create({
+      model: "whisper",
+      language: "he",
+      prompt: "Provide the text result in hebrew",
+      file: createReadStream(audioFilePath),
+    });
+    const result = await getJsonFieldsFilled(resultText.text);
+    // res.json(JSON.parse(result));
+    const formattedResult = formatModelResponse(result);
 
-    const hardCodedTrans = `יוסי מאיחוד הצלה. שלום, מה שלומך? אני לא מרגיש טוב, יש לי חום גבוה כבר יומיים וקוצר נשימה. שם מלא? רונית ישראלי. תעודת זהות? 789456123. גיל? 72. כתובת? רחוב הנשיא 15, חיפה. האם יש מחלות רקע? כן, יש לי אסתמה כרונית ויתר לחץ דם. האם את נוטלת תרופות? כן, אני נוטלת ונטולין וקרדילוק. האם יש אלרגיות? אני אלרגית לאנטיביוטיקה מסוג פניצילין.
-בדיקת מדדים: חום 39.1. לחץ דם 135/90. דופק 120. חמצן בדם 88%. המטופלת במצב יציב אך נראית עייפה ונאבקת לנשום.`;
-    const resultJson = await getJsonFieldsFilled(hardCodedTrans);
-    res.json(JSON.parse(resultJson));
+    res.setHeader("Content-Type", "application/json");
+    res.send(formattedResult);
   } catch (err) {
     console.error("Error analyzing transcript:", err.message);
     res.status(500).send("Server Error");
