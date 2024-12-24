@@ -1,4 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
+import 'package:flutter/services.dart' show rootBundle;
+
+Future<Map<String, dynamic>> readJson() async {
+  final String response = await rootBundle.loadString('data/dummydata.json');
+  return jsonDecode(response);
+}
 
 class ParamedicDoc extends StatefulWidget {
   const ParamedicDoc({super.key});
@@ -118,8 +126,16 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         checkedNode: checkedNodes[1],
                         focusNode: focusNodes[1],
                         textInputAction: TextInputAction.next,
-                        onSubmitted: (_) =>
-                            FocusScope.of(context).requestFocus(focusNodes[2]),
+                        onSubmitted: (_) {
+                          setState(() {
+                            checkedNodes[1] =
+                                true; // Change checkedNode to true on double-tap
+                          });
+                          return FocusScope.of(context)
+                              .requestFocus(focusNodes[2]);
+                        },
+                        initialValue:
+                            jsonData!['drivers'][0]['name'].toString(),
                       ),
                     ),
                   ],
@@ -156,8 +172,15 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         checkedNode: checkedNodes[2],
                         focusNode: focusNodes[2],
                         textInputAction: TextInputAction.next,
-                        onSubmitted: (_) =>
-                            FocusScope.of(context).requestFocus(focusNodes[3]),
+                        onSubmitted: (_) {
+                          setState(() {
+                            checkedNodes[2] =
+                                true; // Change checkedNode to true on double-tap
+                          });
+                          return FocusScope.of(context)
+                              .requestFocus(focusNodes[3]);
+                        },
+                        initialValue: jsonData!['patients'][0]['id'].toString(),
                       ),
                     ),
                     SizedBox(width: 8),
@@ -167,8 +190,15 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         checkedNode: checkedNodes[3],
                         focusNode: focusNodes[3],
                         textInputAction: TextInputAction.next,
-                        onSubmitted: (_) =>
-                            FocusScope.of(context).requestFocus(focusNodes[4]),
+                        onSubmitted: (_) {
+                          setState(() {
+                            checkedNodes[3] =
+                                true; // Change checkedNode to true on double-tap
+                          });
+                          return FocusScope.of(context)
+                              .requestFocus(focusNodes[4]);
+                        },
+                        initialValue: jsonData!['patients'][0]['id'].toString(),
                       ),
                     ),
                   ],
@@ -182,8 +212,14 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     checkedNode: checkedNodes[4],
                     focusNode: focusNodes[4],
                     textInputAction: TextInputAction.next,
-                    onSubmitted: (_) =>
-                        FocusScope.of(context).requestFocus(focusNodes[5]),
+                    onSubmitted: (_) {
+                      setState(() {
+                        checkedNodes[4] =
+                            true; // Change checkedNode to true on double-tap
+                      });
+                      return FocusScope.of(context).requestFocus(focusNodes[5]);
+                    },
+                    initialValue: jsonData!['patients'][0]['city'].toString(),
                   ),
                 ),
               ),
@@ -197,8 +233,16 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         checkedNode: checkedNodes[5],
                         focusNode: focusNodes[5],
                         textInputAction: TextInputAction.next,
-                        onSubmitted: (_) =>
-                            FocusScope.of(context).requestFocus(focusNodes[6]),
+                        onSubmitted: (_) {
+                          setState(() {
+                            checkedNodes[5] =
+                                true; // Change checkedNode to true on double-tap
+                          });
+                          return FocusScope.of(context)
+                              .requestFocus(focusNodes[6]);
+                        },
+                        initialValue:
+                            jsonData!['patients'][0]['houseNumber'].toString(),
                       ),
                     ),
                     SizedBox(width: 8),
@@ -208,8 +252,16 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         checkedNode: checkedNodes[6],
                         focusNode: focusNodes[6],
                         textInputAction: TextInputAction.next,
-                        onSubmitted: (_) =>
-                            FocusScope.of(context).requestFocus(focusNodes[7]),
+                        onSubmitted: (_) {
+                          setState(() {
+                            checkedNodes[6] =
+                                true; // Change checkedNode to true on double-tap
+                          });
+                          return FocusScope.of(context)
+                              .requestFocus(focusNodes[7]);
+                        },
+                        initialValue:
+                            jsonData!['patients'][0]['street'].toString(),
                       ),
                     ),
                   ],
@@ -223,8 +275,14 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     checkedNode: checkedNodes[7],
                     focusNode: focusNodes[7],
                     textInputAction: TextInputAction.next,
-                    onSubmitted: (_) =>
-                        FocusScope.of(context).requestFocus(focusNodes[8]),
+                    onSubmitted: (_) {
+                      setState(() {
+                        checkedNodes[7] =
+                            true; // Change checkedNode to true on double-tap
+                      });
+                      return FocusScope.of(context).requestFocus(focusNodes[8]);
+                    },
+                    initialValue: jsonData!['patients'][0]['name'].toString(),
                   ),
                 ),
               ),
@@ -238,8 +296,17 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         checkedNode: checkedNodes[8],
                         focusNode: focusNodes[8],
                         textInputAction: TextInputAction.next,
-                        onSubmitted: (_) =>
-                            FocusScope.of(context).requestFocus(focusNodes[9]),
+                        onSubmitted: (_) {
+                          setState(() {
+                            checkedNodes[8] =
+                                true; // Change checkedNode to true on double-tap
+                          });
+
+                          return FocusScope.of(context)
+                              .requestFocus(focusNodes[9]);
+                        },
+                        initialValue:
+                            jsonData!['patients'][0]['name'].toString(),
                       ),
                     ),
                     SizedBox(width: 8),
@@ -249,8 +316,16 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         checkedNode: checkedNodes[9],
                         focusNode: focusNodes[9],
                         textInputAction: TextInputAction.next,
-                        onSubmitted: (_) =>
-                            FocusScope.of(context).requestFocus(focusNodes[10]),
+                        onSubmitted: (_) {
+                          setState(() {
+                            checkedNodes[9] =
+                                true; // Change checkedNode to true on double-tap
+                          });
+                          return FocusScope.of(context)
+                              .requestFocus(focusNodes[10]);
+                        },
+                        initialValue:
+                            jsonData!['patients'][0]['name'].toString(),
                       ),
                     ),
                   ],
@@ -287,8 +362,16 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         checkedNode: checkedNodes[10],
                         focusNode: focusNodes[10],
                         textInputAction: TextInputAction.next,
-                        onSubmitted: (_) =>
-                            FocusScope.of(context).requestFocus(focusNodes[11]),
+                        onSubmitted: (_) {
+                          setState(() {
+                            checkedNodes[10] =
+                                true; // Change checkedNode to true on double-tap
+                          });
+                          return FocusScope.of(context)
+                              .requestFocus(focusNodes[11]);
+                        },
+                        initialValue:
+                            jsonData!['patients'][0]['name'].toString(),
                       ),
                     ),
                     SizedBox(width: 8),
@@ -298,8 +381,16 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         checkedNode: checkedNodes[11],
                         focusNode: focusNodes[11],
                         textInputAction: TextInputAction.next,
-                        onSubmitted: (_) =>
-                            FocusScope.of(context).requestFocus(focusNodes[12]),
+                        onSubmitted: (_) {
+                          setState(() {
+                            checkedNodes[11] =
+                                true; // Change checkedNode to true on double-tap
+                          });
+                          return FocusScope.of(context)
+                              .requestFocus(focusNodes[12]);
+                        },
+                        initialValue:
+                            jsonData!['patients'][0]['name'].toString(),
                       ),
                     ),
                   ],
@@ -315,9 +406,15 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         checkedNode: checkedNodes[12],
                         focusNode: focusNodes[12],
                         textInputAction: TextInputAction.next,
-<<<<<<< HEAD
-                        onSubmitted: (_) =>
-                            FocusScope.of(context).requestFocus(focusNodes[13]),
+                        onSubmitted: (_) {
+                          setState(() {
+                            checkedNodes[12] =
+                                true; // Change checkedNode to true on double-tap
+                          });
+                          return FocusScope.of(context)
+                              .requestFocus(focusNodes[13]);
+                        },
+                        initialValue: 'sd',
                       ),
                     ),
                     SizedBox(width: 8),
@@ -327,8 +424,15 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         checkedNode: checkedNodes[13],
                         focusNode: focusNodes[13],
                         textInputAction: TextInputAction.next,
-                        onSubmitted: (_) =>
-                            FocusScope.of(context).requestFocus(focusNodes[14]),
+                        initialValue: 'sd',
+                        onSubmitted: (_) {
+                          setState(() {
+                            checkedNodes[13] =
+                                true; // Change checkedNode to true on double-tap
+                          });
+                          return FocusScope.of(context)
+                              .requestFocus(focusNodes[14]);
+                        },
                       ),
                     ),
                   ],
@@ -342,8 +446,15 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     checkedNode: checkedNodes[14],
                     focusNode: focusNodes[14],
                     textInputAction: TextInputAction.next,
-                    onSubmitted: (_) =>
-                        FocusScope.of(context).requestFocus(focusNodes[15]),
+                    onSubmitted: (_) {
+                      setState(() {
+                        checkedNodes[14] =
+                            true; // Change checkedNode to true on double-tap
+                      });
+                      return FocusScope.of(context)
+                          .requestFocus(focusNodes[15]);
+                    },
+                    initialValue: 'sd',
                   ),
                 ),
               ),
@@ -355,10 +466,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     checkedNode: checkedNodes[15],
                     focusNode: focusNodes[15],
                     textInputAction: TextInputAction.next,
-                    onSubmitted: (_) =>
-                        FocusScope.of(context).requestFocus(focusNodes[16]),
                     initialValue: 'sd',
-=======
                     onSubmitted: (_) {
                       setState(() {
                         checkedNodes[15] =
@@ -367,7 +475,6 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                       return FocusScope.of(context)
                           .requestFocus(focusNodes[16]);
                     },
->>>>>>> 2ad65bc782a6595f5844b9113487042428ea8105
                   ),
                 ),
               ),
@@ -381,8 +488,15 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         checkedNode: checkedNodes[16],
                         focusNode: focusNodes[16],
                         textInputAction: TextInputAction.next,
-                        onSubmitted: (_) =>
-                            FocusScope.of(context).requestFocus(focusNodes[17]),
+                        initialValue: 'sd',
+                        onSubmitted: (_) {
+                          setState(() {
+                            checkedNodes[16] =
+                                true; // Change checkedNode to true on double-tap
+                          });
+                          return FocusScope.of(context)
+                              .requestFocus(focusNodes[17]);
+                        },
                       ),
                     ),
                     SizedBox(width: 8),
@@ -392,8 +506,15 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         checkedNode: checkedNodes[17],
                         focusNode: focusNodes[17],
                         textInputAction: TextInputAction.next,
-                        onSubmitted: (_) =>
-                            FocusScope.of(context).requestFocus(focusNodes[18]),
+                        onSubmitted: (_) {
+                          setState(() {
+                            checkedNodes[17] =
+                                true; // Change checkedNode to true on double-tap
+                          });
+                          return FocusScope.of(context)
+                              .requestFocus(focusNodes[18]);
+                        },
+                        initialValue: 'sd',
                       ),
                     ),
                   ],
@@ -407,8 +528,15 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     checkedNode: checkedNodes[18],
                     focusNode: focusNodes[18],
                     textInputAction: TextInputAction.next,
-                    onSubmitted: (_) =>
-                        FocusScope.of(context).requestFocus(focusNodes[19]),
+                    initialValue: 'sd',
+                    onSubmitted: (_) {
+                      setState(() {
+                        checkedNodes[18] =
+                            true; // Change checkedNode to true on double-tap
+                      });
+                      return FocusScope.of(context)
+                          .requestFocus(focusNodes[19]);
+                    },
                   ),
                 ),
               ),
@@ -420,8 +548,15 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     checkedNode: checkedNodes[19],
                     focusNode: focusNodes[19],
                     textInputAction: TextInputAction.next,
-                    onSubmitted: (_) =>
-                        FocusScope.of(context).requestFocus(focusNodes[20]),
+                    initialValue: 'sd',
+                    onSubmitted: (_) {
+                      setState(() {
+                        checkedNodes[21] =
+                            true; // Change checkedNode to true on double-tap
+                      });
+                      return FocusScope.of(context)
+                          .requestFocus(focusNodes[20]);
+                    },
                   ),
                 ),
               ),
@@ -456,8 +591,15 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         checkedNode: checkedNodes[20],
                         focusNode: focusNodes[20],
                         textInputAction: TextInputAction.next,
-                        onSubmitted: (_) =>
-                            FocusScope.of(context).requestFocus(focusNodes[21]),
+                        initialValue: 'sd',
+                        onSubmitted: (_) {
+                          setState(() {
+                            checkedNodes[20] =
+                                true; // Change checkedNode to true on double-tap
+                          });
+                          return FocusScope.of(context)
+                              .requestFocus(focusNodes[21]);
+                        },
                       ),
                     ),
                     SizedBox(width: 8),
@@ -467,8 +609,15 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         checkedNode: checkedNodes[21],
                         focusNode: focusNodes[21],
                         textInputAction: TextInputAction.next,
-                        onSubmitted: (_) =>
-                            FocusScope.of(context).requestFocus(focusNodes[22]),
+                        initialValue: 'sd',
+                        onSubmitted: (_) {
+                          setState(() {
+                            checkedNodes[21] =
+                                true; // Change checkedNode to true on double-tap
+                          });
+                          return FocusScope.of(context)
+                              .requestFocus(focusNodes[22]);
+                        },
                       ),
                     ),
                   ],
@@ -482,8 +631,15 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     checkedNode: checkedNodes[22],
                     focusNode: focusNodes[22],
                     textInputAction: TextInputAction.next,
-                    onSubmitted: (_) =>
-                        FocusScope.of(context).requestFocus(focusNodes[23]),
+                    initialValue: 'sd',
+                    onSubmitted: (_) {
+                      setState(() {
+                        checkedNodes[22] =
+                            true; // Change checkedNode to true on double-tap
+                      });
+                      return FocusScope.of(context)
+                          .requestFocus(focusNodes[23]);
+                    },
                   ),
                 ),
               ),
@@ -495,8 +651,15 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     checkedNode: checkedNodes[23],
                     focusNode: focusNodes[23],
                     textInputAction: TextInputAction.next,
-                    onSubmitted: (_) =>
-                        FocusScope.of(context).requestFocus(focusNodes[24]),
+                    initialValue: 'sd',
+                    onSubmitted: (_) {
+                      setState(() {
+                        checkedNodes[23] =
+                            true; // Change checkedNode to true on double-tap
+                      });
+                      return FocusScope.of(context)
+                          .requestFocus(focusNodes[24]);
+                    },
                   ),
                 ),
               ),
@@ -508,8 +671,15 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     checkedNode: checkedNodes[24],
                     focusNode: focusNodes[24],
                     textInputAction: TextInputAction.next,
-                    onSubmitted: (_) =>
-                        FocusScope.of(context).requestFocus(focusNodes[25]),
+                    initialValue: 'sd',
+                    onSubmitted: (_) {
+                      setState(() {
+                        checkedNodes[24] =
+                            true; // Change checkedNode to true on double-tap
+                      });
+                      return FocusScope.of(context)
+                          .requestFocus(focusNodes[25]);
+                    },
                   ),
                 ),
               ),
@@ -544,8 +714,15 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         checkedNode: checkedNodes[25],
                         focusNode: focusNodes[25],
                         textInputAction: TextInputAction.next,
-                        onSubmitted: (_) =>
-                            FocusScope.of(context).requestFocus(focusNodes[26]),
+                        initialValue: 'sd',
+                        onSubmitted: (_) {
+                          setState(() {
+                            checkedNodes[25] =
+                                true; // Change checkedNode to true on double-tap
+                          });
+                          return FocusScope.of(context)
+                              .requestFocus(focusNodes[26]);
+                        },
                       ),
                     ),
                     SizedBox(width: 8),
@@ -555,8 +732,15 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         checkedNode: checkedNodes[26],
                         focusNode: focusNodes[26],
                         textInputAction: TextInputAction.next,
-                        onSubmitted: (_) =>
-                            FocusScope.of(context).requestFocus(focusNodes[27]),
+                        initialValue: 'sd',
+                        onSubmitted: (_) {
+                          setState(() {
+                            checkedNodes[26] =
+                                true; // Change checkedNode to true on double-tap
+                          });
+                          return FocusScope.of(context)
+                              .requestFocus(focusNodes[27]);
+                        },
                       ),
                     ),
                   ],
@@ -572,8 +756,15 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         checkedNode: checkedNodes[27],
                         focusNode: focusNodes[27],
                         textInputAction: TextInputAction.next,
-                        onSubmitted: (_) =>
-                            FocusScope.of(context).requestFocus(focusNodes[28]),
+                        initialValue: 'sd',
+                        onSubmitted: (_) {
+                          setState(() {
+                            checkedNodes[27] =
+                                true; // Change checkedNode to true on double-tap
+                          });
+                          return FocusScope.of(context)
+                              .requestFocus(focusNodes[28]);
+                        },
                       ),
                     ),
                     SizedBox(width: 8),
@@ -583,8 +774,15 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         checkedNode: checkedNodes[28],
                         focusNode: focusNodes[28],
                         textInputAction: TextInputAction.next,
-                        onSubmitted: (_) =>
-                            FocusScope.of(context).requestFocus(focusNodes[29]),
+                        initialValue: '',
+                        onSubmitted: (_) {
+                          setState(() {
+                            checkedNodes[28] =
+                                true; // Change checkedNode to true on double-tap
+                          });
+                          return FocusScope.of(context)
+                              .requestFocus(focusNodes[29]);
+                        },
                       ),
                     ),
                   ],
@@ -598,8 +796,13 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     checkedNode: checkedNodes[29],
                     focusNode: focusNodes[29],
                     textInputAction: TextInputAction.next,
-                    onSubmitted: (_) =>
-                        FocusScope.of(context).requestFocus(focusNodes[30]),
+                    initialValue: '',
+                    onSubmitted: (_) {
+                      setState(() {
+                        checkedNodes[29] =
+                            true; // Change checkedNode to true on double-tap
+                      });
+                    },
                   ),
                 ),
               ),
@@ -634,7 +837,35 @@ class DefaultTextField extends StatefulWidget {
 }
 
 class _DefaultTextFieldState extends State<DefaultTextField> {
-  final TextEditingController _controller = TextEditingController();
+  late TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadTextFieldData();
+  }
+
+  void _loadTextFieldData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? textFieldValue = prefs.getString(widget.labelText);
+    bool? checkedNodeState = prefs.getBool('${widget.labelText}_checkedNode');
+
+    if (textFieldValue != null) {
+      _controller.text = textFieldValue;
+    }
+
+    if (checkedNodeState != null) {
+      setState(() {
+        widget.checkedNode = checkedNodeState;
+      });
+    }
+  }
+
+  void _saveTextFieldData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(widget.labelText, _controller.text);
+    prefs.setBool('${widget.labelText}_checkedNode', widget.checkedNode);
+  }
 
   @override
   void dispose() {
@@ -647,17 +878,10 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
   Widget build(BuildContext context) {
     return InkWell(
       onDoubleTap: () {
-        if (widget.checkedNode == true) {
-          setState(() {
-            widget.checkedNode =
-                false; // Change checkedNode to true on double-tap
-          });
-        } else {
-          setState(() {
-            widget.checkedNode =
-                true; // Change checkedNode to true on double-tap
-          });
-        }
+        setState(() {
+          widget.checkedNode = !widget.checkedNode;
+          _saveTextFieldData(); // Save data when checkedNode changes
+        });
       },
       child: Container(
         decoration: BoxDecoration(
