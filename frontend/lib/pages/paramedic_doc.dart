@@ -14,7 +14,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
   void initState() {
     super.initState();
     // Create a FocusNode for each DefaultTextField
-    for (int i = 0; i < 26; i++) {
+    for (int i = 0; i < 30; i++) {
       // Adjust based on your total number of fields
       _focusNodes.add(FocusNode());
     }
@@ -470,7 +470,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'רמת הכרה',
-                        focusNode: _focusNodes[20],
+                        focusNode: _focusNodes[25],
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) => FocusScope.of(context)
                             .requestFocus(_focusNodes[21]),
@@ -480,7 +480,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'האזנה לריאות ',
-                        focusNode: _focusNodes[21],
+                        focusNode: _focusNodes[26],
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) => FocusScope.of(context)
                             .requestFocus(_focusNodes[22]),
@@ -496,7 +496,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'מצב נשימה',
-                        focusNode: _focusNodes[20],
+                        focusNode: _focusNodes[27],
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) => FocusScope.of(context)
                             .requestFocus(_focusNodes[21]),
@@ -506,7 +506,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'קצב נשימה',
-                        focusNode: _focusNodes[21],
+                        focusNode: _focusNodes[28],
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) => FocusScope.of(context)
                             .requestFocus(_focusNodes[22]),
@@ -520,7 +520,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                 child: Center(
                   child: DefaultTextField(
                     labelText: 'מצב העור',
-                    focusNode: _focusNodes[23],
+                    focusNode: _focusNodes[29],
                     textInputAction: TextInputAction.next,
                     onSubmitted: (_) =>
                         FocusScope.of(context).requestFocus(_focusNodes[24]),
