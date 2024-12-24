@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class DefaultTextField extends StatefulWidget {
+  final String labelText;
+  DefaultTextField({required this.labelText});
   @override
   _DefaultTextFieldState createState() => _DefaultTextFieldState();
 }
@@ -8,7 +10,7 @@ class DefaultTextField extends StatefulWidget {
 class _DefaultTextFieldState extends State<DefaultTextField> {
   // Initialize the TextEditingController with a default value
   final TextEditingController _controller =
-      TextEditingController(text: "Default Value");
+      TextEditingController(text: "Default Value from AI");
 
   @override
   void dispose() {
@@ -22,7 +24,8 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
     return TextField(
       controller: _controller,
       decoration: InputDecoration(
-        labelText: 'Enter text',
+        labelText: widget.labelText,
+        labelStyle: TextStyle(),
         border: OutlineInputBorder(),
       ),
     );
