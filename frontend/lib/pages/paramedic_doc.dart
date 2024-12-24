@@ -1,4 +1,11 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:flutter/services.dart' show rootBundle;
+
+Future<Map<String, dynamic>> readJson() async {
+  final String response = await rootBundle.loadString('data/dummydata.json');
+  return jsonDecode(response);
+}
 
 class ParamedicDoc extends StatefulWidget {
   const ParamedicDoc({super.key});
@@ -10,6 +17,8 @@ class ParamedicDoc extends StatefulWidget {
 class _ParamedicDocState extends State<ParamedicDoc> {
   final List<FocusNode> focusNodes = [];
   final List<bool> checkedNodes = [];
+  Map<String, dynamic>? jsonData;
+  String? errorMessage;
 
   @override
   void initState() {
@@ -22,6 +31,19 @@ class _ParamedicDocState extends State<ParamedicDoc> {
     for (int i = 0; i < 30; i++) {
       // Adjust based on your total number of fields
       checkedNodes.add(false);
+    }
+    loadJsonData();
+  }
+
+  Future<void> loadJsonData() async {
+    try {
+      jsonData = await readJson();
+      print('JSON Loaded Successfully: $jsonData'); // הודעת דיבוג
+      setState(() {});
+    } catch (e) {
+      print('Error loading JSON: $e'); // הודעת דיבוג במקרה של שגיאה
+      errorMessage = 'Error loading JSON data';
+      setState(() {});
     }
   }
 
@@ -36,6 +58,13 @@ class _ParamedicDocState extends State<ParamedicDoc> {
 
   @override
   Widget build(BuildContext context) {
+    if (jsonData == null) {
+      if (errorMessage != null) {
+        return Center(child: Text(errorMessage!)); // הצגת הודעת שגיאה
+      }
+      return Center(child: CircularProgressIndicator()); // הצגת מחוון טעינה
+    }
+    // מציאת הערך "David Cohen" מתוך ה-JSON
     return Scaffold(
       appBar: AppBar(
         title: Text('תיעוד רפואי מלא'),
@@ -75,7 +104,8 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'מזהה כונן',
-                        checkedNode: checkedNodes[0],
+                        initialValue: jsonData!['drivers'][0]['id'].toString(),
+                        checkedNode: checkedNodes[0], // וודא שהפרמטר מועבר כאן
                         focusNode: focusNodes[0],
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) =>
@@ -89,6 +119,8 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         checkedNode: checkedNodes[1],
                         focusNode: focusNodes[1],
                         textInputAction: TextInputAction.next,
+                        initialValue:
+                            jsonData!['drivers'][0]['name'].toString(),
                         onSubmitted: (_) =>
                             FocusScope.of(context).requestFocus(focusNodes[2]),
                       ),
@@ -129,6 +161,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) =>
                             FocusScope.of(context).requestFocus(focusNodes[3]),
+                        initialValue: jsonData!['patients'][0]['id'].toString(),
                       ),
                     ),
                     SizedBox(width: 8),
@@ -140,6 +173,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) =>
                             FocusScope.of(context).requestFocus(focusNodes[4]),
+                        initialValue: jsonData!['patients'][0]['id'].toString(),
                       ),
                     ),
                   ],
@@ -155,6 +189,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     textInputAction: TextInputAction.next,
                     onSubmitted: (_) =>
                         FocusScope.of(context).requestFocus(focusNodes[5]),
+                    initialValue: jsonData!['patients'][0]['city'].toString(),
                   ),
                 ),
               ),
@@ -170,6 +205,8 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) =>
                             FocusScope.of(context).requestFocus(focusNodes[6]),
+                        initialValue:
+                            jsonData!['patients'][0]['houseNumber'].toString(),
                       ),
                     ),
                     SizedBox(width: 8),
@@ -181,6 +218,8 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) =>
                             FocusScope.of(context).requestFocus(focusNodes[7]),
+                        initialValue:
+                            jsonData!['patients'][0]['street'].toString(),
                       ),
                     ),
                   ],
@@ -196,6 +235,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     textInputAction: TextInputAction.next,
                     onSubmitted: (_) =>
                         FocusScope.of(context).requestFocus(focusNodes[8]),
+                    initialValue: jsonData!['patients'][0]['name'].toString(),
                   ),
                 ),
               ),
@@ -211,6 +251,8 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) =>
                             FocusScope.of(context).requestFocus(focusNodes[9]),
+                        initialValue:
+                            jsonData!['patients'][0]['name'].toString(),
                       ),
                     ),
                     SizedBox(width: 8),
@@ -222,6 +264,8 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) =>
                             FocusScope.of(context).requestFocus(focusNodes[10]),
+                        initialValue:
+                            jsonData!['patients'][0]['name'].toString(),
                       ),
                     ),
                   ],
@@ -260,6 +304,8 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) =>
                             FocusScope.of(context).requestFocus(focusNodes[11]),
+                        initialValue:
+                            jsonData!['patients'][0]['name'].toString(),
                       ),
                     ),
                     SizedBox(width: 8),
@@ -271,6 +317,8 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) =>
                             FocusScope.of(context).requestFocus(focusNodes[12]),
+                        initialValue:
+                            jsonData!['patients'][0]['name'].toString(),
                       ),
                     ),
                   ],
@@ -288,6 +336,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) =>
                             FocusScope.of(context).requestFocus(focusNodes[13]),
+                        initialValue: 'sd',
                       ),
                     ),
                     SizedBox(width: 8),
@@ -299,6 +348,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) =>
                             FocusScope.of(context).requestFocus(focusNodes[14]),
+                        initialValue: 'sd',
                       ),
                     ),
                   ],
@@ -314,6 +364,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     textInputAction: TextInputAction.next,
                     onSubmitted: (_) =>
                         FocusScope.of(context).requestFocus(focusNodes[15]),
+                    initialValue: 'sd',
                   ),
                 ),
               ),
@@ -327,6 +378,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     textInputAction: TextInputAction.next,
                     onSubmitted: (_) =>
                         FocusScope.of(context).requestFocus(focusNodes[16]),
+                    initialValue: 'sd',
                   ),
                 ),
               ),
@@ -342,6 +394,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) =>
                             FocusScope.of(context).requestFocus(focusNodes[17]),
+                        initialValue: 'sd',
                       ),
                     ),
                     SizedBox(width: 8),
@@ -353,6 +406,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) =>
                             FocusScope.of(context).requestFocus(focusNodes[18]),
+                        initialValue: 'sd',
                       ),
                     ),
                   ],
@@ -368,6 +422,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     textInputAction: TextInputAction.next,
                     onSubmitted: (_) =>
                         FocusScope.of(context).requestFocus(focusNodes[19]),
+                    initialValue: 'sd',
                   ),
                 ),
               ),
@@ -381,6 +436,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     textInputAction: TextInputAction.next,
                     onSubmitted: (_) =>
                         FocusScope.of(context).requestFocus(focusNodes[20]),
+                    initialValue: 'sd',
                   ),
                 ),
               ),
@@ -417,6 +473,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) =>
                             FocusScope.of(context).requestFocus(focusNodes[21]),
+                        initialValue: 'sd',
                       ),
                     ),
                     SizedBox(width: 8),
@@ -428,6 +485,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) =>
                             FocusScope.of(context).requestFocus(focusNodes[22]),
+                        initialValue: 'sd',
                       ),
                     ),
                   ],
@@ -443,6 +501,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     textInputAction: TextInputAction.next,
                     onSubmitted: (_) =>
                         FocusScope.of(context).requestFocus(focusNodes[23]),
+                    initialValue: 'sd',
                   ),
                 ),
               ),
@@ -456,6 +515,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     textInputAction: TextInputAction.next,
                     onSubmitted: (_) =>
                         FocusScope.of(context).requestFocus(focusNodes[24]),
+                    initialValue: 'sd',
                   ),
                 ),
               ),
@@ -469,6 +529,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     textInputAction: TextInputAction.next,
                     onSubmitted: (_) =>
                         FocusScope.of(context).requestFocus(focusNodes[25]),
+                    initialValue: 'sd',
                   ),
                 ),
               ),
@@ -505,6 +566,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) =>
                             FocusScope.of(context).requestFocus(focusNodes[26]),
+                        initialValue: 'sd',
                       ),
                     ),
                     SizedBox(width: 8),
@@ -516,6 +578,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) =>
                             FocusScope.of(context).requestFocus(focusNodes[27]),
+                        initialValue: 'sd',
                       ),
                     ),
                   ],
@@ -533,6 +596,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) =>
                             FocusScope.of(context).requestFocus(focusNodes[28]),
+                        initialValue: 'sd',
                       ),
                     ),
                     SizedBox(width: 8),
@@ -544,6 +608,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) =>
                             FocusScope.of(context).requestFocus(focusNodes[29]),
+                        initialValue: '',
                       ),
                     ),
                   ],
@@ -559,6 +624,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     textInputAction: TextInputAction.next,
                     onSubmitted: (_) =>
                         FocusScope.of(context).requestFocus(focusNodes[30]),
+                    initialValue: '',
                   ),
                 ),
               ),
@@ -572,6 +638,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
 
 class DefaultTextField extends StatefulWidget {
   final String labelText;
+  final String initialValue; // פרמטר initialValue
   bool checkedNode; // Made mutable to toggle on double-tap
   final FocusNode? focusNode;
   final TextInputAction? textInputAction;
@@ -579,6 +646,7 @@ class DefaultTextField extends StatefulWidget {
 
   DefaultTextField({
     required this.labelText,
+    required this.initialValue, // ודא שהפרמטר מועבר כאן
     required this.checkedNode,
     this.focusNode,
     this.textInputAction,
@@ -591,7 +659,14 @@ class DefaultTextField extends StatefulWidget {
 }
 
 class _DefaultTextFieldState extends State<DefaultTextField> {
-  final TextEditingController _controller = TextEditingController();
+  late TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(
+        text: widget.initialValue); // שימוש ב-initialValue
+  }
 
   @override
   void dispose() {
@@ -603,17 +678,10 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onDoubleTap: () {
-        if (widget.checkedNode == true) {
-          setState(() {
-            widget.checkedNode =
-                false; // Change checkedNode to true on double-tap
-          });
-        } else {
-          setState(() {
-            widget.checkedNode =
-                true; // Change checkedNode to true on double-tap
-          });
-        }
+        setState(() {
+          widget.checkedNode =
+              !widget.checkedNode; // Toggle checkedNode on double-tap
+        });
       },
       child: Container(
         decoration: BoxDecoration(
@@ -622,7 +690,7 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
         padding: const EdgeInsets.all(
             8), // Optional: Adds padding inside the container
         child: TextField(
-          controller: _controller,
+          controller: _controller, // השתמש בקונטרולר עם הערך ההתחלתי
           focusNode: widget.focusNode,
           textInputAction: widget.textInputAction,
           onSubmitted: widget.onSubmitted,
