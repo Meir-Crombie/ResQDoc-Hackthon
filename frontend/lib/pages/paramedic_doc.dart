@@ -874,9 +874,12 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
           focusNode: widget.focusNode,
           textInputAction: widget.textInputAction,
           onSubmitted: widget.onSubmitted,
+          textDirection: widget.textDirection,
+          textAlign: TextAlign.right,
           decoration: InputDecoration(
             labelText: widget.labelText,
             border: OutlineInputBorder(),
+            floatingLabelAlignment: FloatingLabelAlignment.start,
             filled: true,
             fillColor: widget.checkedNode
                 ? Colors.green
