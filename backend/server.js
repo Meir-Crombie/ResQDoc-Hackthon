@@ -2,7 +2,7 @@ import express from "express";
 import multer from "multer";
 import { createReadStream } from "fs";
 import crypto from "crypto";
-import { getClient } from "./config/openAI.js";
+import { getWhissperClient } from "./config/openAI.js";
 
 const port = process.env.PORT || 5000;
 const app = express();
@@ -30,7 +30,7 @@ app.post("/transcribe", upload.single("audio"), async (req, res) => {
 
     // You will need to set these environment variables or edit the following values
     const audioFilePath = req.file.path;
-    const client = getClient();
+    const client = getWhissperClient();
     const result = await client.audio.transcriptions.create({
       model: "whisper",
       language: "he",
@@ -55,7 +55,7 @@ app.post("/getJsonFields", upload.single("audio"), async (req, res) => {
 
     // You will need to set these environment variables or edit the following values
     const audioFilePath = req.file.path;
-    const client = getClient();
+    const client = getWhissperClient();
     const result = await client.audio.transcriptions.create({
       model: "whisper",
       language: "he",
