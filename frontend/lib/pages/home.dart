@@ -74,9 +74,9 @@ class _HomeState extends State<Home> {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              const Color.fromARGB(255, 255, 169, 89),
-              const Color.fromARGB(255, 255, 169, 89),
-              const Color.fromARGB(255, 151, 55, 0)
+              const Color.fromARGB(255, 255, 207, 163),
+              const Color.fromARGB(255, 255, 255, 255),
+              const Color.fromARGB(255, 255, 255, 255)
             ], // צבעי השיפוע
             begin: Alignment.topLeft, // תחילת השיפוע
             end: Alignment.bottomRight, // סוף השיפוע
@@ -91,18 +91,17 @@ class _HomeState extends State<Home> {
                 width: 300, // רוחב התמונה
                 height: 250, // גובה התמונה
                 child: Image.asset('assets/svgviewer-png-output.png'),
-              ), // הוספת התמונה עם שינוי ג
-
+              ),
               Container(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      const Color.fromARGB(255, 255, 169, 89),
-                      const Color.fromARGB(255, 255, 169, 89),
-                      const Color.fromARGB(255, 151, 55, 0)
+                      const Color.fromARGB(255, 255, 122, 122),
+                      const Color.fromARGB(255, 255, 60, 0),
+                      const Color.fromARGB(255, 151, 35, 0)
                     ],
                   ),
-                  borderRadius: BorderRadius.circular(0),
+                  borderRadius: BorderRadius.circular(100),
                 ),
                 child: ElevatedButton(
                   onPressed: isRecording ? stopRecording : startRecording,
@@ -115,20 +114,13 @@ class _HomeState extends State<Home> {
                         fontFamily: 'David',
                         fontWeight: FontWeight.bold),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(0), // הפוך למרובע
+                      borderRadius: BorderRadius.circular(100), // הפוך למרובע
                     ),
                   ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        Icons.mic,
-                        size: 30,
-                        color: Colors.black,
-                      ),
-                      SizedBox(width: 10),
-                      Text(isRecording ? 'הפסק הקלטה' : 'התחל הקלטה'),
-                    ],
+                  child: Icon(
+                    isRecording ? Icons.stop : Icons.mic, // אייקון דינמי
+                    size: 100,
+                    color: Colors.black,
                   ),
                 ),
               ),
@@ -148,7 +140,7 @@ class _HomeState extends State<Home> {
                       elevation: 0, // גובה הצל
                       shape: RoundedRectangleBorder(
                         borderRadius:
-                            BorderRadius.circular(0), // פינות לא מעוגלות
+                            BorderRadius.circular(30), // פינות לא מעוגלות
                       ),
                       padding: EdgeInsets.symmetric(
                           horizontal: 100, vertical: 15), // שוליים פנימיים
@@ -158,6 +150,11 @@ class _HomeState extends State<Home> {
                     child: const Text('תיעוד'),
                   ),
                 ],
+              ),
+              SizedBox(
+                width: 150, // רוחב התמונה
+                height: 250, // גובה התמונה
+                child: Image.asset('assets/logo_ichud_2.png'),
               ),
               Spacer(),
               Row(
