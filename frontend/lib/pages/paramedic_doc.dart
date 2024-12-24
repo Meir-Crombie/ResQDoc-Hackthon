@@ -13,7 +13,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('תיעוד כונן'),
+        title: Text('תיעוד רפואי מלא'),
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 255, 187, 0),
       ),
@@ -49,13 +49,13 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                   children: [
                     Expanded(
                       child: DefaultTextField(
-                        labelText: 'ת.ז. או מספר דרכון',
+                        labelText: 'מזהה כונן',
                       ),
                     ),
                     SizedBox(width: 8),
                     Expanded(
                       child: DefaultTextField(
-                        labelText: 'שם פרטי מטופל',
+                        labelText: 'שם כונן',
                       ),
                     ),
                   ],
@@ -332,7 +332,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
 
 class DefaultTextField extends StatefulWidget {
   final String labelText;
-  DefaultTextField({required this.labelText});
+  const DefaultTextField({super.key, required this.labelText});
   @override
   _DefaultTextFieldState createState() => _DefaultTextFieldState();
 }
