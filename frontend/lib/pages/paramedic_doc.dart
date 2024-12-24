@@ -117,6 +117,14 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                           return FocusScope.of(context)
                               .requestFocus(focusNodes[1]);
                         },
+                        onSubmitted: (_) {
+                          setState(() {
+                            checkedNodes[0] =
+                                true; // Change checkedNode to true on double-tap
+                          });
+                          return FocusScope.of(context)
+                              .requestFocus(focusNodes[1]);
+                        },
                       ),
                     ),
                     SizedBox(width: 8),
@@ -728,7 +736,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     SizedBox(width: 8),
                     Expanded(
                       child: DefaultTextField(
-                        labelText: 'האזנה לריאות ',
+                        labelText: 'האזנה',
                         checkedNode: checkedNodes[26],
                         focusNode: focusNodes[26],
                         textInputAction: TextInputAction.next,
@@ -829,8 +837,8 @@ class DefaultTextField extends StatefulWidget {
     this.focusNode,
     this.textInputAction,
     this.onSubmitted,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   _DefaultTextFieldState createState() => _DefaultTextFieldState();
@@ -870,6 +878,7 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
   @override
   void dispose() {
     _saveTextFieldData();
+    _saveTextFieldData();
     _controller.dispose();
     super.dispose();
   }
@@ -877,7 +886,12 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+    return InkWell(
       onDoubleTap: () {
+        setState(() {
+          widget.checkedNode = !widget.checkedNode;
+          _saveTextFieldData(); // Save data when checkedNode changes
+        });
         setState(() {
           widget.checkedNode = !widget.checkedNode;
           _saveTextFieldData(); // Save data when checkedNode changes
@@ -888,6 +902,7 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
           borderRadius: BorderRadius.circular(8),
         ),
         padding: const EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         child: TextField(
           controller: _controller, // השתמש בקונטרולר עם הערך ההתחלתי
           focusNode: widget.focusNode,
@@ -896,10 +911,15 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
             if (widget.onSubmitted != null) widget.onSubmitted!(value);
             _saveTextFieldData();
           },
+          onSubmitted: (value) {
+            if (widget.onSubmitted != null) widget.onSubmitted!(value);
+            _saveTextFieldData();
+          },
           decoration: InputDecoration(
             labelText: widget.labelText,
             border: OutlineInputBorder(),
             filled: true,
+            fillColor: widget.checkedNode ? Colors.green : Colors.red,
             fillColor: widget.checkedNode ? Colors.green : Colors.red,
           ),
         ),
