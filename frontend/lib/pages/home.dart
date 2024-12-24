@@ -68,7 +68,7 @@ class _HomeState extends State<Home> {
             icon: Icon(Icons.settings),
             onPressed: () {
               // Add your settings page navigation here
-              Navigator.pushNamed(context, '/Settings');
+              Navigator.pushNamed(context, '/settings');
             },
           ),
         ],
