@@ -23,6 +23,7 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
   Widget build(BuildContext context) {
     return TextField(
       controller: _controller,
+      textAlign: TextAlign.right,
       decoration: InputDecoration(
         labelText: widget.labelText,
         labelStyle: TextStyle(),

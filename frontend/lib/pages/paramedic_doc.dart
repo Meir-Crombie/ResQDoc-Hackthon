@@ -472,6 +472,91 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                   ),
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  width: double.infinity,
+                  height: 50, // Adjust the height as needed
+                  alignment: Alignment.center, // Center the text
+                  decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 150, 179, 190),
+                    border: Border.all(
+                        color: Colors.black,
+                        width: 1), // Adding border for visibility
+                  ),
+                  child: Text(
+                    'מדדים רפואיים',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: DefaultTextField(
+                        labelText: 'רמת הכרה',
+                        focusNode: _focusNodes[25],
+                        textInputAction: TextInputAction.next,
+                        onSubmitted: (_) => FocusScope.of(context)
+                            .requestFocus(_focusNodes[26]),
+                      ),
+                    ),
+                    SizedBox(width: 8),
+                    Expanded(
+                      child: DefaultTextField(
+                        labelText: 'האזנה לריאות ',
+                        focusNode: _focusNodes[26],
+                        textInputAction: TextInputAction.next,
+                        onSubmitted: (_) => FocusScope.of(context)
+                            .requestFocus(_focusNodes[27]),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: DefaultTextField(
+                        labelText: 'מצב נשימה',
+                        focusNode: _focusNodes[27],
+                        textInputAction: TextInputAction.next,
+                        onSubmitted: (_) => FocusScope.of(context)
+                            .requestFocus(_focusNodes[28]),
+                      ),
+                    ),
+                    SizedBox(width: 8),
+                    Expanded(
+                      child: DefaultTextField(
+                        labelText: 'קצב נשימה',
+                        focusNode: _focusNodes[28],
+                        textInputAction: TextInputAction.next,
+                        onSubmitted: (_) => FocusScope.of(context)
+                            .requestFocus(_focusNodes[29]),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(
+                  child: DefaultTextField(
+                    labelText: 'מצב העור',
+                    focusNode: _focusNodes[29],
+                    textInputAction: TextInputAction.next,
+                    onSubmitted: (_) =>
+                        FocusScope.of(context).requestFocus(_focusNodes[30]),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
