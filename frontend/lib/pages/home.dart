@@ -69,15 +69,7 @@ class _HomeState extends State<Home> {
         ),
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 255, 123, 0),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.settings),
-            onPressed: () {
-              // Add your settings page navigation here
-              Navigator.pushNamed(context, '/settings');
-            },
-          ),
-        ],
+        actions: [],
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -176,7 +168,7 @@ class _HomeState extends State<Home> {
                       color: Color.fromARGB(255, 0, 0, 0),
                     ),
                     onPressed: () {
-                      Navigator.pushNamed(context, '/Settings');
+                      Navigator.pushNamed(context, '/settings');
                     },
                   ),
                   IconButton(
