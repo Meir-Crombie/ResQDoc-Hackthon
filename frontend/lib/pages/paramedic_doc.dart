@@ -70,7 +70,6 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'מזהה כונן',
-                        labelText: 'ת.ז. או מספר דרכון',
                         focusNode: _focusNodes[0],
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) =>
@@ -81,7 +80,6 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'שם כונן',
-                        labelText: 'שם פרטי מטופל',
                         focusNode: _focusNodes[1],
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) =>
@@ -454,7 +452,6 @@ class _ParamedicDocState extends State<ParamedicDoc> {
 
 class DefaultTextField extends StatefulWidget {
   final String labelText;
-  const DefaultTextField({super.key, required this.labelText});
   final FocusNode? focusNode;
   final TextInputAction? textInputAction;
   final ValueChanged<String>? onSubmitted;
