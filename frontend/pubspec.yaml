@@ -94,3 +94,6 @@ flutter:
   # see https://flutter.dev/to/font-from-package
   assets:
     - data/dummydata.json
+    - assets/svgviewer-png-output.png
+    - assets/ichud_logo.png
+    - assets/logo_ichud_2.png

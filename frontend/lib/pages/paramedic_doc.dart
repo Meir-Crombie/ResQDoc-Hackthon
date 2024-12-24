@@ -993,6 +993,7 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
           decoration: InputDecoration(
             labelText: widget.labelText,
             border: OutlineInputBorder(),
+            floatingLabelAlignment: FloatingLabelAlignment.start,
             filled: true,
             fillColor: widget.checkedNode ? Colors.green : Colors.red,
           ),
