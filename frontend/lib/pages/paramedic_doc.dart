@@ -8,22 +8,27 @@ class ParamedicDoc extends StatefulWidget {
 }
 
 class _ParamedicDocState extends State<ParamedicDoc> {
-  final List<FocusNode> _focusNodes = [];
+  final List<FocusNode> focusNodes = [];
+  final List<bool> checkedNodes = [];
 
   @override
   void initState() {
     super.initState();
     // Create a FocusNode for each DefaultTextField
-    for (int i = 0; i < 26; i++) {
+    for (int i = 0; i < 30; i++) {
       // Adjust based on your total number of fields
-      _focusNodes.add(FocusNode());
+      focusNodes.add(FocusNode());
+    }
+    for (int i = 0; i < 30; i++) {
+      // Adjust based on your total number of fields
+      checkedNodes.add(false);
     }
   }
 
   @override
   void dispose() {
     // Dispose of all FocusNodes
-    for (var focusNode in _focusNodes) {
+    for (var focusNode in focusNodes) {
       focusNode.dispose();
     }
     super.dispose();
@@ -70,20 +75,22 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'מזהה כונן',
-                        focusNode: _focusNodes[0],
+                        checkedNode: checkedNodes[0],
+                        focusNode: focusNodes[0],
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) =>
-                            FocusScope.of(context).requestFocus(_focusNodes[1]),
+                            FocusScope.of(context).requestFocus(focusNodes[1]),
                       ),
                     ),
                     SizedBox(width: 8),
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'שם כונן',
-                        focusNode: _focusNodes[1],
+                        checkedNode: checkedNodes[1],
+                        focusNode: focusNodes[1],
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) =>
-                            FocusScope.of(context).requestFocus(_focusNodes[2]),
+                            FocusScope.of(context).requestFocus(focusNodes[2]),
                       ),
                     ),
                   ],
@@ -117,20 +124,22 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'מספר משימה',
-                        focusNode: _focusNodes[2],
+                        checkedNode: checkedNodes[2],
+                        focusNode: focusNodes[2],
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) =>
-                            FocusScope.of(context).requestFocus(_focusNodes[3]),
+                            FocusScope.of(context).requestFocus(focusNodes[3]),
                       ),
                     ),
                     SizedBox(width: 8),
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'זמן פתיחת האירוע',
-                        focusNode: _focusNodes[3],
+                        checkedNode: checkedNodes[3],
+                        focusNode: focusNodes[3],
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) =>
-                            FocusScope.of(context).requestFocus(_focusNodes[4]),
+                            FocusScope.of(context).requestFocus(focusNodes[4]),
                       ),
                     ),
                   ],
@@ -141,10 +150,11 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                 child: Center(
                   child: DefaultTextField(
                     labelText: 'עיר',
-                    focusNode: _focusNodes[4],
+                    checkedNode: checkedNodes[4],
+                    focusNode: focusNodes[4],
                     textInputAction: TextInputAction.next,
                     onSubmitted: (_) =>
-                        FocusScope.of(context).requestFocus(_focusNodes[5]),
+                        FocusScope.of(context).requestFocus(focusNodes[5]),
                   ),
                 ),
               ),
@@ -155,20 +165,22 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'מספר בית',
-                        focusNode: _focusNodes[5],
+                        checkedNode: checkedNodes[5],
+                        focusNode: focusNodes[5],
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) =>
-                            FocusScope.of(context).requestFocus(_focusNodes[6]),
+                            FocusScope.of(context).requestFocus(focusNodes[6]),
                       ),
                     ),
                     SizedBox(width: 8),
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'רחוב',
-                        focusNode: _focusNodes[6],
+                        checkedNode: checkedNodes[6],
+                        focusNode: focusNodes[6],
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) =>
-                            FocusScope.of(context).requestFocus(_focusNodes[7]),
+                            FocusScope.of(context).requestFocus(focusNodes[7]),
                       ),
                     ),
                   ],
@@ -179,10 +191,11 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                 child: Center(
                   child: DefaultTextField(
                     labelText: 'שם',
-                    focusNode: _focusNodes[7],
+                    checkedNode: checkedNodes[7],
+                    focusNode: focusNodes[7],
                     textInputAction: TextInputAction.next,
                     onSubmitted: (_) =>
-                        FocusScope.of(context).requestFocus(_focusNodes[8]),
+                        FocusScope.of(context).requestFocus(focusNodes[8]),
                   ),
                 ),
               ),
@@ -193,20 +206,22 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'המקרה שהוזנק',
-                        focusNode: _focusNodes[8],
+                        checkedNode: checkedNodes[8],
+                        focusNode: focusNodes[8],
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) =>
-                            FocusScope.of(context).requestFocus(_focusNodes[9]),
+                            FocusScope.of(context).requestFocus(focusNodes[9]),
                       ),
                     ),
                     SizedBox(width: 8),
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'זמן הגעת הכונן',
-                        focusNode: _focusNodes[9],
+                        checkedNode: checkedNodes[9],
+                        focusNode: focusNodes[9],
                         textInputAction: TextInputAction.next,
-                        onSubmitted: (_) => FocusScope.of(context)
-                            .requestFocus(_focusNodes[10]),
+                        onSubmitted: (_) =>
+                            FocusScope.of(context).requestFocus(focusNodes[10]),
                       ),
                     ),
                   ],
@@ -240,20 +255,22 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'ת.ז. או מספר דרכון',
-                        focusNode: _focusNodes[10],
+                        checkedNode: checkedNodes[10],
+                        focusNode: focusNodes[10],
                         textInputAction: TextInputAction.next,
-                        onSubmitted: (_) => FocusScope.of(context)
-                            .requestFocus(_focusNodes[11]),
+                        onSubmitted: (_) =>
+                            FocusScope.of(context).requestFocus(focusNodes[11]),
                       ),
                     ),
                     SizedBox(width: 8),
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'שם פרטי מטופל',
-                        focusNode: _focusNodes[11],
+                        checkedNode: checkedNodes[11],
+                        focusNode: focusNodes[11],
                         textInputAction: TextInputAction.next,
-                        onSubmitted: (_) => FocusScope.of(context)
-                            .requestFocus(_focusNodes[12]),
+                        onSubmitted: (_) =>
+                            FocusScope.of(context).requestFocus(focusNodes[12]),
                       ),
                     ),
                   ],
@@ -266,20 +283,22 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'שם משפחה מטופל',
-                        focusNode: _focusNodes[12],
+                        checkedNode: checkedNodes[12],
+                        focusNode: focusNodes[12],
                         textInputAction: TextInputAction.next,
-                        onSubmitted: (_) => FocusScope.of(context)
-                            .requestFocus(_focusNodes[13]),
+                        onSubmitted: (_) =>
+                            FocusScope.of(context).requestFocus(focusNodes[13]),
                       ),
                     ),
                     SizedBox(width: 8),
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'גיל המטופל',
-                        focusNode: _focusNodes[13],
+                        checkedNode: checkedNodes[13],
+                        focusNode: focusNodes[13],
                         textInputAction: TextInputAction.next,
-                        onSubmitted: (_) => FocusScope.of(context)
-                            .requestFocus(_focusNodes[14]),
+                        onSubmitted: (_) =>
+                            FocusScope.of(context).requestFocus(focusNodes[14]),
                       ),
                     ),
                   ],
@@ -290,10 +309,11 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                 child: Center(
                   child: DefaultTextField(
                     labelText: 'מין המטופל',
-                    focusNode: _focusNodes[14],
+                    checkedNode: checkedNodes[14],
+                    focusNode: focusNodes[14],
                     textInputAction: TextInputAction.next,
                     onSubmitted: (_) =>
-                        FocusScope.of(context).requestFocus(_focusNodes[15]),
+                        FocusScope.of(context).requestFocus(focusNodes[15]),
                   ),
                 ),
               ),
@@ -302,10 +322,11 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                 child: Center(
                   child: DefaultTextField(
                     labelText: 'ישוב המטופל',
-                    focusNode: _focusNodes[15],
+                    checkedNode: checkedNodes[15],
+                    focusNode: focusNodes[15],
                     textInputAction: TextInputAction.next,
                     onSubmitted: (_) =>
-                        FocusScope.of(context).requestFocus(_focusNodes[16]),
+                        FocusScope.of(context).requestFocus(focusNodes[16]),
                   ),
                 ),
               ),
@@ -316,20 +337,22 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'רחוב המטופל',
-                        focusNode: _focusNodes[16],
+                        checkedNode: checkedNodes[16],
+                        focusNode: focusNodes[16],
                         textInputAction: TextInputAction.next,
-                        onSubmitted: (_) => FocusScope.of(context)
-                            .requestFocus(_focusNodes[17]),
+                        onSubmitted: (_) =>
+                            FocusScope.of(context).requestFocus(focusNodes[17]),
                       ),
                     ),
                     SizedBox(width: 8),
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'מספר בית מטופל',
-                        focusNode: _focusNodes[17],
+                        checkedNode: checkedNodes[17],
+                        focusNode: focusNodes[17],
                         textInputAction: TextInputAction.next,
-                        onSubmitted: (_) => FocusScope.of(context)
-                            .requestFocus(_focusNodes[18]),
+                        onSubmitted: (_) =>
+                            FocusScope.of(context).requestFocus(focusNodes[18]),
                       ),
                     ),
                   ],
@@ -340,10 +363,11 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                 child: Center(
                   child: DefaultTextField(
                     labelText: 'טלפון המטופל',
-                    focusNode: _focusNodes[18],
+                    checkedNode: checkedNodes[18],
+                    focusNode: focusNodes[18],
                     textInputAction: TextInputAction.next,
                     onSubmitted: (_) =>
-                        FocusScope.of(context).requestFocus(_focusNodes[19]),
+                        FocusScope.of(context).requestFocus(focusNodes[19]),
                   ),
                 ),
               ),
@@ -352,10 +376,11 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                 child: Center(
                   child: DefaultTextField(
                     labelText: 'מייל המטופל',
-                    focusNode: _focusNodes[19],
+                    checkedNode: checkedNodes[19],
+                    focusNode: focusNodes[19],
                     textInputAction: TextInputAction.next,
                     onSubmitted: (_) =>
-                        FocusScope.of(context).requestFocus(_focusNodes[20]),
+                        FocusScope.of(context).requestFocus(focusNodes[20]),
                   ),
                 ),
               ),
@@ -387,20 +412,22 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'המקרה שנמצא',
-                        focusNode: _focusNodes[20],
+                        checkedNode: checkedNodes[20],
+                        focusNode: focusNodes[20],
                         textInputAction: TextInputAction.next,
-                        onSubmitted: (_) => FocusScope.of(context)
-                            .requestFocus(_focusNodes[21]),
+                        onSubmitted: (_) =>
+                            FocusScope.of(context).requestFocus(focusNodes[21]),
                       ),
                     ),
                     SizedBox(width: 8),
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'סטטוס המטופל',
-                        focusNode: _focusNodes[21],
+                        checkedNode: checkedNodes[21],
+                        focusNode: focusNodes[21],
                         textInputAction: TextInputAction.next,
-                        onSubmitted: (_) => FocusScope.of(context)
-                            .requestFocus(_focusNodes[22]),
+                        onSubmitted: (_) =>
+                            FocusScope.of(context).requestFocus(focusNodes[22]),
                       ),
                     ),
                   ],
@@ -411,10 +438,11 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                 child: Center(
                   child: DefaultTextField(
                     labelText: 'תלונה עיקרית',
-                    focusNode: _focusNodes[22],
+                    checkedNode: checkedNodes[22],
+                    focusNode: focusNodes[22],
                     textInputAction: TextInputAction.next,
                     onSubmitted: (_) =>
-                        FocusScope.of(context).requestFocus(_focusNodes[23]),
+                        FocusScope.of(context).requestFocus(focusNodes[23]),
                   ),
                 ),
               ),
@@ -423,10 +451,11 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                 child: Center(
                   child: DefaultTextField(
                     labelText: 'אנמנזה וסיפור המקרה',
-                    focusNode: _focusNodes[23],
+                    checkedNode: checkedNodes[23],
+                    focusNode: focusNodes[23],
                     textInputAction: TextInputAction.next,
                     onSubmitted: (_) =>
-                        FocusScope.of(context).requestFocus(_focusNodes[24]),
+                        FocusScope.of(context).requestFocus(focusNodes[24]),
                   ),
                 ),
               ),
@@ -435,10 +464,11 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                 child: Center(
                   child: DefaultTextField(
                     labelText: 'רגישויות',
-                    focusNode: _focusNodes[24],
+                    checkedNode: checkedNodes[24],
+                    focusNode: focusNodes[24],
                     textInputAction: TextInputAction.next,
                     onSubmitted: (_) =>
-                        FocusScope.of(context).requestFocus(_focusNodes[25]),
+                        FocusScope.of(context).requestFocus(focusNodes[25]),
                   ),
                 ),
               ),
@@ -452,12 +482,14 @@ class _ParamedicDocState extends State<ParamedicDoc> {
 
 class DefaultTextField extends StatefulWidget {
   final String labelText;
+  bool checkedNode; // Made mutable to toggle on double-tap
   final FocusNode? focusNode;
   final TextInputAction? textInputAction;
   final ValueChanged<String>? onSubmitted;
 
-  const DefaultTextField({
+  DefaultTextField({
     required this.labelText,
+    required this.checkedNode,
     this.focusNode,
     this.textInputAction,
     this.onSubmitted,
@@ -479,14 +511,40 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      controller: _controller,
-      focusNode: widget.focusNode,
-      textInputAction: widget.textInputAction,
-      onSubmitted: widget.onSubmitted,
-      decoration: InputDecoration(
-        labelText: widget.labelText,
-        border: OutlineInputBorder(),
+    return GestureDetector(
+      onDoubleTap: () {
+        if (widget.checkedNode == true) {
+          setState(() {
+            widget.checkedNode =
+                false; // Change checkedNode to true on double-tap
+          });
+        } else {
+          setState(() {
+            widget.checkedNode =
+                true; // Change checkedNode to true on double-tap
+          });
+        }
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        padding: const EdgeInsets.all(
+            8), // Optional: Adds padding inside the container
+        child: TextField(
+          controller: _controller,
+          focusNode: widget.focusNode,
+          textInputAction: widget.textInputAction,
+          onSubmitted: widget.onSubmitted,
+          decoration: InputDecoration(
+            labelText: widget.labelText,
+            border: OutlineInputBorder(),
+            filled: true,
+            fillColor: widget.checkedNode
+                ? Colors.green
+                : Colors.red, // Background based on checkedNode
+          ),
+        ),
       ),
     );
   }
