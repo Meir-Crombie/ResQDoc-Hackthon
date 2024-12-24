@@ -2,19 +2,37 @@ import 'package:flutter/material.dart';
 
 class DefaultTextField extends StatefulWidget {
   final String labelText;
-  const DefaultTextField({super.key, required this.labelText});
+  final String initialValue; // פרמטר initialValue
+  final FocusNode focusNode;
+  final TextInputAction textInputAction;
+  final Function(String) onSubmitted;
+  final bool checkedNode; // הוספת checkedNode
+
+  DefaultTextField({
+    required this.labelText,
+    required this.initialValue, // ודא שהפרמטר מועבר כאן
+    required this.focusNode,
+    required this.textInputAction,
+    required this.onSubmitted,
+    required this.checkedNode, // ודא שהפרמטר מועבר כאן
+  });
+
   @override
   _DefaultTextFieldState createState() => _DefaultTextFieldState();
 }
 
 class _DefaultTextFieldState extends State<DefaultTextField> {
-  // Initialize the TextEditingController with a default value
-  final TextEditingController _controller =
-      TextEditingController(text: "Default Value from AI");
+  late TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(
+        text: widget.initialValue); // שימוש ב-initialValue
+  }
 
   @override
   void dispose() {
-    // Dispose of the controller when the widget is disposed
     _controller.dispose();
     super.dispose();
   }
@@ -23,12 +41,14 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
   Widget build(BuildContext context) {
     return TextField(
       controller: _controller,
-      textAlign: TextAlign.right,
+      focusNode: widget.focusNode,
+      textInputAction: widget.textInputAction,
+      onSubmitted: widget.onSubmitted,
       decoration: InputDecoration(
         labelText: widget.labelText,
-        labelStyle: TextStyle(),
         border: OutlineInputBorder(),
       ),
+      textAlign: TextAlign.right, // יישור הטקסט לימין
     );
   }
 }

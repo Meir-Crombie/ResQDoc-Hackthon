@@ -15,8 +15,7 @@ class _HomeState extends State<Home> {
   final recorder = AudioRecorder();
   bool isRecording = false;
   String? filePath;
-  double currentPosition = 0;
-  double totalDuration = 0;
+
   @override
   void dispose() {
     player.dispose();
@@ -31,19 +30,15 @@ class _HomeState extends State<Home> {
     }
 
     final directory = await getApplicationDocumentsDirectory();
-    // Generate a unique file name using the current timestamp
-    String fileName = 'recording_${DateTime.now().millisecondsSinceEpoch}.m4a';
+    String fileName = 'recording_${DateTime.now().millisecondsSinceEpoch}.mp3';
     filePath = '${directory.path}/$fileName';
 
-    // Define the configuration for the recording
     const config = RecordConfig(
-      // Specify the format, encoder, sample rate, etc., as needed
-      encoder: AudioEncoder.aacLc, // For example, using AAC codec
-      sampleRate: 44100, // Sample rate
-      bitRate: 128000, // Bit rate
+      encoder: AudioEncoder.aacLc,
+      sampleRate: 44100,
+      bitRate: 128000,
     );
 
-    // Start recording to file with the specified configuration
     await recorder.start(config, path: filePath!);
     setState(() {
       isRecording = true;
@@ -52,61 +47,52 @@ class _HomeState extends State<Home> {
 
   Future<void> stopRecording() async {
     await recorder.stop();
+    if (!mounted) return;
     setState(() {
       isRecording = false;
     });
+    // Navigate to the paramedic documentation page after stopping the recording
+    Navigator.pushNamed(context, '/paramedic');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.grey[900],
-        appBar: AppBar(
-          title: Text('איחוד הצלה - תיעוד כונן'),
-          centerTitle: true,
-          backgroundColor: const Color.fromARGB(255, 255, 187, 0),
-        ),
-        body: SafeArea(
-            child: Column(children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              isRecording
-                  ? ElevatedButton(
-                      onPressed: stopRecording,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.red,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 30, vertical: 15),
-                      ),
-                      child: const Text('Stop'),
-                    )
-                  : ElevatedButton(
-                      onPressed: startRecording,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.green,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 30, vertical: 15),
-                      ),
-                      child: const Text('Record'),
-                    ),
-            ],
-          ),
-          Center(
-            child: TextButton.icon(
-              onPressed: () {
-                Navigator.pushNamed(context, '/paramedic');
-              },
-              icon: Icon(Icons.info),
-              label: Text(
-                'תיעוד כונן',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
+      backgroundColor: Colors.grey[900],
+      appBar: AppBar(
+        title: Text('Medical Documentation Saves Lives'),
+        centerTitle: true,
+        backgroundColor: const Color.fromARGB(255, 255, 187, 0),
+      ),
+      body: SafeArea(
+        child: Column(
+          mainAxisAlignment:
+              MainAxisAlignment.end, // Position buttons at the bottom
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  onPressed: isRecording ? stopRecording : startRecording,
+                  child: Text(isRecording ? 'Stop' : 'Record'),
                 ),
-              ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/paramedic');
+                  },
+                  child: const Text('Fill Form'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/about');
+                  },
+                  child: const Text('About Us'),
+                ),
+              ],
             ),
-          ),
-        ])));
+          ],
+        ),
+      ),
+    );
   }
 }
