@@ -19,20 +19,56 @@ class _SettingsState extends State<Settings> {
       ),
       body: Container(
         color: Colors.white, // צבע הרקע לבן
-        child: ListView(
-          padding: EdgeInsets.all(16),
-          children: <Widget>[
-            CheckboxListTile(
-              title: Text('לעקוב אחרי המיקום שלי'),
-              value: _trackLocation,
-              onChanged: (bool? value) {
-                setState(() {
-                  _trackLocation = value ?? false;
-                  // כאן אפשר להוסיף קוד לניהול שינוי המעקב אחרי המיקום
-                });
-              },
+        padding: const EdgeInsets.all(16.0), // ריווח מסביב לתוכן
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start, // יישור התוכן לשמאל
+          children: [
+            Text(
+              'הגדרות מיקום',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-            // כאן אפשר להוסיף הגדרות נוספות
+            const SizedBox(height: 20), // מרווח אנכי
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.grey[200], // רקע אפור בהיר
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: Colors.grey), // גבול אפור
+              ),
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start, // יישור לשמאל
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Switch(
+                        value: _trackLocation,
+                        onChanged: (bool value) {
+                          setState(() {
+                            _trackLocation = value; // עדכון מצב המעקב
+                          });
+                        },
+                      ),
+                      Text(
+                        'האם לעקוב אחרי המיקום שלך?',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8), // מרווח קטן מתחת לשורה
+                  Text(
+                    'המכשיר יתחיל הקלטה במקרה שתזוהה קירבה לאירוע.',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey[600], // צבע טקסט אפור כהה
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
