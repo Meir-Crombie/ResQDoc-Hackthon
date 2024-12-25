@@ -50,7 +50,33 @@ class _ParamedicDocState extends State<ParamedicDoc> {
       // Adjust based on your total number of fields
       focusNodes.add(FocusNode());
     }
-    loadJsonData();
+
+    // Load JSON data and then execute subsequent code
+    _initializeData();
+  }
+
+  Future<void> _initializeData() async {
+    await loadJsonData(); // Ensure loadJsonData completes before proceeding
+
+    List<String> texts = [
+      localJsonData!['eventDetails']['eventId']?.toString() ?? "Invalid value",
+      localJsonData!['eventDetails']['timeEventOpened']?.toString() ??
+          "Invalid value",
+      localJsonData!['eventDetails']['eventCity']?.toString() ??
+          "Invalid value",
+      localJsonData!['eventDetails']['eventHouseNumber']?.toString() ??
+          "Invalid value",
+      localJsonData!['eventDetails']['eventStreet']?.toString() ??
+          "Invalid value",
+      localJsonData!['eventDetails']['timeMedicArrived']?.toString() ??
+          "Invalid value",
+      serverJsonData!['response']['patientDetails']['firstName']?.toString() ??
+          "Invalid value",
+      localJsonData!['eventDetails']['caseThatWasLaunched']?.toString() ??
+          "Invalid value",
+    ];
+
+    SaveToJson.writeToJson(texts); // Execute only after loadJsonData completes
   }
 
   //This method requests from the server the dummy data which is saved in the backend, if failed it will return a local dummy JSON
@@ -137,7 +163,8 @@ class _ParamedicDocState extends State<ParamedicDoc> {
               if (StaticTools.allowSubmit.every((value) => value)) {
                 // All elements in allowSubmit are true
                 StaticTools.allowSubmit =
-                    StaticTools.allowSubmit.map((value) => !value).toList();
+                    StaticTools.allowSubmit.map((value) => false).toList();
+                StaticTools.nextAlowNum = 0;
                 StaticTools.nextNum++;
                 Navigator.pushNamed(context, '/past');
               } else {
@@ -343,7 +370,6 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         initialValue: localJsonData!['eventDetails']['eventId']
                                 ?.toString() ??
                             "Wrong Fetch",
-                        writeToJson: null,
                         jsonPath: ['response', 'eventDetails', 'id'],
                         isEditable: false,
                       ),
@@ -363,7 +389,6 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                                     ['timeEventOpened']
                                 ?.toString() ??
                             "Wrong Fetch",
-                        writeToJson: null,
                         jsonPath: ['response', 'eventDetails', 'timeOpened'],
                         isEditable: false,
                       ),
@@ -385,7 +410,6 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     initialValue: localJsonData!['eventDetails']['eventCity']
                             ?.toString() ??
                         "Wrong Fetch",
-                    writeToJson: null,
                     jsonPath: ['response', 'eventDetails', 'city'],
                     isEditable: false,
                   ),
