@@ -134,7 +134,8 @@ class _HomeState extends State<Home> {
               '',
               style: TextStyle(
                   color: Color.fromARGB(255, 0, 0, 0),
-                  fontSize: 20), // Title text style
+                  fontSize: 20,
+                  fontFamily: 'AlmoniTzarAAA'), // Title text style
             ),
           ],
         ),
@@ -161,7 +162,7 @@ class _HomeState extends State<Home> {
             gradient: LinearGradient(
               colors: [
                 const Color.fromARGB(
-                    255, 255, 207, 163), // Gradient start color
+                    255, 255, 163, 110), // Gradient start color
                 const Color.fromARGB(255, 255, 255, 255), // Gradient end color
               ],
               begin: Alignment.topLeft,
@@ -172,27 +173,59 @@ class _HomeState extends State<Home> {
             padding: EdgeInsets.zero,
             children: <Widget>[
               DrawerHeader(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      const Color.fromARGB(
-                          255, 255, 123, 0), // Gradient color for header
-                      const Color.fromARGB(255, 255, 123, 0),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        const Color.fromARGB(
+                            255, 255, 255, 255), // Gradient color for header
+                        const Color.fromARGB(255, 247, 139, 76),
+                      ],
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        'assets/logo_ichud_2.png', // Add your image asset path here
+                        fit: BoxFit.cover,
+                        height: 100,
+                        width: 167,
+                      ),
                     ],
-                  ),
-                ),
-                child: const Text(
-                  'תפריט', // Menu title
+                  )),
+              ListTile(
+                leading: const Icon(Icons.home), // Info icon
+                title: const Text(
+                  'בית',
                   style: TextStyle(
-                    color: Color.fromARGB(255, 0, 0, 0), // Text color
-                    fontSize: 24, // Font size
-                    fontWeight: FontWeight.bold, // Bold font
+                    fontFamily: 'AlmoniTzarAAA', // Updated font family
                   ),
-                ),
+                ), // About text
+                onTap: () {
+                  Navigator.pop(context); // Close the drawer
+                  Navigator.pushNamed(context, '/home'); // Navigate to about
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.history), // Info icon
+                title: const Text(
+                  'הסטוריה',
+                  style: TextStyle(
+                    fontFamily: 'AlmoniTzarAAA', // Updated font family
+                  ),
+                ), // About text
+                onTap: () {
+                  Navigator.pop(context); // Close the drawer
+                  Navigator.pushNamed(context, '/history'); // Navigate to about
+                },
               ),
               ListTile(
                 leading: const Icon(Icons.settings), // Settings icon
-                title: const Text('הגדרות'), // Settings text
+                title: const Text(
+                  'הגדרות',
+                  style: TextStyle(
+                    fontFamily: 'AlmoniTzarAAA', // Updated font family
+                  ),
+                ), // Settings text
                 onTap: () {
                   Navigator.pop(context); // Close the drawer
                   Navigator.pushNamed(
@@ -201,26 +234,15 @@ class _HomeState extends State<Home> {
               ),
               ListTile(
                 leading: const Icon(Icons.info), // Info icon
-                title: const Text('About'), // About text
+                title: const Text(
+                  'About',
+                  style: TextStyle(
+                    fontFamily: 'AlmoniTzarAAA', // Updated font family
+                  ),
+                ), // About text
                 onTap: () {
                   Navigator.pop(context); // Close the drawer
                   Navigator.pushNamed(context, '/about'); // Navigate to about
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.home), // Info icon
-                title: const Text('בית'), // About text
-                onTap: () {
-                  Navigator.pop(context); // Close the drawer
-                  Navigator.pushNamed(context, '/home'); // Navigate to about
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.history), // Info icon
-                title: const Text('הסטוריה'), // About text
-                onTap: () {
-                  Navigator.pop(context); // Close the drawer
-                  Navigator.pushNamed(context, '/history'); // Navigate to about
                 },
               ),
             ],
@@ -259,14 +281,14 @@ class _HomeState extends State<Home> {
                   children: [
                     Flexible(
                       child: SizedBox(
-                        width: screenWidth * 0.4, // Set image width
+                        width: screenWidth * 0.3, // Set image width
                         child: Image.asset(
                             'assets/svgviewer-png-output.png'), // First image
                       ),
                     ),
                     Flexible(
                       child: SizedBox(
-                        width: screenWidth * 0.4, // Set image width
+                        width: screenWidth * 0.3, // Set image width
                         child: Image.asset(
                             'assets/logo_ichud_2.png'), // Second image
                       ),
@@ -282,9 +304,10 @@ class _HomeState extends State<Home> {
                       fontWeight: FontWeight.bold, // Bold text
                       color: const Color.fromARGB(255, 197, 0, 0), // Text color
                       letterSpacing: 2, // Letter spacing
+                      //fontFamily: 'AlmoniTzarAAA', // Updated font family
                     ),
                   ),
-                SizedBox(height: screenHeight * 0.02), // Vertical spacing
+                SizedBox(height: screenHeight * 0.05), // Vertical spacing
                 ElevatedButton(
                   onPressed: isRecording
                       ? stopRecording
@@ -334,7 +357,7 @@ class _HomeState extends State<Home> {
                         backgroundColor: Colors.white, // Background color
                         side: BorderSide(
                           color: const Color.fromARGB(
-                              255, 255, 123, 0), // Border color
+                              255, 255, 255, 255), // Border color
                           width: 2, // Border width
                         ),
                         elevation: 0, // No shadow
@@ -349,7 +372,12 @@ class _HomeState extends State<Home> {
                             fontWeight: FontWeight.bold,
                             color: Colors.black), // Text style
                       ),
-                      child: const Text('תיעוד'), // Button label
+                      child: const Text(
+                        'תיעוד',
+                        style: TextStyle(
+                          fontFamily: 'AlmoniTzarAAA', // Updated font family
+                        ),
+                      ), // Button label
                     ),
                   ],
                 ),
@@ -370,7 +398,7 @@ class _HomeState extends State<Home> {
                         backgroundColor: Colors.white, // Background color
                         side: BorderSide(
                           color: const Color.fromARGB(
-                              255, 255, 123, 0), // Border color
+                              255, 255, 255, 255), // Border color
                           width: 2, // Border width
                         ),
                         elevation: 0, // No shadow
@@ -385,7 +413,12 @@ class _HomeState extends State<Home> {
                             fontWeight: FontWeight.bold,
                             color: Colors.black), // Text style
                       ),
-                      child: const Text('טופס מקוצר'), // Button label
+                      child: const Text(
+                        'טופס מקוצר',
+                        style: TextStyle(
+                          fontFamily: 'AlmoniTzarAAA', // Updated font family
+                        ),
+                      ), // Button label
                     ),
                   ],
                 ),
