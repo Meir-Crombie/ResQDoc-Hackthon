@@ -52,7 +52,11 @@ class _HomeState extends State<Home> {
       isRecording = false;
     });
     // Navigate to the paramedic documentation page after stopping the recording
-    Navigator.pushNamed(context, '/paramedic');
+    Navigator.pushNamed(
+      context,
+      '/paramedic',
+      arguments: {"recordingName": filePath},
+    );
   }
 
   @override
