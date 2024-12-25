@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:http/http.dart' as http;
 import 'tools.dart';
+import 'package:path/path.dart';
 
 Future<Map<String, dynamic>> readBackendJson() async {
   final String response = await rootBundle.loadString('data/dummydata.json');
@@ -82,11 +83,37 @@ class _ParamedicDocState extends State<ParamedicDoc> {
   //This method requests from the server the dummy data which is saved in the backend, if failed it will return a local dummy JSON
   Future<dynamic> readJsonFromServer(String fileName) async {
     try {
-      final response =
-          await http.get(Uri.parse('http://20.84.43.139:5000/analyzeDemo'));
-      if (response.statusCode == 200) {
-        print("---------- HERE IS THE RESPONSE ----------");
-        return jsonDecode(response.body);
+      if (fileName == "") {
+        final response =
+            await http.get(Uri.parse('http://20.84.43.139:5000/showCase'));
+        if (response.statusCode == 200) {
+          print("---------- HERE IS THE RESPONSE ----------");
+          return jsonDecode(response.body);
+        } else {
+          // Create multipart request
+          var request = http.MultipartRequest(
+            'POST',
+            Uri.parse('http://20.84.43.139:5000/analyze'),
+          );
+
+          // Add audio file to request
+          var audioFile = await http.MultipartFile.fromPath(
+            'audio', // field name expected by server
+            fileName,
+            filename: basename(fileName),
+          );
+
+          request.files.add(audioFile);
+
+          // Send request
+          var streamedResponse = await request.send();
+          var response = await http.Response.fromStream(streamedResponse);
+
+          if (response.statusCode == 200) {
+            print("HELOO AGAIN NIGAA");
+            return jsonDecode(response.body);
+          }
+        }
       } else {
         throw Exception('Failed to load JSON data');
       }

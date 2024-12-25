@@ -105,7 +105,7 @@ app.post("/analyze", upload.single("audio"), async (req, res) => {
 
     logWithTimestamp("Step Four: Transcript succefully been generated ...");
     const result = await getJsonFieldsFilled(resultText.text);
-
+    console.log(result);
     logWithTimestamp(
       "Step Eight: Formatting info data into proper JSON file ..."
     );
