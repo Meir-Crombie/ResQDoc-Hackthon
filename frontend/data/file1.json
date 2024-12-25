@@ -1,35 +1,35 @@
 {
-  patientDetails {
-    idOrPassport 123456789,
-    firstName חיים,
-    lastName לוי,
-    age 58,
-    gender ,
-    city ירושלים,
-    street הרצל,
-    houseNumber 25,
-    phone ,
-    email 
+  "patientDetails": {
+    "idOrPassport": "123456789",
+    "firstName": "חיים",
+    "lastName": "לוי",
+    "age": 58,
+    "gender": "",
+    "city": "ירושלים",
+    "street": "הרצל",
+    "houseNumber": 25,
+    "phone": "",
+    "email": ""
   },
-  smartData {
-    findings {
-      diagnosis חשד לאירוע לבבי,
-      patientStatus יציב אך סובל,
-      mainComplaint לחץ חזק בחזה עם הקרנה ליד שמאל וללסת,
-      anamnesis סובל מסוכרת ולחץ דם גבוה, מעשן קופסה ביום, נוטל גלוקומין ולוסרטן,
-      medicalSensitivities אין רגישויות ידועות,
-      statusWhenFound תעוקת חזה
+  "smartData": {
+    "findings": {
+      "diagnosis": "חשד לאירוע לבבי",
+      "patientStatus": "יציב אך סובל",
+      "mainComplaint": "לחץ חזק בחזה עם הקרנה ליד שמאל וללסת",
+      "anamnesis": "סובל מסוכרת ולחץ דם גבוה, מעשן קופסה ביום, נוטל גלוקומין ולוסרטן",
+      "medicalSensitivities": "אין רגישויות ידועות",
+      "statusWhenFound": "תעוקת חזה"
     },
-    medicalMetrics {
-      bloodPressure { value 14595, time  },
-      Heart Rate 110,
-      Lung Auscultation תקין,
-      consciousnessLevel מלאה,
-      breathingRate לא ידוע,
-      breathingCondition קוצר נשימה,
-      skinCondition מזיע זיעה קרה,
-      lungCondition ,
-      CO2Level 92
+    "medicalMetrics": {
+      "bloodPressure": { "value": "145/95", "time": "" },
+      "Heart Rate": 110,
+      "Lung Auscultation": "תקין",
+      "consciousnessLevel": "מלאה",
+      "breathingRate": "לא ידוע",
+      "breathingCondition": "קוצר נשימה",
+      "skinCondition": "מזיע זיעה קרה",
+      "lungCondition": "",
+      "CO2Level": 92
     }
   }
 }
