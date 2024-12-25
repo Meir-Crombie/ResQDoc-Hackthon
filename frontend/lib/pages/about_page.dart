@@ -25,6 +25,11 @@ class AboutPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('אודות'),
+        backgroundColor: const Color.fromARGB(255, 255, 123, 0),
+        centerTitle: true, // מרכז את הכותרת
+      ),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
