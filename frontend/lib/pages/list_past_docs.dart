@@ -24,7 +24,7 @@ class _MissionsPageState extends State<MissionsPage> {
 
       // Get the file path
       final directoryPath = (await getApplicationDocumentsDirectory()).path;
-      final filePath = '$directoryPath/file.json';
+      final filePath = '$directoryPath/file$jsonNum.json';
       final file = File(filePath);
 
       print('Reading from file: $filePath');
@@ -77,8 +77,8 @@ class _MissionsPageState extends State<MissionsPage> {
       if (file is File && file.path.endsWith('.json')) {
         // Extract the mission number from the file name using regex (e.g., mission2.json -> 2)
         String fileName = file.path.split('/').last;
-        RegExp regExp =
-            RegExp(r'^file.json$'); // Ensure it matches only mission$num.json
+        RegExp regExp = RegExp(
+            r'^file(\d+)\.json$'); // Ensure it matches only mission$num.json
         Match? match = regExp.firstMatch(fileName);
         if (match != null) {
           int missionNum = int.parse(match.group(1)!);

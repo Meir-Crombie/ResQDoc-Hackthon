@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/pages/settings_page.dart';
 import 'pages/home.dart';
-import 'pages/dup_paramedic.dart';
+import 'pages/paramedic_doc.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 import 'pages/about_page.dart';

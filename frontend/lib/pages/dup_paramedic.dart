@@ -32,11 +32,11 @@ class _ParamedicDocState extends State<ParamedicDoc> {
 
   final ScrollController _scrollController =
       ScrollController(); // צור ScrollController
-  final GlobalKey _medicalMetricsKey = GlobalKey();
-  final GlobalKey _findingsKey = GlobalKey();
-  final GlobalKey _patientDetailsKey = GlobalKey();
-  final GlobalKey _eventDetailsKey = GlobalKey();
-  final GlobalKey _medicDetailsKey = GlobalKey();
+  final GlobalKey _medicalMetricsKey = GlobalKey(debugLabel: 'medicalMetrics');
+  final GlobalKey _findingsKey = GlobalKey(debugLabel: 'findings');
+  final GlobalKey _patientDetailsKey = GlobalKey(debugLabel: 'patientDetails');
+  final GlobalKey _eventDetailsKey = GlobalKey(debugLabel: 'eventDetails');
+  final GlobalKey _medicDetailsKey = GlobalKey(debugLabel: 'medicDetails');
 
   @override
   void initState() {
@@ -121,9 +121,10 @@ class _ParamedicDocState extends State<ParamedicDoc> {
         backgroundColor: const Color.fromARGB(255, 255, 123, 0),
         actions: [
           IconButton(
-            icon: Icon(Icons.local_hospital), // Icon of your choice
+            icon: Icon(Icons.save), // Icon of your choice
             tooltip: 'Paramedic',
             onPressed: () {
+              JsonFileName.nextNum++;
               Navigator.pushNamed(context, '/past');
             },
           ),

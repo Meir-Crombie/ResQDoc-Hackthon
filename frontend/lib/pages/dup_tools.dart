@@ -3,6 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
+abstract class JsonFileName {
+  static int nextNum = 1; // Static variable to track the next file number
+}
+
 class DefaultTextField extends StatefulWidget {
   final String labelText;
   final String initialValue; // Initial value for the text field
@@ -55,7 +59,8 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
     try {
       print("data: $text ${path.join(' -> ')}");
       final directoryPath = (await (getApplicationDocumentsDirectory())).path;
-      final filePath = '$directoryPath/file.json';
+      final filePath =
+          '$directoryPath/file${JsonFileName.nextNum}.json'; // Use the static variable for the file name
       final directory = Directory(directoryPath);
 
       // Ensure the directory exists
@@ -74,101 +79,11 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
         if (content.isNotEmpty) {
           jsonData = jsonDecode(content) as Map<String, dynamic>;
         } else {
-          jsonData = {
-            "response": {
-              "patientDetails": {
-                "idOrPassport": "",
-                "firstName": "",
-                "lastName": "",
-                "age": "",
-                "city": "",
-                "street": "",
-                "houseNumber": "",
-                "phone": "",
-                "email": ""
-              },
-              "smartData": {
-                "findings": {
-                  "diagnosis": "",
-                  "patientStatus": "",
-                  "mainComplaint": "",
-                  "anamnesis": "",
-                  "medicalSensitivities": "",
-                  "statusWhenFound": ""
-                },
-                "medicalMetrics": {
-                  "bloodPressure": {"value": "", "time": ""},
-                  "Heart Rate": "",
-                  "Lung Auscultation": "",
-                  "consciousnessLevel": "",
-                  "breathingRate": "",
-                  "breathingCondition": "",
-                  "skinCondition": "",
-                  "lungCondition": "",
-                  "CO2Level": ""
-                }
-              },
-              "eventDetails": {
-                "timeOpened": "",
-                "id": "",
-                "city": "",
-                "houseNumber": "",
-                "street": "",
-                "patientName": "",
-                "missionEvent": "",
-                "timeArrived": ""
-              }
-            }
-          };
+          jsonData = _initializeJsonStructure();
         }
       } else {
-        // If the file does not exist, create the full structure
-        jsonData = {
-          "response": {
-            "patientDetails": {
-              "idOrPassport": "",
-              "firstName": "",
-              "lastName": "",
-              "age": "",
-              "city": "",
-              "street": "",
-              "houseNumber": "",
-              "phone": "",
-              "email": ""
-            },
-            "smartData": {
-              "findings": {
-                "diagnosis": "",
-                "patientStatus": "",
-                "mainComplaint": "",
-                "anamnesis": "",
-                "medicalSensitivities": "",
-                "statusWhenFound": ""
-              },
-              "medicalMetrics": {
-                "bloodPressure": {"value": "", "time": ""},
-                "Heart Rate": "",
-                "Lung Auscultation": "",
-                "consciousnessLevel": "",
-                "breathingRate": "",
-                "breathingCondition": "",
-                "skinCondition": "",
-                "lungCondition": "",
-                "CO2Level": ""
-              }
-            },
-            "eventDetails": {
-              "timeOpened": "",
-              "id": "",
-              "city": "",
-              "houseNumber": "",
-              "street": "",
-              "patientName": "",
-              "missionEvent": "",
-              "timeArrived": ""
-            }
-          }
-        };
+        // If the file does not exist, initialize the structure
+        jsonData = _initializeJsonStructure();
       }
 
       // Traverse the path and update the value using the helper function
@@ -186,6 +101,55 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
     } catch (e) {
       print('Error writing to file: $e');
     }
+  }
+
+  Map<String, dynamic> _initializeJsonStructure() {
+    return {
+      "response": {
+        "patientDetails": {
+          "idOrPassport": "",
+          "firstName": "",
+          "lastName": "",
+          "age": "",
+          "city": "",
+          "street": "",
+          "houseNumber": "",
+          "phone": "",
+          "email": ""
+        },
+        "smartData": {
+          "findings": {
+            "diagnosis": "",
+            "patientStatus": "",
+            "mainComplaint": "",
+            "anamnesis": "",
+            "medicalSensitivities": "",
+            "statusWhenFound": ""
+          },
+          "medicalMetrics": {
+            "bloodPressure": {"value": "", "time": ""},
+            "Heart Rate": "",
+            "Lung Auscultation": "",
+            "consciousnessLevel": "",
+            "breathingRate": "",
+            "breathingCondition": "",
+            "skinCondition": "",
+            "lungCondition": "",
+            "CO2Level": ""
+          }
+        },
+        "eventDetails": {
+          "timeOpened": "",
+          "id": "",
+          "city": "",
+          "houseNumber": "",
+          "street": "",
+          "patientName": "",
+          "missionEvent": "",
+          "timeArrived": ""
+        }
+      }
+    };
   }
 
   @override

@@ -179,6 +179,15 @@ class _ParamedicDocState extends State<ParamedicDoc> {
         title: Text('תיעוד רפואי מלא'),
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 255, 123, 0),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.save), // Icon of your choice
+            tooltip: 'save to json',
+            onPressed: () {
+              Navigator.pushNamed(context, '/home');
+            },
+          ),
+        ],
         bottom: PreferredSize(
             preferredSize: Size.fromHeight(60.0),
             child: Container(
