@@ -14,53 +14,6 @@ class _SettingsState extends State<Settings> {
   bool _locationAlerts = false; // Define the variable here
   bool _locationReminder = false; // Define the variable here
 
-  late GoogleMapController mapController;
-  final LatLng _center = const LatLng(45.521563, -122.677433);
-
-  void _onMapCreated(GoogleMapController controller) {
-    mapController = controller;
-  }
-
-  void _showPointMap() {
-    showGeneralDialog(
-      context: context,
-      barrierDismissible: true,
-      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
-      barrierColor: Colors.black45,
-      transitionDuration: const Duration(milliseconds: 300),
-      pageBuilder: (BuildContext buildContext, Animation animation,
-          Animation secondaryAnimation) {
-        return Center(
-          child: Container(
-            height: 300,
-            width: 300,
-            padding: const EdgeInsets.all(16.0),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(8.0),
-            ),
-            child: GoogleMap(
-              onMapCreated: _onMapCreated,
-              initialCameraPosition: CameraPosition(
-                target: _center,
-                zoom: 11.0,
-              ),
-            ),
-          ),
-        );
-      },
-      transitionBuilder: (context, animation, secondaryAnimation, child) {
-        return ScaleTransition(
-          scale: CurvedAnimation(
-            parent: animation,
-            curve: Curves.easeOut,
-          ),
-          child: child,
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -229,14 +182,7 @@ class _SettingsState extends State<Settings> {
                 ],
               ),
             ),
-            const SizedBox(height: 20),
-            Center(
-              child: ElevatedButton(
-                onPressed: _showPointMap,
-                child: Text('Open Point Map'),
-              ),
-            ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 16),
             Align(
               alignment: Alignment.centerRight, // יישור הכותרת לימין
               child: Text(

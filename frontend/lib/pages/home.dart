@@ -388,8 +388,9 @@ class _HomeState extends State<Home> {
                   children: [
                     ElevatedButton(
                       onPressed: () {
+                        print("CALLED");
                         Navigator.pushNamed(context,
-                            '/studymode'); // Navigate to study mode screen
+                            '/summary'); // Navigate to study mode screen
                       },
                       style: ElevatedButton.styleFrom(
                         foregroundColor: const Color.fromARGB(
