@@ -469,26 +469,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Center(
-                  child: DefaultTextField(
-                    labelText: 'שם',
-                    checkedNode: false,
-                    focusNode: focusNodes[7],
-                    textInputAction: TextInputAction.next,
-                    onSubmitted: (_) {
-                      return FocusScope.of(context).requestFocus(focusNodes[8]);
-                    },
-                    initialValue: jsonData!['response']['patientDetails']
-                                ['firstName']
-                            ?.toString() ??
-                        "Wrong Fetch",
-                    writeToJson: null,
-                    jsonPath: ['response', 'patientDetails', 'firstName'],
-                  ),
-                ),
-              ),
+
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
@@ -940,30 +921,6 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         ],
                       ),
                     ),
-                    SizedBox(width: 8),
-                    Expanded(
-                      child: DefaultTextField(
-                        labelText: 'אנמנזה וסיפור המקרה',
-                        checkedNode: false,
-                        focusNode: focusNodes[26],
-                        textInputAction: TextInputAction.next,
-                        initialValue: jsonData!['response']['smartData']
-                                    ['findings']['anamnesis']
-                                ?.toString() ??
-                            "Wrong Fetch",
-                        onSubmitted: (_) {
-                          return FocusScope.of(context)
-                              .requestFocus(focusNodes[27]);
-                        },
-                        writeToJson: writeToJson,
-                        jsonPath: [
-                          'response',
-                          'smartData',
-                          'findings',
-                          'anamnesis'
-                        ],
-                      ),
-                    ),
                   ],
                 ),
               ),
@@ -973,10 +930,37 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                   child: DefaultTextField(
                     labelText: 'רגישויות',
                     checkedNode: false,
-                    focusNode: focusNodes[27],
+                    focusNode: focusNodes[26],
                     textInputAction: TextInputAction.next,
                     initialValue: jsonData!['response']['smartData']['findings']
                                 ['medicalSensitivities']
+                            ?.toString() ??
+                        "Wrong Fetch",
+                    onSubmitted: (_) {
+                      return FocusScope.of(context)
+                          .requestFocus(focusNodes[27]);
+                    },
+                    writeToJson: writeToJson,
+                    jsonPath: [
+                      'response',
+                      'smartData',
+                      'findings',
+                      'medicalSensitivities'
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(
+                  child: DefaultTextField(
+                    height: 200,
+                    labelText: 'אנמנזה וסיפור המקרה',
+                    checkedNode: false,
+                    focusNode: focusNodes[27],
+                    textInputAction: TextInputAction.next,
+                    initialValue: jsonData!['response']['smartData']['findings']
+                                ['anamnesis']
                             ?.toString() ??
                         "Wrong Fetch",
                     onSubmitted: (_) {
@@ -988,7 +972,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                       'response',
                       'smartData',
                       'findings',
-                      'medicalSensitivities'
+                      'anamnesis'
                     ],
                   ),
                 ),

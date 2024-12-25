@@ -22,7 +22,6 @@
     },
     "medicalMetrics": {
       "bloodPressure": { "value": "145/95", "time": "" },
-      "Heart Rate": 110,
       "Lung Auscultation": "תקין",
       "consciousnessLevel": "מלאה",
       "breathingRate": "לא ידוע",
