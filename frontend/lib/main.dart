@@ -14,22 +14,16 @@ Future<Map<String, dynamic>> readJson() async {
   return jsonDecode(response);
 }
 
-// void main() => runApp(MaterialApp(
-//       initialRoute: '/home',
-//       routes: {
-//         '/home': (context) => Home(),
-//         '/paramedic': (context) => ParamedicDoc(
-//               fileName: "",
-//             ),
-//         '/settings': (context) => Settings(),
-//         '/about': (context) => AboutPage(),
-//         '/past': (context) => MissionsPage(),
-//         '/studymode': (context) => StudyModePage(),
-//       },
-//     )); // Material app
-
-void main() {
-  runApp(MaterialApp(
-    home: SummeryScreeen(),
-  ));
-}
+void main() => runApp(MaterialApp(
+      initialRoute: '/home',
+      routes: {
+        '/home': (context) => Home(),
+        '/paramedic': (context) => ParamedicDoc(
+              fileName: "",
+            ),
+        '/settings': (context) => Settings(),
+        '/about': (context) => AboutPage(),
+        '/past': (context) => MissionsPage(),
+        '/studymode': (context) => StudyModePage(),
+      },
+    )); // Material app
