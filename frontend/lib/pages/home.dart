@@ -165,6 +165,16 @@ class _HomeState extends State<Home> {
                   ),
                   IconButton(
                     icon: Icon(
+                      Icons.more,
+                      size: 40,
+                      color: Color.fromARGB(255, 0, 0, 0),
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/listPastDocs');
+                    },
+                  ),
+                  IconButton(
+                    icon: Icon(
                       Icons.info,
                       size: 40,
                       color: Color.fromARGB(255, 0, 0, 0),

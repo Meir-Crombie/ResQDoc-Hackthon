@@ -106,7 +106,7 @@ class AboutPage extends StatelessWidget {
       print('Can launch URL: $canLaunchUrl');
       if (canLaunchUrl) {
         print('Launching URL: $url');
-        await launch(url, forceSafariVC: false, forceWebView: false);
+        await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
       } else {
         print('Could not launch URL: $url');
         throw 'Could not launch $url';
