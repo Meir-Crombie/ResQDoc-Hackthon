@@ -232,7 +232,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                               child: Text('מדדים רפואיים'),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor:
-                                    const Color.fromARGB(255, 250, 190, 255),
+                                    const Color.fromARGB(255, 234, 216, 236),
                                 foregroundColor:
                                     const Color.fromARGB(255, 0, 0, 0),
                               ),
@@ -246,7 +246,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                               child: Text('ממצאים רפואיים'),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor:
-                                    const Color.fromARGB(255, 250, 190, 255),
+                                    const Color.fromARGB(255, 234, 216, 236),
                                 foregroundColor:
                                     const Color.fromARGB(255, 0, 0, 0),
                               ),
@@ -260,7 +260,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                               child: Text('פרטי מטופל'),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor:
-                                    const Color.fromARGB(255, 250, 190, 255),
+                                    const Color.fromARGB(255, 234, 216, 236),
                                 foregroundColor:
                                     const Color.fromARGB(255, 0, 0, 0),
                               ),
@@ -274,7 +274,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                               child: Text('פרטי אירוע'),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor:
-                                    const Color.fromARGB(255, 250, 190, 255),
+                                    const Color.fromARGB(255, 234, 216, 236),
                                 foregroundColor:
                                     const Color.fromARGB(255, 0, 0, 0),
                               ),
@@ -288,7 +288,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                               child: Text('פרטי כונן'),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor:
-                                    const Color.fromARGB(255, 250, 190, 255),
+                                    const Color.fromARGB(255, 234, 216, 236),
                                 foregroundColor:
                                     const Color.fromARGB(255, 0, 0, 0),
                               ),
