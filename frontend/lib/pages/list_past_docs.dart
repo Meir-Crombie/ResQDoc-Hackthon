@@ -68,10 +68,8 @@ class _MissionsPageState extends State<MissionsPage> {
     final directory = directoryPath;
 
     // List all files in the directory
-    print(directory);
     List<FileSystemEntity> files =
-        directory.listSync().where((file) => file is File).toList();
-    print(files);
+        directory.listSync().whereType<File>().toList();
     for (var file in files) {
       if (file is File && file.path.endsWith('.json')) {
         // Extract the mission number from the file name using regex (e.g., mission2.json -> 2)
@@ -103,8 +101,6 @@ class _MissionsPageState extends State<MissionsPage> {
               itemCount: missionFiles.length,
               itemBuilder: (context, index) {
                 int missionNum = missionFiles[index];
-                print("building");
-
                 return FutureBuilder<String?>(
                   future: readFromJson(
                       ['response', 'eventDetails', 'id'], missionNum),

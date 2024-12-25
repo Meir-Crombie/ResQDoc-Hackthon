@@ -2,6 +2,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 
+import 'package:path_provider/path_provider.dart';
+
 class PastDoc extends StatefulWidget {
   final String? fileNum;
   const PastDoc({super.key, this.fileNum});
@@ -15,8 +17,6 @@ class _PastDocState extends State<PastDoc> {
   void initState() {
     super.initState();
   }
-
-  readFromJson(List<String> path, String jsonFile) {}
 
   @override
   void dispose() {
@@ -73,18 +73,16 @@ class _PastDocState extends State<PastDoc> {
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'מזהה כונן',
-                        readFromJson: readFromJson,
-                        jsonPath: ['drivers', 'id'],
-                        jsonFile: 'mission$widget.fileNum!',
+                        jsonPath: ['response', 'eventDetails', 'id'],
+                        jsonFile: 'file${widget.fileNum}',
                       ),
                     ),
                     SizedBox(width: 8),
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'שם כונן',
-                        readFromJson: readFromJson,
-                        jsonPath: ['drivers', 'name'],
-                        jsonFile: 'mission$widget.fileNum!',
+                        jsonPath: ['response', 'patientDetails', 'firstName'],
+                        jsonFile: 'file${widget.fileNum}',
                       ),
                     ),
                   ],
@@ -118,18 +116,16 @@ class _PastDocState extends State<PastDoc> {
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'מספר משימה',
-                        readFromJson: readFromJson,
-                        jsonPath: ['eventDetails', 'id'],
-                        jsonFile: 'mission$widget.fileNum!',
+                        jsonPath: ['response', 'eventDetails', 'id'],
+                        jsonFile: 'file${widget.fileNum}',
                       ),
                     ),
                     SizedBox(width: 8),
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'זמן פתיחת האירוע',
-                        readFromJson: readFromJson,
-                        jsonPath: ['eventDetails', 'openTime'],
-                        jsonFile: 'mission$widget.fileNum!',
+                        jsonPath: ['response', 'eventDetails', 'timeOpened'],
+                        jsonFile: 'file${widget.fileNum}',
                       ),
                     ),
                   ],
@@ -140,9 +136,8 @@ class _PastDocState extends State<PastDoc> {
                 child: Center(
                   child: DefaultTextField(
                     labelText: 'עיר',
-                    readFromJson: readFromJson,
-                    jsonPath: ['eventDetails', 'city'],
-                    jsonFile: 'mission$widget.fileNum!',
+                    jsonPath: ['response', 'eventDetails', 'city'],
+                    jsonFile: 'file${widget.fileNum}',
                   ),
                 ),
               ),
@@ -153,18 +148,16 @@ class _PastDocState extends State<PastDoc> {
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'מספר בית',
-                        readFromJson: readFromJson,
-                        jsonPath: ['eventDetails', 'houseNumber'],
-                        jsonFile: 'mission$widget.fileNum!',
+                        jsonPath: ['response', 'eventDetails', 'houseNumber'],
+                        jsonFile: 'file${widget.fileNum}',
                       ),
                     ),
                     SizedBox(width: 8),
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'רחוב',
-                        readFromJson: readFromJson,
-                        jsonPath: ['eventDetails', 'street'],
-                        jsonFile: 'mission$widget.fileNum!',
+                        jsonPath: ['response', 'eventDetails', 'street'],
+                        jsonFile: 'file${widget.fileNum}',
                       ),
                     ),
                   ],
@@ -175,9 +168,8 @@ class _PastDocState extends State<PastDoc> {
                 child: Center(
                   child: DefaultTextField(
                     labelText: 'שם',
-                    readFromJson: readFromJson,
-                    jsonPath: ['eventDetails', 'name'],
-                    jsonFile: 'mission$widget.fileNum!',
+                    jsonPath: ['response', 'patientDetails', 'lastName'],
+                    jsonFile: 'file${widget.fileNum}',
                   ),
                 ),
               ),
@@ -188,18 +180,20 @@ class _PastDocState extends State<PastDoc> {
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'המקרה שהוזנק',
-                        readFromJson: readFromJson,
-                        jsonPath: ['eventDetails', 'missionEvent'],
-                        jsonFile: 'mission$widget.fileNum!',
+                        jsonPath: [
+                          'response',
+                          'eventDetails',
+                          'missionevent',
+                        ],
+                        jsonFile: 'file${widget.fileNum}',
                       ),
                     ),
                     SizedBox(width: 8),
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'זמן הגעת הכונן',
-                        readFromJson: readFromJson,
-                        jsonPath: ['eventDetails', 'arriveTime'],
-                        jsonFile: 'mission$widget.fileNum!',
+                        jsonPath: ['response', 'eventDetails', 'timeArrived'],
+                        jsonFile: 'file${widget.fileNum}',
                       ),
                     ),
                   ],
@@ -233,18 +227,20 @@ class _PastDocState extends State<PastDoc> {
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'ת.ז. או מספר דרכון',
-                        jsonPath: ['patientDetails', 'idOrPassport'],
-                        jsonFile: 'file$widget.fileNum!',
-                        readFromJson: readFromJson,
+                        jsonPath: [
+                          'response',
+                          'patientDetails',
+                          'idOrPassport'
+                        ],
+                        jsonFile: 'file${widget.fileNum}',
                       ),
                     ),
                     SizedBox(width: 8),
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'שם פרטי מטופל',
-                        readFromJson: readFromJson,
-                        jsonPath: ['patientDetails', 'firstName'],
-                        jsonFile: 'file$widget.fileNum!',
+                        jsonPath: ['response', 'patientDetails', 'firstName'],
+                        jsonFile: 'file${widget.fileNum}',
                       ),
                     ),
                   ],
@@ -257,18 +253,16 @@ class _PastDocState extends State<PastDoc> {
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'שם משפחה מטופל',
-                        readFromJson: readFromJson,
-                        jsonPath: ['patientDetails', 'lastName'],
-                        jsonFile: 'file$widget.fileNum!',
+                        jsonPath: ['response', 'patientDetails', 'lastName'],
+                        jsonFile: 'file${widget.fileNum}',
                       ),
                     ),
                     SizedBox(width: 8),
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'גיל המטופל',
-                        readFromJson: readFromJson,
-                        jsonPath: ['patientDetails', 'age'],
-                        jsonFile: 'file$widget.fileNum!',
+                        jsonPath: ['response', 'patientDetails', 'age'],
+                        jsonFile: 'file${widget.fileNum}',
                       ),
                     ),
                   ],
@@ -279,9 +273,8 @@ class _PastDocState extends State<PastDoc> {
                 child: Center(
                   child: DefaultTextField(
                     labelText: 'מין המטופל',
-                    readFromJson: readFromJson,
-                    jsonPath: ['patientDetails', 'gender'],
-                    jsonFile: 'file$widget.fileNum!',
+                    jsonPath: ['response', 'patientDetails', 'gender'],
+                    jsonFile: 'file${widget.fileNum}',
                   ),
                 ),
               ),
@@ -290,9 +283,8 @@ class _PastDocState extends State<PastDoc> {
                 child: Center(
                   child: DefaultTextField(
                     labelText: 'ישוב המטופל',
-                    readFromJson: readFromJson,
-                    jsonPath: ['patientDetails', 'city'],
-                    jsonFile: 'file$widget.fileNum!',
+                    jsonPath: ['response', 'patientDetails', 'city'],
+                    jsonFile: 'file${widget.fileNum}',
                   ),
                 ),
               ),
@@ -303,18 +295,16 @@ class _PastDocState extends State<PastDoc> {
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'רחוב המטופל',
-                        readFromJson: readFromJson,
-                        jsonPath: ['patientDetails', 'street'],
-                        jsonFile: 'file$widget.fileNum!',
+                        jsonPath: ['response', 'patientDetails', 'street'],
+                        jsonFile: 'file${widget.fileNum}',
                       ),
                     ),
                     SizedBox(width: 8),
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'מספר בית מטופל',
-                        readFromJson: readFromJson,
-                        jsonPath: ['patientDetails', 'houseNumber'],
-                        jsonFile: 'file$widget.fileNum!',
+                        jsonPath: ['response', 'patientDetails', 'houseNumber'],
+                        jsonFile: 'file${widget.fileNum}',
                       ),
                     ),
                   ],
@@ -325,9 +315,8 @@ class _PastDocState extends State<PastDoc> {
                 child: Center(
                   child: DefaultTextField(
                     labelText: 'טלפון המטופל',
-                    readFromJson: readFromJson,
-                    jsonPath: ['patientDetails', 'phone'],
-                    jsonFile: 'file$widget.fileNum!',
+                    jsonPath: ['response', 'patientDetails', 'phone'],
+                    jsonFile: 'file${widget.fileNum}',
                   ),
                 ),
               ),
@@ -336,9 +325,8 @@ class _PastDocState extends State<PastDoc> {
                 child: Center(
                   child: DefaultTextField(
                     labelText: 'מייל המטופל',
-                    readFromJson: readFromJson,
-                    jsonPath: ['patientDetails', 'email'],
-                    jsonFile: 'file$widget.fileNum!',
+                    jsonPath: ['response', 'patientDetails', 'email'],
+                    jsonFile: 'file${widget.fileNum}',
                   ),
                 ),
               ),
@@ -370,18 +358,26 @@ class _PastDocState extends State<PastDoc> {
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'המקרה שנמצא',
-                        readFromJson: readFromJson,
-                        jsonPath: ['smartData', 'finding'],
-                        jsonFile: 'file$widget.fileNum!',
+                        jsonPath: [
+                          'response',
+                          'smartData',
+                          'findings',
+                          'caseFound'
+                        ],
+                        jsonFile: 'file${widget.fileNum}',
                       ),
                     ),
                     SizedBox(width: 8),
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'סטטוס המטופל',
-                        readFromJson: readFromJson,
-                        jsonPath: ['smartData', 'patientStatus'],
-                        jsonFile: 'file$widget.fileNum!',
+                        jsonPath: [
+                          'response',
+                          'smartData',
+                          'findings',
+                          'patientStatus'
+                        ],
+                        jsonFile: 'file${widget.fileNum}',
                       ),
                     ),
                   ],
@@ -394,18 +390,26 @@ class _PastDocState extends State<PastDoc> {
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'תלונה עיקרית',
-                        readFromJson: readFromJson,
-                        jsonPath: ['smartData', 'mainComplaint'],
-                        jsonFile: 'file$widget.fileNum!',
+                        jsonPath: [
+                          'response',
+                          'smartData',
+                          'findings',
+                          'mainComplaint'
+                        ],
+                        jsonFile: 'file${widget.fileNum}',
                       ),
                     ),
                     SizedBox(width: 8),
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'אבחון המטופל',
-                        readFromJson: readFromJson,
-                        jsonPath: ['smartData', 'diagnosis'],
-                        jsonFile: 'file$widget.fileNum!',
+                        jsonPath: [
+                          'response',
+                          'smartData',
+                          'findings',
+                          'diagnosis'
+                        ],
+                        jsonFile: 'file${widget.fileNum}',
                       ),
                     ),
                   ],
@@ -418,18 +422,26 @@ class _PastDocState extends State<PastDoc> {
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'מצב המטופל כשנמצא',
-                        readFromJson: readFromJson,
-                        jsonPath: ['smartData', 'statusWhenFound'],
-                        jsonFile: 'file$widget.fileNum!',
+                        jsonPath: [
+                          'response',
+                          'smartData',
+                          'findings',
+                          'statusWhenFound'
+                        ],
+                        jsonFile: 'file${widget.fileNum}',
                       ),
                     ),
                     SizedBox(width: 8),
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'אנמנזה וסיפור המקרה',
-                        readFromJson: readFromJson,
-                        jsonPath: ['smartData', 'anamnesis'],
-                        jsonFile: 'file$widget.fileNum!',
+                        jsonPath: [
+                          'response',
+                          'smartData',
+                          'findings',
+                          'anamnesis'
+                        ],
+                        jsonFile: 'file${widget.fileNum}',
                       ),
                     ),
                   ],
@@ -440,9 +452,13 @@ class _PastDocState extends State<PastDoc> {
                 child: Center(
                   child: DefaultTextField(
                     labelText: 'רגישויות',
-                    readFromJson: readFromJson,
-                    jsonPath: ['smartData', 'medicalSensitivities'],
-                    jsonFile: 'file$widget.fileNum!',
+                    jsonPath: [
+                      'response',
+                      'smartData',
+                      'findings',
+                      'medicalSensitivities'
+                    ],
+                    jsonFile: 'file${widget.fileNum}',
                   ),
                 ),
               ),
@@ -474,18 +490,26 @@ class _PastDocState extends State<PastDoc> {
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'רמת הכרה',
-                        readFromJson: readFromJson,
-                        jsonPath: ['medicalMetrics', 'consciousnessLevel'],
-                        jsonFile: 'file$widget.fileNum!',
+                        jsonPath: [
+                          'response',
+                          'smartData',
+                          'medicalMetrics',
+                          'consciousnessLevel'
+                        ],
+                        jsonFile: 'file${widget.fileNum}',
                       ),
                     ),
                     SizedBox(width: 8),
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'האזנה',
-                        readFromJson: readFromJson,
-                        jsonPath: ['medicalMetrics', 'Lung Auscultation'],
-                        jsonFile: 'file$widget.fileNum!',
+                        jsonPath: [
+                          'response',
+                          'smartData',
+                          'medicalMetrics',
+                          'Lung Auscultation'
+                        ],
+                        jsonFile: 'file${widget.fileNum}',
                       ),
                     ),
                   ],
@@ -498,18 +522,26 @@ class _PastDocState extends State<PastDoc> {
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'מצב נשימה',
-                        readFromJson: readFromJson,
-                        jsonPath: ['medicalMetrics', 'breathingCondition'],
-                        jsonFile: 'file$widget.fileNum!',
+                        jsonPath: [
+                          'response',
+                          'smartData',
+                          'medicalMetrics',
+                          'breathingCondition'
+                        ],
+                        jsonFile: 'file${widget.fileNum}',
                       ),
                     ),
                     SizedBox(width: 8),
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'קצב נשימה',
-                        readFromJson: readFromJson,
-                        jsonPath: ['medicalMetrics', 'breathingRate'],
-                        jsonFile: 'file$widget.fileNum!',
+                        jsonPath: [
+                          'response',
+                          'smartData',
+                          'medicalMetrics',
+                          'breathingRate'
+                        ],
+                        jsonFile: 'file${widget.fileNum}',
                       ),
                     ),
                   ],
@@ -522,18 +554,26 @@ class _PastDocState extends State<PastDoc> {
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'לחץ דם',
-                        readFromJson: readFromJson,
-                        jsonPath: ['medicalMetrics', 'bloodPressure'],
-                        jsonFile: 'file$widget.fileNum!',
+                        jsonPath: [
+                          'response',
+                          'smartData',
+                          'medicalMetrics',
+                          'bloodPressure'
+                        ],
+                        jsonFile: 'file${widget.fileNum}',
                       ),
                     ),
                     SizedBox(width: 8),
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'רמת פחמן דו חמצני',
-                        readFromJson: readFromJson,
-                        jsonPath: ['medicalMetrics', 'CO2Level'],
-                        jsonFile: 'file$widget.fileNum!',
+                        jsonPath: [
+                          'response',
+                          'smartData',
+                          'medicalMetrics',
+                          'CO2Level'
+                        ],
+                        jsonFile: 'file${widget.fileNum}',
                       ),
                     ),
                   ],
@@ -546,18 +586,26 @@ class _PastDocState extends State<PastDoc> {
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'מצב הריאות',
-                        readFromJson: readFromJson,
-                        jsonPath: ['medicalMetrics', 'lungCondition'],
-                        jsonFile: 'file$widget.fileNum!',
+                        jsonPath: [
+                          'response',
+                          'smartData',
+                          'medicalMetrics',
+                          'lungCondition'
+                        ],
+                        jsonFile: 'file${widget.fileNum}',
                       ),
                     ),
                     SizedBox(width: 8),
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'מצב העור',
-                        readFromJson: readFromJson,
-                        jsonPath: ['medicalMetrics', 'skinCondition'],
-                        jsonFile: 'file$widget.fileNum!',
+                        jsonPath: [
+                          'response',
+                          'smartData',
+                          'medicalMetrics',
+                          'skinCondition'
+                        ],
+                        jsonFile: 'file${widget.fileNum}',
                       ),
                     ),
                   ],
@@ -573,13 +621,13 @@ class _PastDocState extends State<PastDoc> {
 
 class DefaultTextField extends StatefulWidget {
   final String labelText;
-  final Function(List<String> jsonPath, String jsonFile) readFromJson;
+  final bool readFromJson;
   final List<String> jsonPath;
   final String jsonFile;
 
   const DefaultTextField({
     required this.labelText,
-    required this.readFromJson,
+    this.readFromJson = true,
     required this.jsonPath,
     required this.jsonFile,
     super.key,
@@ -595,8 +643,20 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController(
-        text: readFromJson(widget.jsonPath, widget.jsonFile));
+    _controller = TextEditingController(text: ""); // Temporary placeholder
+    _initializeController();
+  }
+
+  Future<void> _initializeController() async {
+    try {
+      String initialValue =
+          await readFromJson(widget.jsonPath, widget.jsonFile);
+      setState(() {
+        _controller.text = initialValue;
+      });
+    } catch (e) {
+      print('Error initializing controller: $e');
+    }
   }
 
   @override
@@ -612,30 +672,46 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
     return map[key] as Map<String, dynamic>;
   }
 
-  String readFromJson(List<String> path, String jsonFile) {
+  Future<String> readFromJson(List<String> path, String jsonFile) async {
     try {
       print("data: ${path.join(' -> ')}");
-      final directoryPath = 'storage/emulated/0/Documents';
+
+      // Get the directory path and file path
+      final directoryPath = (await getApplicationDocumentsDirectory()).path;
       final filePath = '$directoryPath/$jsonFile.json';
       final file = File(filePath);
 
-      // Read the content of the file if it exists, otherwise create an empty JSON object
-      String content = file.readAsString() as String;
-      Map<String, dynamic> jsonData =
-          jsonDecode(content) as Map<String, dynamic>;
+      // Check if the file exists
+      if (!await file.exists()) {
+        print('File does not exist: $filePath');
+        return "Invalid value"; // Return a default value
+      }
 
-      // Traverse the path and update the value using the helper function
+      // Read the content of the file
+      String content = await file.readAsString();
+      if (content.isEmpty) {
+        print('File is empty: $filePath');
+        return "Invalid value"; // Return a default value
+      }
+
+      // Parse the JSON content
+      Map<String, dynamic> jsonData = jsonDecode(content);
+
+      // Traverse the path to retrieve the value
       Map<String, dynamic> currentMap = jsonData;
       for (int i = 0; i < path.length - 1; i++) {
-        currentMap = getNestedMap(currentMap, path[i]);
+        if (!currentMap.containsKey(path[i])) {
+          print('Path not found: ${path[i]}');
+          return "Invalid value"; // Return a default value
+        }
+        currentMap = currentMap[path[i]];
       }
-      print('Data read from file successfully');
 
-      // Return the updated JSON data cast to the generic type T
-      return currentMap[path.last] as String;
+      // Return the final value or a default value if the key doesn't exist
+      return currentMap[path.last]?.toString() ?? "Invalid value";
     } catch (e) {
-      print('Error writing to file: $e');
-      rethrow; // Rethrow the exception so the caller can handle it
+      print('Error reading from file: $e');
+      return "Invalid value"; // Return a default value in case of an error
     }
   }
 
