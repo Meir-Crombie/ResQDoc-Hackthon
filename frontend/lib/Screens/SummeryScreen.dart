@@ -60,14 +60,16 @@ void googleMapsShow(ctx, lat, log) {
   );
 }
 
-const jsonData = {
-  "Phase One": {
-    "Location": "Jerusalem",
-    "Call Accepted At": "15:00",
-  },
+const SystemJSON = {
   "Phase Two": {
     "Agents": "Shmuel",
     "Arrived At": "15:05",
+  }
+};
+const BackendJSON = {
+  "Phase One": {
+    "Location": "Jerusalem",
+    "Call Accepted At": "15:00",
   },
   "Phase Three": {
     "Main Couse": "Animal bite",
@@ -107,8 +109,8 @@ class SummeryScreeen extends StatelessWidget {
               //Phase one - Call Accepted
               RowofContent(
                 mainTitleLeft: "Call Been Received",
-                subTitleLeft: "Area: ${jsonData["Phase One"]!["Location"]}",
-                clockValue: "${jsonData["Phase One"]!["Call Accepted At"]}",
+                subTitleLeft: "Area: ${BackendJSON["Phase One"]!["Location"]}",
+                clockValue: "${BackendJSON["Phase One"]!["Call Accepted At"]}",
                 icon: Icons.inbox,
                 onPressFunc: () =>
                     googleMapsShow(context, 45.521563, -122.677433),
@@ -125,8 +127,8 @@ class SummeryScreeen extends StatelessWidget {
                 onPressFunc: () {},
                 mainTitleLeft: "Wearing has arrived",
                 subTitleLeft:
-                    "Agent: ${jsonData["Phase Two"]!["Agents"]}", //TODO: Fix, and promot all the agents
-                clockValue: "${jsonData["Phase Two"]!["Arrived At"]}",
+                    "Agent: ${SystemJSON["Phase Two"]!["Agents"]}", //TODO: Fix, and promot all the agents
+                clockValue: "${SystemJSON["Phase Two"]!["Arrived At"]}",
                 icon: Icons.account_balance,
               ),
               Container(
@@ -141,9 +143,9 @@ class SummeryScreeen extends StatelessWidget {
                 onPressFunc: () {},
                 mainTitleLeft: "Main Couse",
                 subTitleLeft:
-                    "Case Found: ${jsonData["Phase Three"]!["Main Couse"]}",
+                    "Case Found: ${BackendJSON["Phase Three"]!["Main Couse"]}",
                 clockValue:
-                    "${jsonData["Phase Two"]!["Arrived At"]}", //TODO: Fix its to have more meaningfull value
+                    "${BackendJSON["Phase Two"]!["Arrived At"]}", //TODO: Fix its to have more meaningfull value
                 icon: Icons.info,
               ),
               Container(
@@ -158,8 +160,8 @@ class SummeryScreeen extends StatelessWidget {
                 onPressFunc: () {},
                 mainTitleLeft: "Treatments given",
                 subTitleLeft:
-                    "Action: ${jsonData["Phase Four"]!["Treatments Given"]}",
-                clockValue: "${jsonData["Phase Four"]!["Took At"]}",
+                    "Action: ${BackendJSON["Phase Four"]!["Treatments Given"]}",
+                clockValue: "${BackendJSON["Phase Four"]!["Took At"]}",
                 icon: Icons.account_tree_outlined,
               ),
               Container(
@@ -173,10 +175,19 @@ class SummeryScreeen extends StatelessWidget {
               RowofContent(
                 onPressFunc: () {},
                 mainTitleLeft: "Call Closed",
-                subTitleLeft: "Status: ${jsonData["Phase Five"]!["Status"]}",
-                clockValue: "${jsonData["Phase Five"]!["Call Closed At"]}",
+                subTitleLeft: "Status: ${BackendJSON["Phase Five"]!["Status"]}",
+                clockValue: "${BackendJSON["Phase Five"]!["Call Closed At"]}",
                 icon: Icons.check,
               ),
+              SizedBox(
+                height: 30,
+              ),
+              ElevatedButton.icon(
+                //TODO return to home screen
+                onPressed: () {},
+                icon: Icon(Icons.call_missed_outgoing_rounded),
+                label: Text("Back"),
+              )
             ],
           ),
         ),
