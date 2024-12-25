@@ -9,12 +9,13 @@ class RowofContent extends StatelessWidget {
     required this.subTitleLeft,
     required this.clockValue,
     required this.icon,
+    required this.onPressFunc,
   });
   final IconData icon;
   final String mainTitleLeft;
   final String subTitleLeft;
   final String clockValue;
-
+  final VoidCallback? onPressFunc;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -43,9 +44,12 @@ class RowofContent extends StatelessWidget {
             child: CircleAvatar(
               radius: 26,
               backgroundColor: Colors.white,
-              child: Icon(
-                icon,
-                size: 24,
+              child: IconButton(
+                icon: Icon(
+                  icon,
+                  size: 24,
+                ),
+                onPressed: onPressFunc,
                 color: const Color.fromARGB(255, 56, 55, 55),
               ),
             ),
