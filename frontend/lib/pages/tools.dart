@@ -2,6 +2,12 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 
+abstract class StaticTools {
+  static int nextNum = 1; // Static variable to track the next file number
+  static List<bool> allowSubmit = List.filled(28, false);
+  static int nextAlowNum = 0; // Static variable to track the next file number
+}
+
 class DefaultTextField extends StatefulWidget {
   final String labelText;
   final String initialValue; // Initial value for the text field
@@ -130,7 +136,10 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
   void _validateAndWriteToJson() {
     if (_controller.text.trim().isEmpty) {
       setState(() {
-        _errorText = 'This field cannot be empty'; // Error message
+        _errorText = 'השדה זה לא יכול להיות ריק'; // Error message
+        widget.checkedNode = false;
+        StaticTools.allowSubmit[StaticTools.nextAlowNum] = false;
+        StaticTools.nextAlowNum--;
       });
     } else {
       setState(() {
@@ -167,6 +176,8 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
           onSubmitted: (value) {
             setState(() {
               widget.checkedNode = true;
+              StaticTools.allowSubmit[StaticTools.nextAlowNum] = true;
+              StaticTools.nextAlowNum++;
             });
             _validateAndWriteToJson();
             if (widget.onSubmitted != null) {

@@ -27,6 +27,7 @@ class ParamedicDoc extends StatefulWidget {
 
 class _ParamedicDocState extends State<ParamedicDoc> {
   final List<FocusNode> focusNodes = [];
+
   Map<String, dynamic>? jsonData;
   String? errorMessage;
 
@@ -184,7 +185,13 @@ class _ParamedicDocState extends State<ParamedicDoc> {
             icon: Icon(Icons.save), // Icon of your choice
             tooltip: 'save to json',
             onPressed: () {
-              Navigator.pushNamed(context, '/home');
+              if (StaticTools.allowSubmit.every((value) => value)) {
+                // All elements in allowSubmit are true
+                Navigator.pushNamed(context, '/home');
+              } else {
+                // Not all elements are true
+                print('Some fields are not ready yet.');
+              }
             },
           ),
         ],
