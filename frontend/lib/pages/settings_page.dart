@@ -15,8 +15,17 @@ class _SettingsState extends State<Settings> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('הגדרות'),
+        title: Text(
+          'הגדרות',
+          style: TextStyle(
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'David',
+            color: const Color.fromARGB(255, 0, 0, 0),
+          ),
+        ),
         centerTitle: true, // מרכז את הכותרת
+        backgroundColor: Color.fromARGB(255, 255, 118, 44), // צבע הרקע
       ),
       body: Container(
         color: Colors.white, // צבע הרקע לבן
@@ -37,7 +46,7 @@ class _SettingsState extends State<Settings> {
             const SizedBox(height: 20), // מרווח אנכי
             Container(
               decoration: BoxDecoration(
-                color: Colors.grey[200], // רקע אפור בהיר
+                color: const Color.fromARGB(255, 255, 118, 44), // רקע אפור בהיר
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(color: Colors.grey), // גבול אפור
               ),
@@ -54,10 +63,20 @@ class _SettingsState extends State<Settings> {
                             _trackLocation = value; // עדכון מצב המעקב
                           });
                         },
+                        activeColor: Colors.black, // צבע רקע במצב פעיל
+                        inactiveTrackColor: Colors.white, // צבע רקע במצב כבוי
+                        thumbColor: MaterialStateProperty.resolveWith<Color>(
+                            (Set<MaterialState> states) {
+                          if (states.contains(MaterialState.selected)) {
+                            return Colors.white; // צבע העיגול הפנימי במצב פעיל
+                          }
+                          return Colors.black; // צבע העיגול הפנימי במצב כבוי
+                        }),
                       ),
                       Text(
                         'עקוב אחרי המיקום שלי',
                         style: TextStyle(fontSize: 16),
+                        textAlign: TextAlign.right,
                       ),
                     ],
                   ),
@@ -76,9 +95,11 @@ class _SettingsState extends State<Settings> {
             const SizedBox(height: 20), // מרווח אנכי
             Container(
               decoration: BoxDecoration(
-                color: Colors.grey[200], // רקע אפור בהיר
+                color: const Color.fromARGB(255, 255, 118, 44), // רקע בצבע חדש
                 borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: Colors.grey), // גבול אפור
+                border: Border.all(
+                  color: const Color.fromARGB(255, 0, 0, 0), // גבול אפור
+                ),
               ),
               padding: const EdgeInsets.all(16.0),
               child: Column(
@@ -93,6 +114,15 @@ class _SettingsState extends State<Settings> {
                             _learningMode = value; // עדכון מצב למידה
                           });
                         },
+                        activeColor: Colors.black, // צבע רקע במצב פעיל
+                        inactiveTrackColor: Colors.white, // צבע רקע במצב כבוי
+                        thumbColor: MaterialStateProperty.resolveWith<Color>(
+                            (Set<MaterialState> states) {
+                          if (states.contains(MaterialState.selected)) {
+                            return Colors.white; // צבע העיגול הפנימי במצב פעיל
+                          }
+                          return Colors.black; // צבע העיגול הפנימי במצב כבוי
+                        }),
                       ),
                       Text(
                         'מצב למידה',
