@@ -8,7 +8,8 @@ class DefaultTextField extends StatefulWidget {
   final Function(String) onSubmitted;
   final bool checkedNode; // הוספת checkedNode
 
-  DefaultTextField({
+  const DefaultTextField({
+    super.key,
     required this.labelText,
     required this.initialValue, // ודא שהפרמטר מועבר כאן
     required this.focusNode,
