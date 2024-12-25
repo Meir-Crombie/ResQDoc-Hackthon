@@ -48,7 +48,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
       // Adjust based on your total number of fields
       focusNodes.add(FocusNode());
     }
-    loadJsonData();
+    readJson();
   }
 
   //This method requests from the server the dummy data which is saved in the backend, if failed it will return a local dummy JSON
@@ -62,25 +62,6 @@ class _ParamedicDocState extends State<ParamedicDoc> {
       } else {
         throw Exception('Failed to load JSON data');
       }
-    } catch (e) {
-      print('ERROR WHEN FETCHING FROM SERVER: $e');
-      return await readJson();
-    }
-  }
-
-  //This method requests from the server the dummy data which is saved in the backend, if failed it will return a local dummy JSON
-  Future<dynamic> readJsonFromServer(String fileName) async {
-    try {
-      // jsonData = await readJson();
-      final jsonDataLocal = await readJsonFromServer(widget.fileName);
-      jsonData = jsonDataLocal;
-
-      print('JSON Loaded Successfully: $jsonData'); // הודעת דיבוג
-      print('Specificly: $jsonData["response"]["patientDetails"]');
-      print('Specificly: $jsonData["response"]["patientDetails"]["firstName"]');
-      setState(() {
-        // jsonData = jsonDataLocal;
-      });
     } catch (e) {
       print('ERROR WHEN FETCHING FROM SERVER: $e');
       return await readJson();
@@ -1175,7 +1156,6 @@ class _ParamedicDocState extends State<ParamedicDoc> {
         ),
       ),
     ));
-    );
   }
 }
 
