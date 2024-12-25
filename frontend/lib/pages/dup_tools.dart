@@ -1,11 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 
-abstract class StaticTools {
+abstract class JsonFileName {
   static int nextNum = 1; // Static variable to track the next file number
-  static List<bool> allowSubmit = List.filled(27, false);
-  static int nextAlowNum = 0; // Static variable to track the next file number
 }
 
 class DefaultTextField extends StatefulWidget {
@@ -36,7 +35,7 @@ class DefaultTextField extends StatefulWidget {
 
 class _DefaultTextFieldState extends State<DefaultTextField> {
   late TextEditingController _controller;
-  String? _errorText; // To hold the error message
+
   @override
   void initState() {
     super.initState();
@@ -59,10 +58,12 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
   Future<void> writeToJson(String text, List<String> path) async {
     try {
       print("data: $text ${path.join(' -> ')}");
-      final directoryPath = 'storage/emulated/0/Documents';
-      final filePath = '$directoryPath/file.json';
+      final directoryPath = (await (getApplicationDocumentsDirectory())).path;
+      final filePath =
+          '$directoryPath/file${JsonFileName.nextNum}.json'; // Use the static variable for the file name
       final directory = Directory(directoryPath);
 
+      // Ensure the directory exists
       if (!await directory.exists()) {
         await directory.create(recursive: true);
       }
@@ -71,84 +72,84 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
 
       Map<String, dynamic> jsonData;
 
+      // Check if the file already exists
       if (await file.exists()) {
+        // Read the current JSON data from the file
         String content = await file.readAsString();
-        jsonData = content.isNotEmpty
-            ? jsonDecode(content) as Map<String, dynamic>
-            : _defaultJsonStructure();
+        if (content.isNotEmpty) {
+          jsonData = jsonDecode(content) as Map<String, dynamic>;
+        } else {
+          jsonData = _initializeJsonStructure();
+        }
       } else {
-        jsonData = _defaultJsonStructure();
+        // If the file does not exist, initialize the structure
+        jsonData = _initializeJsonStructure();
       }
 
+      // Traverse the path and update the value using the helper function
       Map<String, dynamic> currentMap = jsonData;
       for (int i = 0; i < path.length - 1; i++) {
         currentMap = getNestedMap(currentMap, path[i]);
       }
       currentMap[path.last] = text;
 
+      // Write back the updated JSON data
       await file.writeAsString('${jsonEncode(jsonData)}\n',
           mode: FileMode.write);
+
       print('Data written to file successfully');
     } catch (e) {
       print('Error writing to file: $e');
     }
   }
 
-  Map<String, dynamic> _defaultJsonStructure() {
+  Map<String, dynamic> _initializeJsonStructure() {
     return {
-      "patientDetails": {
-        "idOrPassport": "",
-        "firstName": "",
-        "lastName": "",
-        "age": "",
-        "gender": "",
-        "city": "",
-        "street": "",
-        "houseNumber": "",
-        "phone": "",
-        "email": ""
-      },
-      "smartData": {
-        "findings": {
-          "diagnosis": "",
-          "patientStatus": "",
-          "mainComplaint": "",
-          "anamnesis": "",
-          "medicalSensitivities": "",
-          "statusWhenFound": ""
+      "response": {
+        "patientDetails": {
+          "idOrPassport": "",
+          "firstName": "",
+          "lastName": "",
+          "age": "",
+          "city": "",
+          "street": "",
+          "houseNumber": "",
+          "phone": "",
+          "email": ""
         },
-        "medicalMetrics": {
-          "bloodPressure": {"value": "", "time": ""},
-          "Heart Rate": "",
-          "Lung Auscultation": "",
-          "consciousnessLevel": "",
-          "breathingRate": "",
-          "breathingCondition": "",
-          "skinCondition": "",
-          "lungCondition": "",
-          "CO2Level": ""
+        "smartData": {
+          "findings": {
+            "diagnosis": "",
+            "patientStatus": "",
+            "mainComplaint": "",
+            "anamnesis": "",
+            "medicalSensitivities": "",
+            "statusWhenFound": ""
+          },
+          "medicalMetrics": {
+            "bloodPressure": {"value": "", "time": ""},
+            "Heart Rate": "",
+            "Lung Auscultation": "",
+            "consciousnessLevel": "",
+            "breathingRate": "",
+            "breathingCondition": "",
+            "skinCondition": "",
+            "lungCondition": "",
+            "CO2Level": ""
+          }
+        },
+        "eventDetails": {
+          "timeOpened": "",
+          "id": "",
+          "city": "",
+          "houseNumber": "",
+          "street": "",
+          "patientName": "",
+          "missionEvent": "",
+          "timeArrived": ""
         }
       }
     };
-  }
-
-  void _validateAndWriteToJson() {
-    if (_controller.text.trim().isEmpty) {
-      setState(() {
-        _errorText = 'השדה זה לא יכול להיות ריק'; // Error message
-        widget.checkedNode = false;
-        StaticTools.allowSubmit[StaticTools.nextAlowNum] = false;
-        StaticTools.nextAlowNum--;
-      });
-    } else {
-      setState(() {
-        _errorText = null; // Clear the error
-      });
-
-      if (widget.writeToJson != null) {
-        widget.writeToJson!(_controller.text, widget.jsonPath);
-      }
-    }
   }
 
   @override
@@ -162,7 +163,7 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
         if (widget.checkedNode) {
           // Write the text from _controller to the JSON file if checkedNode is true
           if (widget.writeToJson != null) {
-            _validateAndWriteToJson();
+            writeToJson(_controller.text, widget.jsonPath);
           }
         }
       },
@@ -177,12 +178,12 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
           textInputAction: widget.textInputAction,
           onSubmitted: (value) {
             setState(() {
-              widget.checkedNode = true;
-              StaticTools.allowSubmit[StaticTools.nextAlowNum] = true;
-              StaticTools.nextAlowNum++;
+              widget.checkedNode = true; // Update checkedNode state
             });
-            _validateAndWriteToJson();
-
+            if (widget.writeToJson != null) {
+              widget.writeToJson!(_controller.text,
+                  widget.jsonPath); // Write to JSON _saveTextFieldData();
+            }
             if (widget.onSubmitted != null) {
               widget.onSubmitted!(value);
             }
@@ -198,7 +199,6 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
             fillColor: widget.checkedNode
                 ? const Color.fromARGB(255, 139, 255, 178)
                 : const Color.fromARGB(255, 255, 201, 218),
-            errorText: _errorText, // Display error message
           ),
         ),
       ),
