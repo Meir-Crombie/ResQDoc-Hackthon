@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:logger/logger.dart';
 
 class AboutPage extends StatelessWidget {
   final List<String> linkedinLinks = [
@@ -57,14 +58,12 @@ class AboutPage extends StatelessWidget {
                 ),
               ),
             ),
-            // Spacer to push the main developer photo down
             SizedBox(height: MediaQuery.of(context).size.height * 0.05),
-            // Main developer at the top center
             Center(
               child: Column(
                 children: [
                   GestureDetector(
-                    onTap: () => _launchURL(linkedinLinks[0]),
+                    onTap: () => _launchURL(context, linkedinLinks[0]),
                     child: CircleAvatar(
                       radius: 50,
                       backgroundImage:
@@ -79,9 +78,8 @@ class AboutPage extends StatelessWidget {
                 ],
               ),
             ),
-            // Grid of other developers
             SizedBox(height: 20),
-            Flexible(
+            Expanded(
               child: GridView.builder(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
@@ -97,7 +95,7 @@ class AboutPage extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       GestureDetector(
-                        onTap: () => _launchURL(linkedinLinks[index + 1]),
+                        onTap: () => _launchURL(context, linkedinLinks[index + 1]),
                         child: CircleAvatar(
                           radius: 40,
                           backgroundImage: AssetImage(
@@ -115,7 +113,6 @@ class AboutPage extends StatelessWidget {
                 },
               ),
             ),
-            // Version text
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
@@ -131,23 +128,33 @@ class AboutPage extends StatelessWidget {
       ),
     );
   }
-
-  void _launchURL(String url) async {
-    print('Attempting to launch URL: $url');
+  final logger = Logger();
+  void _launchURL(BuildContext context, String url) async {
+    logger.d('Attempting to launch URL: $url');
+    Uri uri = Uri.parse(url);
     try {
-      Uri uri = Uri.parse(url);
       if (await canLaunchUrl(uri)) {
-        print('Launching URL: $url');
+        logger.d('Launching URL: $url');
         await launchUrl(uri, mode: LaunchMode.externalApplication);
       } else {
-        print('Could not launch URL: $url');
-        throw 'Could not launch $url';
+        logger.w('Could not launch URL: $url');
+        _showErrorMessage(context, 'Could not launch URL');
       }
     } catch (e) {
-      print('Error launching URL: $e');
+      logger.e('Error launching URL: $e');
+      _showErrorMessage(context, 'Error launching URL');
     }
   }
+
+  void _showErrorMessage(BuildContext context, String message) {
+    final snackBar = SnackBar(
+      content: Text(message),
+      duration: Duration(seconds: 1),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
 }
+
 
 class Tuple2<T1, T2> {
   final T1 item1;
