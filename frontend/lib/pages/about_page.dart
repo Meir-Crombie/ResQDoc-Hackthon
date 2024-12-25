@@ -1,16 +1,9 @@
 import 'package:flutter/material.dart';
 
-class About extends StatelessWidget {
-  const About({super.key});
-
+class AboutPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('אודות'),
-        backgroundColor: const Color.fromARGB(255, 255, 123, 0),
-        centerTitle: true, // מרכז את הכותרת
-      ),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -18,21 +11,52 @@ class About extends StatelessWidget {
               const Color.fromARGB(255, 255, 207, 163),
               const Color.fromARGB(255, 255, 255, 255),
               const Color.fromARGB(255, 255, 255, 255)
-            ], // צבעי השיפוע
-            begin: Alignment.topLeft, // תחילת השיפוע
-            end: Alignment.bottomRight, // סוף השיפוע
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
         ),
         child: Column(
           children: <Widget>[
             Align(
-              alignment: Alignment.topRight, // יישור למעלה בצד ימין
+              alignment: Alignment.topRight,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: SizedBox(),
               ),
             ),
-            // תוכל להוסיף כאן תוכן נוסף
+            // Main developer at the top center
+            Center(
+              child: Column(
+                children: [
+                  CircleAvatar(
+                    radius: 50,
+                    backgroundImage: AssetImage('assets/Developer_photos/developer1.jpg'),
+                  ),
+                  SizedBox(height: 8),
+                  Text('Main Developer', style: TextStyle(fontSize: 16)),
+                ],
+              ),
+            ),
+            // Grid of other developers
+            Expanded(
+              child: GridView.count(
+                crossAxisCount: 2,
+                children: List.generate(6, (index) {
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CircleAvatar(
+                        radius: 40,
+                        backgroundImage: AssetImage('assets/Developer_photos/developer${index + 2}.jpg'),
+                      ),
+                      SizedBox(height: 8),
+                      Text('Developer ${index + 2}', style: TextStyle(fontSize: 14)),
+                    ],
+                  );
+                }),
+              ),
+            ),
           ],
         ),
       ),

@@ -17,6 +17,6 @@ void main() => runApp(MaterialApp(
         '/home': (context) => Home(),
         '/paramedic': (context) => ParamedicDoc(),
         '/settings': (context) => Settings(),
-        '/about': (context) => About(),
+       '/about': (context) => AboutPage(),
       },
     )); // Material app

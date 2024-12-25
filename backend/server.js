@@ -2,7 +2,11 @@ import express from "express";
 import multer from "multer";
 import { createReadStream } from "fs";
 import crypto from "crypto";
-import { getWhissperClient, getJsonFieldsFilled } from "./config/openAI.js";
+import {
+  getWhissperClient,
+  getJsonFieldsFilled,
+  formatModelResponse,
+} from "./config/openAI.js";
 
 const port = process.env.PORT || 5000;
 const app = express();
@@ -18,6 +22,8 @@ const storage = multer.diskStorage({
   },
 });
 const upload = multer({ storage: storage });
+
+console.log(`Server starting in dev mode`);
 
 app.get("/", (req, res) => {
   res.send("API Endpoint is served");
@@ -53,22 +59,28 @@ app.post("/analyze", upload.single("audio"), async (req, res) => {
     if (!req.file) {
       return res.status(400).send("No audio file uploaded");
     }
-
+    console.log("Step One");
     // Only on production
-    // const audioFilePath = req.file.path;
-    // const client = getWhissperClient();
-    // const resultText = await client.audio.transcriptions.create({
-    //   model: "whisper",
-    //   language: "he",
-    //   prompt: "Provide the text result in hebrew",
-    //   file: createReadStream(audioFilePath),
-    // });
-    // const resultJson = await getJsonFieldsFilled(resultText.text);
+    const audioFilePath = req.file.path;
+    console.log("Step Two");
+    const client = getWhissperClient();
+    console.log("Step Three");
+    const resultText = await client.audio.transcriptions.create({
+      model: "whisper",
+      language: "he",
+      prompt: "Provide the text result in hebrew",
+      file: createReadStream(audioFilePath),
+    });
+    console.log("Step Foud");
+    const result = await getJsonFieldsFilled(resultText.text);
+    // res.json(JSON.parse(result));
+    console.log("Step Five");
+    const formattedResult = formatModelResponse(result);
 
-    const hardCodedTrans = `יוסי מאיחוד הצלה. שלום, מה שלומך? אני לא מרגיש טוב, יש לי חום גבוה כבר יומיים וקוצר נשימה. שם מלא? רונית ישראלי. תעודת זהות? 789456123. גיל? 72. כתובת? רחוב הנשיא 15, חיפה. האם יש מחלות רקע? כן, יש לי אסתמה כרונית ויתר לחץ דם. האם את נוטלת תרופות? כן, אני נוטלת ונטולין וקרדילוק. האם יש אלרגיות? אני אלרגית לאנטיביוטיקה מסוג פניצילין.
-בדיקת מדדים: חום 39.1. לחץ דם 135/90. דופק 120. חמצן בדם 88%. המטופלת במצב יציב אך נראית עייפה ונאבקת לנשום.`;
-    const resultJson = await getJsonFieldsFilled(hardCodedTrans);
-    res.json(JSON.parse(resultJson));
+    console.log("About To return");
+
+    res.setHeader("Content-Type", "application/json");
+    res.send(formattedResult);
   } catch (err) {
     console.error("Error analyzing transcript:", err.message);
     res.status(500).send("Server Error");

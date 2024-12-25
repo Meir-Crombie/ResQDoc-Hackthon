@@ -43,6 +43,68 @@ class _ParamedicDocState extends State<ParamedicDoc> {
     }
   }
 
+  Future<void> writeToJson(String text, List<String> path) async {
+    try {
+      print("data: $text ${path.join(' -> ')}");
+      final directoryPath = 'storage/emulated/0/Documents';
+      final filePath = '$directoryPath/file.json';
+      final directory = Directory(directoryPath);
+
+      // Ensure the directory exists
+      if (!await directory.exists()) {
+        await directory.create(recursive: true);
+      }
+
+      final file = File(filePath);
+
+      Map<String, dynamic> jsonData;
+
+      // Check if the file already exists
+      if (await file.exists()) {
+        // Read the current JSON data from the file
+        String content = await file.readAsString();
+        if (content.isNotEmpty) {
+          jsonData = jsonDecode(content);
+        } else {
+          jsonData = {
+            "patientDetails": {},
+            "smartData": {
+              "findings": {},
+              "medicalMetrics": {"bloodPressure": {}}
+            }
+          };
+        }
+      } else {
+        // If the file does not exist, create the full structure
+        jsonData = {
+          "patientDetails": {},
+          "smartData": {
+            "findings": {},
+            "medicalMetrics": {"bloodPressure": {}}
+          }
+        };
+      }
+
+      // Traverse the path and update the value
+      Map<String, dynamic> currentMap = jsonData;
+      for (int i = 0; i < path.length - 1; i++) {
+        if (!currentMap.containsKey(path[i])) {
+          currentMap[path[i]] = {};
+        }
+        currentMap = currentMap[path[i]];
+      }
+      currentMap[path.last] = text;
+
+      // Write back the updated JSON data
+      await file.writeAsString('${jsonEncode(jsonData)}\n',
+          mode: FileMode.write);
+
+      print('Data written to file successfully');
+    } catch (e) {
+      print('Error writing to file: $e');
+    }
+  }
+
   @override
   void dispose() {
     // Dispose of all FocusNodes
@@ -50,39 +112,6 @@ class _ParamedicDocState extends State<ParamedicDoc> {
       focusNode.dispose();
     }
     super.dispose();
-  }
-
-  Future<void> writeToJson(String text, String labelText) async {
-    try {
-      print("data: is not null $text $labelText ");
-      print("data: is not null");
-
-      final directoryPath = 'storage/emulated/0/Documents';
-      final filePath = '$directoryPath/file.json';
-      final directory = Directory(directoryPath); // Ensure the directory exists
-      if (!await directory.exists()) {
-        await directory.create(recursive: true);
-      }
-      final file = File(filePath);
-      Map<String, dynamic> jsonData; // Check if the file already exists
-      if (await file.exists()) {
-        // Read the current JSON data from the file
-        String content = await file.readAsString();
-        if (content.isNotEmpty) {
-          jsonData = jsonDecode(content);
-        } else {
-          jsonData = {};
-        }
-      } else {
-        // If the file does not exist, create an empty map
-        jsonData = {};
-      } // Update the existing label or add a new field
-      jsonData[labelText] = text; // Write back the updated JSON data
-      await file.writeAsString(jsonEncode(jsonData), mode: FileMode.write);
-      print('Data written to file successfully');
-    } catch (e) {
-      print('Error writing to file: $e');
-    }
   }
 
   @override
@@ -142,7 +171,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                               .requestFocus(focusNodes[1]);
                         },
                         writeToJson: null,
-                        jsontext: "ignore",
+                        jsonPath: ['null', 'null'],
                       ),
                     ),
                     SizedBox(width: 8),
@@ -159,7 +188,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         initialValue:
                             jsonData!['drivers'][0]['name'].toString(),
                         writeToJson: null,
-                        jsontext: "ignore",
+                        jsonPath: ['null', 'null'],
                       ),
                     ),
                   ],
@@ -203,7 +232,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         },
                         initialValue: jsonData!['patients'][0]['id'].toString(),
                         writeToJson: null,
-                        jsontext: "ignore",
+                        jsonPath: ['null', 'null'],
                       ),
                     ),
                     SizedBox(width: 8),
@@ -219,7 +248,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         },
                         initialValue: jsonData!['patients'][0]['id'].toString(),
                         writeToJson: null,
-                        jsontext: "ignore",
+                        jsonPath: ['null', 'null'],
                       ),
                     ),
                   ],
@@ -238,7 +267,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     },
                     initialValue: jsonData!['patients'][0]['city'].toString(),
                     writeToJson: null,
-                    jsontext: "ignore",
+                    jsonPath: ['null', 'null'],
                   ),
                 ),
               ),
@@ -259,7 +288,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         initialValue:
                             jsonData!['patients'][0]['houseNumber'].toString(),
                         writeToJson: null,
-                        jsontext: "ignore",
+                        jsonPath: ['null', 'null'],
                       ),
                     ),
                     SizedBox(width: 8),
@@ -276,7 +305,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         initialValue:
                             jsonData!['patients'][0]['street'].toString(),
                         writeToJson: null,
-                        jsontext: "ignore",
+                        jsonPath: ['null', 'null'],
                       ),
                     ),
                   ],
@@ -295,7 +324,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     },
                     initialValue: jsonData!['patients'][0]['name'].toString(),
                     writeToJson: null,
-                    jsontext: "ignore",
+                    jsonPath: ['null', 'null'],
                   ),
                 ),
               ),
@@ -316,7 +345,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         initialValue:
                             jsonData!['patients'][0]['name'].toString(),
                         writeToJson: null,
-                        jsontext: "ignore",
+                        jsonPath: ['null', 'null'],
                       ),
                     ),
                     SizedBox(width: 8),
@@ -333,7 +362,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         initialValue:
                             jsonData!['patients'][0]['name'].toString(),
                         writeToJson: null,
-                        jsontext: "ignore",
+                        jsonPath: ['null', 'null'],
                       ),
                     ),
                   ],
@@ -378,7 +407,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         initialValue:
                             jsonData!['patients'][0]['name'].toString(),
                         writeToJson: writeToJson,
-                        jsontext: "idOrPassport",
+                        jsonPath: ['patientDetails', 'idOrPassport'],
                       ),
                     ),
                     SizedBox(width: 8),
@@ -395,7 +424,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         initialValue:
                             jsonData!['patients'][0]['name'].toString(),
                         writeToJson: writeToJson,
-                        jsontext: "firstName",
+                        jsonPath: ['patientDetails', 'firstName'],
                       ),
                     ),
                   ],
@@ -417,7 +446,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         },
                         initialValue: 'sd',
                         writeToJson: writeToJson,
-                        jsontext: "lastName",
+                        jsonPath: ['patientDetails', 'lastName'],
                       ),
                     ),
                     SizedBox(width: 8),
@@ -433,7 +462,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                               .requestFocus(focusNodes[14]);
                         },
                         writeToJson: writeToJson,
-                        jsontext: "age",
+                        jsonPath: ['patientDetails', 'age'],
                       ),
                     ),
                   ],
@@ -453,7 +482,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     },
                     initialValue: 'sd',
                     writeToJson: writeToJson,
-                    jsontext: "gender",
+                    jsonPath: ['patientDetails', 'gender'],
                   ),
                 ),
               ),
@@ -471,7 +500,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                           .requestFocus(focusNodes[16]);
                     },
                     writeToJson: writeToJson,
-                    jsontext: "city",
+                    jsonPath: ['patientDetails', 'city'],
                   ),
                 ),
               ),
@@ -491,7 +520,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                               .requestFocus(focusNodes[17]);
                         },
                         writeToJson: writeToJson,
-                        jsontext: "street",
+                        jsonPath: ['patientDetails', 'street'],
                       ),
                     ),
                     SizedBox(width: 8),
@@ -507,7 +536,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         },
                         initialValue: 'sd',
                         writeToJson: writeToJson,
-                        jsontext: "houseNumber",
+                        jsonPath: ['patientDetails', 'houseNumber'],
                       ),
                     ),
                   ],
@@ -527,7 +556,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                           .requestFocus(focusNodes[19]);
                     },
                     writeToJson: writeToJson,
-                    jsontext: "phone",
+                    jsonPath: ['patientDetails', 'phone'],
                   ),
                 ),
               ),
@@ -545,7 +574,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                           .requestFocus(focusNodes[20]);
                     },
                     writeToJson: writeToJson,
-                    jsontext: "email",
+                    jsonPath: ['patientDetails', 'email'],
                   ),
                 ),
               ),
@@ -587,7 +616,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                               .requestFocus(focusNodes[21]);
                         },
                         writeToJson: writeToJson,
-                        jsontext: "findings",
+                        jsonPath: ['smartData', 'finding'],
                       ),
                     ),
                     SizedBox(width: 8),
@@ -603,7 +632,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                               .requestFocus(focusNodes[22]);
                         },
                         writeToJson: writeToJson,
-                        jsontext: "patientStatus",
+                        jsonPath: ['smartData', 'patientStatus'],
                       ),
                     ),
                   ],
@@ -625,7 +654,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                               .requestFocus(focusNodes[24]);
                         },
                         writeToJson: writeToJson,
-                        jsontext: "mainComplaint",
+                        jsonPath: ['smartData', 'mainComplaint'],
                       ),
                     ),
                     SizedBox(width: 8),
@@ -641,7 +670,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                               .requestFocus(focusNodes[25]);
                         },
                         writeToJson: writeToJson,
-                        jsontext: "diagnosis",
+                        jsonPath: ['smartData', 'diagnosis'],
                       ),
                     ),
                   ],
@@ -663,7 +692,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                               .requestFocus(focusNodes[26]);
                         },
                         writeToJson: writeToJson,
-                        jsontext: "statusWhenFound",
+                        jsonPath: ['smartData', 'statusWhenFound'],
                       ),
                     ),
                     SizedBox(width: 8),
@@ -679,7 +708,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                               .requestFocus(focusNodes[27]);
                         },
                         writeToJson: writeToJson,
-                        jsontext: "anamnesis",
+                        jsonPath: ['smartData', 'anamnesis'],
                       ),
                     ),
                   ],
@@ -699,7 +728,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                           .requestFocus(focusNodes[28]);
                     },
                     writeToJson: writeToJson,
-                    jsontext: "medicalSensitivities",
+                    jsonPath: ['smartData', 'medicalSensitivities'],
                   ),
                 ),
               ),
@@ -741,7 +770,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                               .requestFocus(focusNodes[29]);
                         },
                         writeToJson: writeToJson,
-                        jsontext: "consciousnessLevel",
+                        jsonPath: ['medicalMetrics', 'consciousnessLevel'],
                       ),
                     ),
                     SizedBox(width: 8),
@@ -757,7 +786,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                               .requestFocus(focusNodes[30]);
                         },
                         writeToJson: writeToJson,
-                        jsontext: "Lung Auscultation",
+                        jsonPath: ['medicalMetrics', 'Lung Auscultation'],
                       ),
                     ),
                   ],
@@ -779,7 +808,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                               .requestFocus(focusNodes[31]);
                         },
                         writeToJson: writeToJson,
-                        jsontext: "breathingCondition",
+                        jsonPath: ['medicalMetrics', 'breathingCondition'],
                       ),
                     ),
                     SizedBox(width: 8),
@@ -795,7 +824,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                               .requestFocus(focusNodes[32]);
                         },
                         writeToJson: writeToJson,
-                        jsontext: "breathingRate",
+                        jsonPath: ['medicalMetrics', 'breathingRate'],
                       ),
                     ),
                   ],
@@ -817,7 +846,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                               .requestFocus(focusNodes[33]);
                         },
                         writeToJson: writeToJson,
-                        jsontext: "bloodPressure",
+                        jsonPath: ['medicalMetrics', 'bloodPressure'],
                       ),
                     ),
                     SizedBox(width: 8),
@@ -833,7 +862,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                               .requestFocus(focusNodes[34]);
                         },
                         writeToJson: writeToJson,
-                        jsontext: "CO2Level",
+                        jsonPath: ['medicalMetrics', 'CO2Level'],
                       ),
                     ),
                   ],
@@ -855,7 +884,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                               .requestFocus(focusNodes[35]);
                         },
                         writeToJson: writeToJson,
-                        jsontext: "lungCondition",
+                        jsonPath: ['medicalMetrics', 'lungCondition'],
                       ),
                     ),
                     SizedBox(width: 8),
@@ -868,7 +897,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         initialValue: '',
                         onSubmitted: (_) {},
                         writeToJson: writeToJson,
-                        jsontext: "skinCondition",
+                        jsonPath: ['medicalMetrics', 'skinCondition'],
                       ),
                     ),
                   ],
@@ -889,8 +918,8 @@ class DefaultTextField extends StatefulWidget {
   final FocusNode? focusNode;
   final TextInputAction? textInputAction;
   final ValueChanged<String>? onSubmitted;
-  final Function(String text, String labelText)? writeToJson;
-  final String jsontext;
+  final Function(String text, List<String> labelText)? writeToJson;
+  final List<String> jsonPath;
 
   DefaultTextField({
     required this.labelText,
@@ -900,7 +929,7 @@ class DefaultTextField extends StatefulWidget {
     this.textInputAction,
     this.onSubmitted,
     required this.writeToJson,
-    required this.jsontext,
+    required this.jsonPath,
     Key? key,
   }) : super(key: key);
 
@@ -923,33 +952,122 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
     super.dispose();
   }
 
-  Future<void> writeToJson(String text, String labelText) async {
+  Map<String, dynamic> getNestedMap(Map<String, dynamic> map, String key) {
+    if (!map.containsKey(key)) {
+      map[key] = {};
+    }
+    return map[key] as Map<String, dynamic>;
+  }
+
+  Future<void> writeToJson(String text, List<String> path) async {
     try {
-      print("data: $text $labelText");
+      print("data: $text ${path.join(' -> ')}");
       final directoryPath = 'storage/emulated/0/Documents';
       final filePath = '$directoryPath/file.json';
-      final directory = Directory(directoryPath); // Ensure the directory exists
+      final directory = Directory(directoryPath);
+
+      // Ensure the directory exists
       if (!await directory.exists()) {
         await directory.create(recursive: true);
       }
+
       final file = File(filePath);
-      Map<String, dynamic> jsonData; // Check if the file already exists
+
+      Map<String, dynamic> jsonData;
+
+      // Check if the file already exists
       if (await file.exists()) {
         // Read the current JSON data from the file
         String content = await file.readAsString();
         if (content.isNotEmpty) {
-          jsonData = jsonDecode(content);
+          jsonData = jsonDecode(content) as Map<String, dynamic>;
         } else {
-          jsonData = {};
+          jsonData = {
+            "patientDetails": {
+              "idOrPassport": "",
+              "firstName": "",
+              "lastName": "",
+              "age": "",
+              "gender": "",
+              "city": "",
+              "street": "",
+              "houseNumber": "",
+              "phone": "",
+              "email": ""
+            },
+            "smartData": {
+              "findings": {
+                "diagnosis": "",
+                "patientStatus": "",
+                "mainComplaint": "",
+                "anamnesis": "",
+                "medicalSensitivities": "",
+                "statusWhenFound": ""
+              },
+              "medicalMetrics": {
+                "bloodPressure": {"value": "", "time": ""},
+                "Heart Rate": "",
+                "Lung Auscultation": "",
+                "consciousnessLevel": "",
+                "breathingRate": "",
+                "breathingCondition": "",
+                "skinCondition": "",
+                "lungCondition": "",
+                "CO2Level": ""
+              }
+            }
+          };
         }
       } else {
-        // If the file does not exist, create an empty map
-        jsonData = {};
-      } // Update the existing label or add a new field
-      jsonData[labelText] =
-          text; // Write back the updated JSON data with a newline character
+        // If the file does not exist, create the full structure
+        jsonData = {
+          "patientDetails": {
+            "idOrPassport": "",
+            "firstName": "",
+            "lastName": "",
+            "age": "",
+            "gender": "",
+            "city": "",
+            "street": "",
+            "houseNumber": "",
+            "phone": "",
+            "email": ""
+          },
+          "smartData": {
+            "findings": {
+              "diagnosis": "",
+              "patientStatus": "",
+              "mainComplaint": "",
+              "anamnesis": "",
+              "medicalSensitivities": "",
+              "statusWhenFound": ""
+            },
+            "medicalMetrics": {
+              "bloodPressure": {"value": "", "time": ""},
+              "Heart Rate": "",
+              "Lung Auscultation": "",
+              "consciousnessLevel": "",
+              "breathingRate": "",
+              "breathingCondition": "",
+              "skinCondition": "",
+              "lungCondition": "",
+              "CO2Level": ""
+            }
+          }
+        };
+      }
+
+      // Traverse the path and update the value using the helper function
+      Map<String, dynamic> currentMap = jsonData;
+      for (int i = 0; i < path.length - 1; i++) {
+        currentMap = getNestedMap(currentMap, path[i]);
+      }
+      currentMap[path.last] = text;
+
+      // Write back the updated JSON data
       await file.writeAsString('${jsonEncode(jsonData)}\n',
           mode: FileMode.write);
+
       print('Data written to file successfully');
     } catch (e) {
       print('Error writing to file: $e');
@@ -967,7 +1085,7 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
         if (widget.checkedNode) {
           // Write the text from _controller to the JSON file if checkedNode is true
           if (widget.writeToJson != null) {
-            writeToJson(_controller.text, widget.labelText);
+            writeToJson(_controller.text, widget.jsonPath);
           }
         }
       },
@@ -986,7 +1104,7 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
             });
             if (widget.writeToJson != null) {
               widget.writeToJson!(_controller.text,
-                  widget.labelText); // Write to JSON _saveTextFieldData();
+                  widget.jsonPath); // Write to JSON _saveTextFieldData();
             }
             if (widget.onSubmitted != null) {
               widget.onSubmitted!(value);
