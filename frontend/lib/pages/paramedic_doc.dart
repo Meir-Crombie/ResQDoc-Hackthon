@@ -18,10 +18,26 @@ class ParamedicDoc extends StatefulWidget {
   State<ParamedicDoc> createState() => _ParamedicDocState();
 }
 
+//class HomePage extends StatefulWidget {
+//  const HomePage({super.key});
+//  @override
+//  State<HomePage> createState() => _HomePageState();
+//}
+
+//class _HomePageState extends State<HomePage> {}
+
 class _ParamedicDocState extends State<ParamedicDoc> {
   final List<FocusNode> focusNodes = [];
   Map<String, dynamic>? jsonData;
   String? errorMessage;
+
+  final ScrollController _scrollController =
+      ScrollController(); // צור ScrollController
+  final GlobalKey _medicalMetricsKey = GlobalKey();
+  final GlobalKey _findingsKey = GlobalKey();
+  final GlobalKey _patientDetailsKey = GlobalKey();
+  final GlobalKey _eventDetailsKey = GlobalKey();
+  final GlobalKey _medicDetailsKey = GlobalKey();
 
   @override
   void initState() {
@@ -56,6 +72,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
       // jsonData = await readJson();
       final jsonDataLocal = await readJsonFromServer(widget.fileName);
       jsonData = jsonDataLocal;
+
       print('JSON Loaded Successfully: $jsonData'); // הודעת דיבוג
       print('Specificly: $jsonData["response"]["patientDetails"]');
       print('Specificly: $jsonData["response"]["patientDetails"]["firstName"]');
@@ -140,6 +157,14 @@ class _ParamedicDocState extends State<ParamedicDoc> {
     super.dispose();
   }
 
+  void _scrollToSection(GlobalKey key) {
+    final context = key.currentContext;
+    if (context != null) {
+      Scrollable.ensureVisible(context,
+          duration: Duration(seconds: 1), curve: Curves.easeInOut);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     if (jsonData == null) {
@@ -170,7 +195,8 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                             SizedBox(width: 8),
                             ElevatedButton(
                               onPressed: () {
-                                // פעולה שתבוצע בלחיצה על הכפתור
+                                _scrollToSection(
+                                    _medicalMetricsKey); // פעולה שתבוצע בלחיצה על הכפתור
                               },
                               child: Text('מדדים רפואיים'),
                               style: ElevatedButton.styleFrom(
@@ -183,7 +209,8 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                             SizedBox(width: 8),
                             ElevatedButton(
                               onPressed: () {
-                                // פעולה שתבוצע בלחיצה על הכפתור
+                                _scrollToSection(
+                                    _findingsKey); // פעולה שתבוצע בלחיצה על הכפתור
                               },
                               child: Text('ממצאים רפואיים'),
                               style: ElevatedButton.styleFrom(
@@ -196,7 +223,8 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                             SizedBox(width: 8),
                             ElevatedButton(
                               onPressed: () {
-                                // פעולה שתבוצע בלחיצה על הכפתור
+                                _scrollToSection(
+                                    _patientDetailsKey); // פעולה שתבוצע בלחיצה על הכפתור
                               },
                               child: Text('פרטי מטופל'),
                               style: ElevatedButton.styleFrom(
@@ -209,7 +237,8 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                             SizedBox(width: 8),
                             ElevatedButton(
                               onPressed: () {
-                                // פעולה שתבוצע בלחיצה על הכפתור
+                                _scrollToSection(
+                                    _eventDetailsKey); // פעולה שתבוצע בלחיצה על הכפתור
                               },
                               child: Text('פרטי אירוע'),
                               style: ElevatedButton.styleFrom(
@@ -222,7 +251,8 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                             SizedBox(width: 8),
                             ElevatedButton(
                               onPressed: () {
-                                // פעולה שתבוצע בלחיצה על הכפתור
+                                _scrollToSection(
+                                    _medicDetailsKey); // פעולה שתבוצע בלחיצה על הכפתור
                               },
                               child: Text('פרטי כונן'),
                               style: ElevatedButton.styleFrom(
@@ -238,12 +268,14 @@ class _ParamedicDocState extends State<ParamedicDoc> {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
+          controller: ScrollController(),
           // עטוף את התוכן ב-SingleChildScrollView
           child: Column(
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
+                  key: _medicDetailsKey,
                   width: double.infinity,
                   height: 50, // Adjust the height as needed
                   alignment: Alignment.center, // Center the text
@@ -253,7 +285,8 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     // Adding border for visibility
                   ),
                   child: Text(
-                    'פרטי הכונן',
+                    'פרטי כונן',
+                    key: _medicDetailsKey,
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -312,6 +345,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
+                  key: _eventDetailsKey,
                   width: double.infinity,
                   height: 50, // Adjust the height as needed
                   alignment: Alignment.center, // Center the text
@@ -320,7 +354,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     color: const Color.fromARGB(255, 255, 118, 44),
                   ),
                   child: Text(
-                    'פרטי האירוע',
+                    'פרטי אירוע',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -513,6 +547,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
+                  key: _patientDetailsKey,
                   width: double.infinity,
                   height: 50, // Adjust the height as needed
                   alignment: Alignment.center, // Center the text
@@ -521,7 +556,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     color: const Color.fromARGB(255, 255, 118, 44),
                   ),
                   child: Text(
-                    'פרטי המטופל',
+                    'פרטי מטופל',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -754,6 +789,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
+                  key: _findingsKey,
                   width: double.infinity,
                   height: 50, // Adjust the height as needed
                   alignment: Alignment.center, // Center the text
@@ -963,6 +999,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
+                  key: _medicalMetricsKey,
                   width: double.infinity,
                   height: 50, // Adjust the height as needed
                   alignment: Alignment.center, // Center the text
