@@ -58,7 +58,7 @@ const deploymentName = "whisper";
 
 //The fieled auto fill Ai connection object
 const groq = new Groq({
-  apiKey: "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",
+  apiKey: "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",
 });
 
 function getWhissperClient() {
