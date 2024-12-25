@@ -209,11 +209,11 @@ class _HomeState extends State<Home> {
                 },
               ),
               ListTile(
-                leading: const Icon(Icons.home), // Info icon
+                leading: const Icon(Icons.history), // Info icon
                 title: const Text('הסטוריה'), // About text
                 onTap: () {
                   Navigator.pop(context); // Close the drawer
-                  Navigator.pushNamed(context, '/home'); // Navigate to about
+                  Navigator.pushNamed(context, '/history'); // Navigate to about
                 },
               ),
             ],
