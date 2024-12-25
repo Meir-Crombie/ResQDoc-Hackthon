@@ -46,12 +46,25 @@ class AboutPage extends StatelessWidget {
                 child: SizedBox(),
               ),
             ),
+            // Title
+            Padding(
+              padding: const EdgeInsets.only(top: 16.0),
+              child: Text(
+                'Meet the team',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            // Spacer to push the main developer photo down
+            SizedBox(height: MediaQuery.of(context).size.height * 0.05),
             // Main developer at the top center
             Center(
               child: Column(
                 children: [
                   GestureDetector(
-                    onTap: () => _launchURL(context, linkedinLinks[0]),
+                    onTap: () => _launchURL(linkedinLinks[0]),
                     child: CircleAvatar(
                       radius: 50,
                       backgroundImage:
@@ -67,15 +80,24 @@ class AboutPage extends StatelessWidget {
               ),
             ),
             // Grid of other developers
-            Expanded(
-              child: GridView.count(
-                crossAxisCount: 2,
-                children: List.generate(6, (index) {
+            SizedBox(height: 20),
+            Flexible(
+              child: GridView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 1,
+                  mainAxisSpacing: 20,
+                  crossAxisSpacing: 20,
+                ),
+                itemCount: 6,
+                itemBuilder: (context, index) {
                   return Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       GestureDetector(
-                        onTap: () => _launchURL(context, linkedinLinks[index + 1]),
+                        onTap: () => _launchURL(linkedinLinks[index + 1]),
                         child: CircleAvatar(
                           radius: 40,
                           backgroundImage: AssetImage(
@@ -90,7 +112,18 @@ class AboutPage extends StatelessWidget {
                           style: TextStyle(fontSize: 12)),
                     ],
                   );
-                }),
+                },
+              ),
+            ),
+            // Version text
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                'version 1.0.0',
+                style: TextStyle(
+                  fontSize: 12,
+                  fontStyle: FontStyle.italic,
+                ),
               ),
             ),
           ],
@@ -99,26 +132,22 @@ class AboutPage extends StatelessWidget {
     );
   }
 
-  void _launchURL(BuildContext context, String url) async {
-    debugPrint('Attempting to launch URL: $url');
+  void _launchURL(String url) async {
+    print('Attempting to launch URL: $url');
     try {
       Uri uri = Uri.parse(url);
       if (await canLaunchUrl(uri)) {
-        debugPrint('Launching URL: $url');
+        print('Launching URL: $url');
         await launchUrl(uri, mode: LaunchMode.externalApplication);
       } else {
-        debugPrint('Could not launch URL: $url');
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Could not launch $url')),
-        );
+        print('Could not launch URL: $url');
+        throw 'Could not launch $url';
       }
     } catch (e) {
-      debugPrint('Error launching URL: $e');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error launching URL: $e')),
-      );
+      print('Error launching URL: $e');
     }
-  }}
+  }
+}
 
 class Tuple2<T1, T2> {
   final T1 item1;
