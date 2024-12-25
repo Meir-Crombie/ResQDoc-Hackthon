@@ -77,13 +77,56 @@ class _HomeState extends State<Home> {
         ),
         child: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              Spacer(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    icon: Icon(
+                      Icons.settings,
+                      size: 40,
+                      color: Color.fromARGB(255, 0, 0, 0),
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/settings');
+                    },
+                  ),
+                  IconButton(
+                    icon: Icon(
+                      Icons.info,
+                      size: 40,
+                      color: Color.fromARGB(255, 0, 0, 0),
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/about');
+                    },
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    width: 20,
+                  ),
+                  SizedBox(
+                    width: 150, // רוחב התמונה
+                    height: 150, // גובה התמונה
+                    child: Image.asset('assets/logo_ichud_2.png'),
+                  ),
+                  SizedBox(
+                    width: 150, // רוחב התמונה
+                    height: 150, // גובה התמונה
+                    child: Image.asset('assets/svgviewer-png-output.png'),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                ],
+              ),
               SizedBox(
-                width: 300, // רוחב התמונה
-                height: 250, // גובה התמונה
-                child: Image.asset('assets/svgviewer-png-output.png'),
+                height: 100,
               ),
               Container(
                 decoration: BoxDecoration(
@@ -141,37 +184,6 @@ class _HomeState extends State<Home> {
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     child: const Text('תיעוד'),
-                  ),
-                ],
-              ),
-              SizedBox(
-                width: 150, // רוחב התמונה
-                height: 250, // גובה התמונה
-                child: Image.asset('assets/logo_ichud_2.png'),
-              ),
-              Spacer(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(
-                    icon: Icon(
-                      Icons.settings,
-                      size: 40,
-                      color: Color.fromARGB(255, 0, 0, 0),
-                    ),
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/settings');
-                    },
-                  ),
-                  IconButton(
-                    icon: Icon(
-                      Icons.info,
-                      size: 40,
-                      color: Color.fromARGB(255, 0, 0, 0),
-                    ),
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/about');
-                    },
                   ),
                 ],
               ),
