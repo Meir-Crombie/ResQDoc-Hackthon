@@ -15,7 +15,9 @@ void main() => runApp(MaterialApp(
       initialRoute: '/home',
       routes: {
         '/home': (context) => Home(),
-        '/paramedic': (context) => ParamedicDoc(),
+        '/paramedic': (context) => ParamedicDoc(
+              fileName: '',
+            ),
         '/settings': (context) => Settings(),
         '/about': (context) => AboutPage(),
       },
