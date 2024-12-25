@@ -228,8 +228,8 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
             floatingLabelAlignment: FloatingLabelAlignment.start,
             filled: true,
             fillColor: widget.checkedNode
-                ? const Color.fromARGB(255, 150, 240, 180)
-                : const Color.fromARGB(255, 255, 201, 218),
+                ? const Color.fromARGB(255, 205, 241, 208)
+                : const Color.fromARGB(255, 255, 180, 195),
             errorText: _errorText, // Display error message
           ),
         ),

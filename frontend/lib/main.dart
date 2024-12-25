@@ -18,11 +18,12 @@ void main() => runApp(MaterialApp(
       routes: {
         '/home': (context) => Home(),
         '/paramedic': (context) => ParamedicDoc(
-                fileName: "",
-              ),
-            '/settings': (context) => Settings(),
-            '/about': (context) => AboutPage(),
-            '/past': (context) => MissionsPage(),
-            '/summary': (context) => SummeryScreen(),
-    },
-  )); // Material app
+              fileName: "",
+            ),
+        '/settings': (context) => Settings(),
+        '/about': (context) => AboutPage(),
+        '/past': (context) => MissionsPage(),
+        '/summary': (context) => SummeryScreen(),
+        '/history': (context) => MissionsPage(),
+      },
+    )); // Material app
