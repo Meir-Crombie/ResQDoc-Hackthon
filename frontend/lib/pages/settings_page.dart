@@ -92,6 +92,17 @@ class _SettingsState extends State<Settings> {
                 ],
               ),
             ),
+            const SizedBox(height: 20),
+            Align(
+              alignment: Alignment.centerRight, // יישור הכותרת לימין
+              child: Text(
+                'למידה באפליקציה',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
             const SizedBox(height: 20), // מרווח אנכי
             Container(
               decoration: BoxDecoration(
