@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:http/http.dart' as http;
 import 'tools.dart';
-import 'dart:convert';
 import 'package:path_provider/path_provider.dart';
 
 Future<Map<String, dynamic>> readJson() async {
