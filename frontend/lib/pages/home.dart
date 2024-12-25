@@ -169,10 +169,12 @@ class _HomeState extends State<Home> {
               end: Alignment.bottomRight,
             ),
           ),
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: <Widget>[
-              DrawerHeader(
+          child: Directionality(
+            textDirection: TextDirection.rtl, // Force LTR alignment
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: <Widget>[
+                DrawerHeader(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
@@ -191,64 +193,68 @@ class _HomeState extends State<Home> {
                         width: 167,
                       ),
                     ],
-                  )),
-              ListTile(
-                leading: const Icon(Icons.home), // Info icon
-                title: const Text(
-                  'בית',
-                  style: TextStyle(
-                    fontFamily: 'AlmoniTzarAAA', // Updated font family
                   ),
-                ), // About text
-                onTap: () {
-                  Navigator.pop(context); // Close the drawer
-                  Navigator.pushNamed(context, '/home'); // Navigate to about
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.history), // Info icon
-                title: const Text(
-                  'היסטוריה',
-                  style: TextStyle(
-                    fontFamily: 'AlmoniTzarAAA', // Updated font family
-                  ),
-                ), // About text
-                onTap: () {
-                  Navigator.pop(context); // Close the drawer
-                  Navigator.pushNamed(context, '/history'); // Navigate to about
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.settings), // Settings icon
-                title: const Text(
-                  'הגדרות',
-                  style: TextStyle(
-                    fontFamily: 'AlmoniTzarAAA', // Updated font family
-                  ),
-                ), // Settings text
-                onTap: () {
-                  Navigator.pop(context); // Close the drawer
-                  Navigator.pushNamed(
-                      context, '/settings'); // Navigate to settings
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.info), // Info icon
-                title: const Text(
-                  'About',
-                  style: TextStyle(
-                    fontFamily: 'AlmoniTzarAAA', // Updated font family
-                  ),
-                ), // About text
-                onTap: () {
-                  Navigator.pop(context); // Close the drawer
-                  Navigator.pushNamed(context, '/about'); // Navigate to about
-                },
-              ),
-            ],
+                ),
+                ListTile(
+                  leading: const Icon(Icons.home), // Info icon
+                  title: const Text(
+                    'בית',
+                    style: TextStyle(
+                      fontFamily: 'AlmoniTzarAAA', // Updated font family
+                    ),
+                  ), // About text
+                  onTap: () {
+                    Navigator.pop(context); // Close the drawer
+                    Navigator.pushNamed(context, '/home'); // Navigate to home
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.history), // Info icon
+                  title: const Text(
+                    'היסטוריה',
+                    style: TextStyle(
+                      fontFamily: 'AlmoniTzarAAA', // Updated font family
+                    ),
+                  ), // History text
+                  onTap: () {
+                    Navigator.pop(context); // Close the drawer
+                    Navigator.pushNamed(
+                        context, '/history'); // Navigate to history
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.settings), // Settings icon
+                  title: const Text(
+                    'הגדרות',
+                    style: TextStyle(
+                      fontFamily: 'AlmoniTzarAAA', // Updated font family
+                    ),
+                  ), // Settings text
+                  onTap: () {
+                    Navigator.pop(context); // Close the drawer
+                    Navigator.pushNamed(
+                        context, '/settings'); // Navigate to settings
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.info), // Info icon
+                  title: const Text(
+                    'About',
+                    style: TextStyle(
+                      fontFamily: 'AlmoniTzarAAA', // Updated font family
+                    ),
+                  ), // About text
+                  onTap: () {
+                    Navigator.pop(context); // Close the drawer
+                    Navigator.pushNamed(context, '/about'); // Navigate to about
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
+
       backgroundColor: Colors.transparent, // Transparent background
       body: SingleChildScrollView(
         child: Container(
