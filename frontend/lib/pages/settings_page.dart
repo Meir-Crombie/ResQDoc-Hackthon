@@ -14,12 +14,6 @@ class _SettingsState extends State<Settings> {
   bool _locationAlerts = false; // Define the variable here
   bool _locationReminder = false; // Define the variable here
 
-  late GoogleMapController mapController;
-  final LatLng _center = const LatLng(45.521563, -122.677433);
-  void _onMapCreated(GoogleMapController controller) {
-    mapController = controller;
-  }
-
   void _showPointMap() {
     showGeneralDialog(
       context: context,
