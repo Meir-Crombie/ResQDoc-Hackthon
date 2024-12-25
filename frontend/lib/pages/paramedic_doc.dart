@@ -2,10 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'tools.dart';
 
 Future<Map<String, dynamic>> readJson() async {
@@ -146,12 +143,92 @@ class _ParamedicDocState extends State<ParamedicDoc> {
       return Center(child: CircularProgressIndicator()); // הצגת מחוון טעינה
     }
     // מציאת הערך "David Cohen" מתוך ה-JSON
-    return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 255, 254, 247),
+    return MaterialApp(
+        home: Scaffold(
       appBar: AppBar(
         title: Text('תיעוד רפואי מלא'),
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 255, 123, 0),
+        bottom: PreferredSize(
+            preferredSize: Size.fromHeight(60.0),
+            child: Container(
+              color: const Color.fromARGB(255, 255, 255, 255),
+              child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  reverse: true,
+                  child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 5.0),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            SizedBox(width: 8),
+                            ElevatedButton(
+                              onPressed: () {
+                                // פעולה שתבוצע בלחיצה על הכפתור
+                              },
+                              child: Text('מדדים רפואיים'),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    const Color.fromARGB(255, 250, 190, 255),
+                                foregroundColor:
+                                    const Color.fromARGB(255, 0, 0, 0),
+                              ),
+                            ),
+                            SizedBox(width: 8),
+                            ElevatedButton(
+                              onPressed: () {
+                                // פעולה שתבוצע בלחיצה על הכפתור
+                              },
+                              child: Text('ממצאים רפואיים'),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    const Color.fromARGB(255, 250, 190, 255),
+                                foregroundColor:
+                                    const Color.fromARGB(255, 0, 0, 0),
+                              ),
+                            ),
+                            SizedBox(width: 8),
+                            ElevatedButton(
+                              onPressed: () {
+                                // פעולה שתבוצע בלחיצה על הכפתור
+                              },
+                              child: Text('פרטי מטופל'),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    const Color.fromARGB(255, 250, 190, 255),
+                                foregroundColor:
+                                    const Color.fromARGB(255, 0, 0, 0),
+                              ),
+                            ),
+                            SizedBox(width: 8),
+                            ElevatedButton(
+                              onPressed: () {
+                                // פעולה שתבוצע בלחיצה על הכפתור
+                              },
+                              child: Text('פרטי אירוע'),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    const Color.fromARGB(255, 250, 190, 255),
+                                foregroundColor:
+                                    const Color.fromARGB(255, 0, 0, 0),
+                              ),
+                            ),
+                            SizedBox(width: 8),
+                            ElevatedButton(
+                              onPressed: () {
+                                // פעולה שתבוצע בלחיצה על הכפתור
+                              },
+                              child: Text('פרטי כונן'),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    const Color.fromARGB(255, 250, 190, 255),
+                                foregroundColor:
+                                    const Color.fromARGB(255, 0, 0, 0),
+                              ),
+                            ),
+                            SizedBox(width: 8),
+                          ]))),
+            )),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -226,9 +303,6 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30),
                     color: const Color.fromARGB(255, 255, 118, 44),
-                    border: Border.all(
-                        color: const Color.fromARGB(255, 150, 179, 190),
-                        width: 1), // Adding border for visibility
                   ),
                   child: Text(
                     'פרטי האירוע',
@@ -400,9 +474,6 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30),
                     color: const Color.fromARGB(255, 255, 118, 44),
-                    border: Border.all(
-                        color: const Color.fromARGB(255, 150, 179, 190),
-                        width: 1), // Adding border for visibility
                   ),
                   child: Text(
                     'פרטי המטופל',
@@ -610,9 +681,6 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30),
                     color: const Color.fromARGB(255, 255, 118, 44),
-                    border: Border.all(
-                        color: const Color.fromARGB(255, 150, 179, 190),
-                        width: 1), // Adding border for visibility
                   ),
                   child: Text(
                     'ממצאים רפואיים',
@@ -764,9 +832,6 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30),
                     color: const Color.fromARGB(255, 255, 118, 44),
-                    border: Border.all(
-                        color: const Color.fromARGB(255, 150, 179, 190),
-                        width: 1), // Adding border for visibility
                   ),
                   child: Text(
                     'מדדים רפואיים',
@@ -930,6 +995,6 @@ class _ParamedicDocState extends State<ParamedicDoc> {
           ),
         ),
       ),
-    );
+    ));
   }
 }
