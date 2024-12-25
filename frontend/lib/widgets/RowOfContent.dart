@@ -1,32 +1,62 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/widgets/RightText.dart';
 import 'package:frontend/widgets/LeftText.dart';
+import 'package:frontend/widgets/RightText.dart';
 
-const double? space = 20;
+class RowofContent extends StatelessWidget {
+  const RowofContent({
+    super.key,
+    required this.mainTitleLeft,
+    required this.subTitleLeft,
+    required this.clockValue,
+    required this.icon,
+  });
+  final IconData icon;
+  final String mainTitleLeft;
+  final String subTitleLeft;
+  final String clockValue;
 
-class Rowofcontent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        LeftText(
-          mainTitle: "Main title left",
-          subTitle: "Sub Title left",
-        ),
-        SizedBox(
-          width: space,
-        ),
-        CircleAvatar(
-          backgroundColor: Colors.white,
-          radius: 40,
-          child: Icon(Icons.inbox),
-        ),
-        SizedBox(
-          width: space,
-        ),
-        RightText(),
-      ],
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 30),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Expanded(
+            child: LeftText(
+              mainTitle: mainTitleLeft,
+              subTitle: subTitleLeft,
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.25),
+                  spreadRadius: 2,
+                  offset: Offset(0, 4),
+                ),
+              ],
+            ),
+            child: CircleAvatar(
+              radius: 26,
+              backgroundColor: Colors.white,
+              child: Icon(
+                icon,
+                size: 24,
+                color: const Color.fromARGB(255, 56, 55, 55),
+              ),
+            ),
+          ),
+          Expanded(
+            child: RightText(
+              clock: clockValue,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
