@@ -2,8 +2,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 Future<Map<String, dynamic>> readJson() async {
   final String response = await rootBundle.loadString('data/dummydata.json');
@@ -97,10 +95,11 @@ class _ParamedicDocState extends State<ParamedicDoc> {
     }
     // מציאת הערך "David Cohen" מתוך ה-JSON
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 255, 254, 247),
       appBar: AppBar(
         title: Text('תיעוד רפואי מלא'),
         centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 255, 187, 0),
+        backgroundColor: const Color.fromARGB(255, 255, 123, 0),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -114,10 +113,9 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                   height: 50, // Adjust the height as needed
                   alignment: Alignment.center, // Center the text
                   decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 150, 179, 190),
-                    border: Border.all(
-                        color: Colors.black,
-                        width: 1), // Adding border for visibility
+                    borderRadius: BorderRadius.circular(30),
+                    color: const Color.fromARGB(255, 255, 118, 44),
+                    // Adding border for visibility
                   ),
                   child: Text(
                     'פרטי הכונן',
@@ -174,9 +172,10 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                   height: 50, // Adjust the height as needed
                   alignment: Alignment.center, // Center the text
                   decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 150, 179, 190),
+                    borderRadius: BorderRadius.circular(30),
+                    color: const Color.fromARGB(255, 255, 118, 44),
                     border: Border.all(
-                        color: Colors.black,
+                        color: const Color.fromARGB(255, 150, 179, 190),
                         width: 1), // Adding border for visibility
                   ),
                   child: Text(
@@ -347,9 +346,10 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                   height: 50, // Adjust the height as needed
                   alignment: Alignment.center, // Center the text
                   decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 150, 179, 190),
+                    borderRadius: BorderRadius.circular(30),
+                    color: const Color.fromARGB(255, 255, 118, 44),
                     border: Border.all(
-                        color: Colors.black,
+                        color: const Color.fromARGB(255, 150, 179, 190),
                         width: 1), // Adding border for visibility
                   ),
                   child: Text(
@@ -556,9 +556,10 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                   height: 50, // Adjust the height as needed
                   alignment: Alignment.center, // Center the text
                   decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 150, 179, 190),
+                    borderRadius: BorderRadius.circular(30),
+                    color: const Color.fromARGB(255, 255, 118, 44),
                     border: Border.all(
-                        color: Colors.black,
+                        color: const Color.fromARGB(255, 150, 179, 190),
                         width: 1), // Adding border for visibility
                   ),
                   child: Text(
@@ -709,9 +710,10 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                   height: 50, // Adjust the height as needed
                   alignment: Alignment.center, // Center the text
                   decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 150, 179, 190),
+                    borderRadius: BorderRadius.circular(30),
+                    color: const Color.fromARGB(255, 255, 118, 44),
                     border: Border.all(
-                        color: Colors.black,
+                        color: const Color.fromARGB(255, 150, 179, 190),
                         width: 1), // Adding border for visibility
                   ),
                   child: Text(
@@ -995,7 +997,9 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
             border: OutlineInputBorder(),
             floatingLabelAlignment: FloatingLabelAlignment.start,
             filled: true,
-            fillColor: widget.checkedNode ? Colors.green : Colors.red,
+            fillColor: widget.checkedNode
+                ? const Color.fromARGB(255, 139, 255, 178)
+                : const Color.fromARGB(255, 255, 201, 218),
           ),
         ),
       ),
