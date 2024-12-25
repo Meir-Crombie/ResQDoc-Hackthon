@@ -168,6 +168,8 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
     } else {
       setState(() {
         _errorText = null; // Clear the error
+        StaticTools.allowSubmit[StaticTools.nextAlowNum] = true;
+        StaticTools.nextAlowNum++;
       });
 
       if (widget.writeToJson != null) {
@@ -184,10 +186,6 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
         if (widget.isEditable) {
           setState(() {
             widget.checkedNode = !widget.checkedNode;
-            if (widget.writeToJson != null && widget.checkedNode) {
-              StaticTools.allowSubmit[StaticTools.nextAlowNum] = true;
-              StaticTools.nextAlowNum++;
-            }
           });
           print(StaticTools.nextAlowNum);
           if (widget.checkedNode) {
@@ -209,11 +207,8 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
           textInputAction: widget.textInputAction,
           onSubmitted: (value) {
             setState(() {
-              if (widget.checkedNode != true) {
-                widget.checkedNode = true;
-                StaticTools.allowSubmit[StaticTools.nextAlowNum] = true;
-                StaticTools.nextAlowNum++;
-              }
+              widget.checkedNode = true;
+
               StaticTools.allowSubmit;
             });
             print(StaticTools.nextAlowNum);
@@ -240,5 +235,93 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
         ),
       ),
     );
+  }
+}
+
+abstract class SaveToJson {
+  static void writeToJson(List<String> texts) async {
+    try {
+      final directoryPath = (await (getApplicationDocumentsDirectory())).path;
+      final filePath =
+          '$directoryPath/file${StaticTools.nextNum}.json'; // Use the static variable for the file name
+      final directory = Directory(directoryPath);
+
+      // Ensure the directory exists
+      if (!await directory.exists()) {
+        await directory.create(recursive: true);
+      }
+
+      final file = File(filePath);
+
+      Map<String, dynamic> jsonData = _initializeJsonStructure();
+
+      // Check if the file already exists
+      jsonData['response']['eventDetails']['id'] = texts[0];
+      jsonData['response']['eventDetails']['timeOpened'] = texts[1];
+      jsonData['response']['eventDetails']['city'] = texts[2];
+      jsonData['response']['eventDetails']['houseNumber'] = texts[3];
+      jsonData['response']['eventDetails']['street'] = texts[4];
+      jsonData['response']['eventDetails']['timeArrived'] = texts[5];
+      jsonData['response']['eventDetails']['patientName'] = texts[6];
+      jsonData['response']['eventDetails']['missionEvent'] = texts[7];
+
+      // Write back the updated JSON data
+      print(jsonEncode(jsonData));
+      await file.writeAsString(jsonEncode(jsonData), mode: FileMode.write);
+
+      print('Data written to file successfully');
+    } catch (e) {
+      print('Error writing to file: $e');
+    }
+  }
+
+  static Map<String, dynamic> _initializeJsonStructure() {
+    return {
+      "response": {
+        "patientDetails": {
+          "idOrPassport": "",
+          "firstName": "",
+          "lastName": "",
+          "age": "",
+          "city": "",
+          "street": "",
+          "houseNumber": "",
+          "phone": "",
+          "email": ""
+        },
+        "smartData": {
+          "findings": {
+            "diagnosis": "",
+            "patientStatus": "",
+            "mainComplaint": "",
+            "anamnesis": "",
+            "medicalSensitivities": "",
+            "statusWhenFound": "",
+            "caseFound": ""
+          },
+          "medicalMetrics": {
+            "bloodPressure": {"value": "", "time": ""},
+            "Heart Rate": "",
+            "Lung Auscultation": "",
+            "consciousnessLevel": "",
+            "breathingRate": "",
+            "breathingCondition": "",
+            "skinCondition": "",
+            "lungCondition": "",
+            "CO2Level": ""
+          }
+        },
+        "eventDetails": {
+          "timeOpened": "",
+          "id": "",
+          "city": "",
+          "houseNumber": "",
+          "street": "",
+          "patientName": "",
+          "missionEvent": "",
+          "timeArrived": ""
+        }
+      }
+    };
   }
 }
