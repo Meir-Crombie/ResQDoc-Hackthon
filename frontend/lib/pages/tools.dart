@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 abstract class StaticTools {
   static int nextNum = 1; // Static variable to track the next file number
-  static List<bool> allowSubmit = List.filled(28, false);
+  static List<bool> allowSubmit = List.filled(27, false);
   static int nextAlowNum = 0; // Static variable to track the next file number
 }
 
@@ -36,7 +36,7 @@ class DefaultTextField extends StatefulWidget {
 
 class _DefaultTextFieldState extends State<DefaultTextField> {
   late TextEditingController _controller;
-
+  String? _errorText; // To hold the error message
   @override
   void initState() {
     super.initState();
@@ -63,7 +63,6 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
       final filePath = '$directoryPath/file.json';
       final directory = Directory(directoryPath);
 
-      // Ensure the directory exists
       if (!await directory.exists()) {
         await directory.create(recursive: true);
       }
@@ -72,87 +71,66 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
 
       Map<String, dynamic> jsonData;
 
-      // Check if the file already exists
       if (await file.exists()) {
-        // Read the current JSON data from the file
         String content = await file.readAsString();
-        if (content.isNotEmpty) {
-          jsonData = jsonDecode(content) as Map<String, dynamic>;
-        } else {
-          jsonData = {
-            "patientDetails": {
-              "idOrPassport": "",
-              "firstName": "",
-              "lastName": "",
-              "age": "",
-              "gender": "",
-              "city": "",
-              "street": "",
-              "houseNumber": "",
-              "phone": "",
-              "email": ""
-            },
-            "smartData": {
-              "findings": {
-                "diagnosis": "",
-                "patientStatus": "",
-                "mainComplaint": "",
-                "anamnesis": "",
-                "medicalSensitivities": "",
-                "statusWhenFound": ""
-              },
-              "medicalMetrics": {
-                "bloodPressure": {"value": "", "time": ""},
-                "Heart Rate": "",
-                "Lung Auscultation": "",
-                "consciousnessLevel": "",
-                "breathingRate": "",
-                "breathingCondition": "",
-                "skinCondition": "",
-                "lungCondition": "",
-                "CO2Level": ""
-              }
-            }
-          };
-        }
+        jsonData = content.isNotEmpty
+            ? jsonDecode(content) as Map<String, dynamic>
+            : _defaultJsonStructure();
       } else {
-        // If the file does not exist, create the full structure
-        jsonData = {
-          "patientDetails": {
-            "idOrPassport": "",
-            "firstName": "",
-            "lastName": "",
-            "age": "",
-            "gender": "",
-            "city": "",
-            "street": "",
-            "houseNumber": "",
-            "phone": "",
-            "email": ""
-          },
-          "smartData": {
-            "findings": {
-              "diagnosis": "",
-              "patientStatus": "",
-              "mainComplaint": "",
-              "anamnesis": "",
-              "medicalSensitivities": "",
-              "statusWhenFound": ""
-            },
-            "medicalMetrics": {
-              "bloodPressure": {"value": "", "time": ""},
-              "Heart Rate": "",
-              "Lung Auscultation": "",
-              "consciousnessLevel": "",
-              "breathingRate": "",
-              "breathingCondition": "",
-              "skinCondition": "",
-              "lungCondition": "",
-              "CO2Level": ""
-            }
-          }
-        };
+        jsonData = _defaultJsonStructure();
       }
+
+      Map<String, dynamic> currentMap = jsonData;
+      for (int i = 0; i < path.length - 1; i++) {
+        currentMap = getNestedMap(currentMap, path[i]);
+      }
+      currentMap[path.last] = text;
+
+      await file.writeAsString('${jsonEncode(jsonData)}\n',
+          mode: FileMode.write);
+      print('Data written to file successfully');
+    } catch (e) {
+      print('Error writing to file: $e');
+    }
+  }
+
+  Map<String, dynamic> _defaultJsonStructure() {
+    return {
+      "patientDetails": {
+        "idOrPassport": "",
+        "firstName": "",
+        "lastName": "",
+        "age": "",
+        "gender": "",
+        "city": "",
+        "street": "",
+        "houseNumber": "",
+        "phone": "",
+        "email": ""
+      },
+      "smartData": {
+        "findings": {
+          "diagnosis": "",
+          "patientStatus": "",
+          "mainComplaint": "",
+          "anamnesis": "",
+          "medicalSensitivities": "",
+          "statusWhenFound": ""
+        },
+        "medicalMetrics": {
+          "bloodPressure": {"value": "", "time": ""},
+          "Heart Rate": "",
+          "Lung Auscultation": "",
+          "consciousnessLevel": "",
+          "breathingRate": "",
+          "breathingCondition": "",
+          "skinCondition": "",
+          "lungCondition": "",
+          "CO2Level": ""
+        }
+      }
+    };
+  }
 
   void _validateAndWriteToJson() {
     if (_controller.text.trim().isEmpty) {
@@ -184,7 +162,7 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
         if (widget.checkedNode) {
           // Write the text from _controller to the JSON file if checkedNode is true
           if (widget.writeToJson != null) {
-            writeToJson(_controller.text, widget.jsonPath);
+            _validateAndWriteToJson();
           }
         }
       },
@@ -203,10 +181,8 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
               StaticTools.allowSubmit[StaticTools.nextAlowNum] = true;
               StaticTools.nextAlowNum++;
             });
-            if (widget.writeToJson != null) {
-              widget.writeToJson!(_controller.text,
-                  widget.jsonPath); // Write to JSON _saveTextFieldData();
-            }
+            _validateAndWriteToJson();
+
             if (widget.onSubmitted != null) {
               widget.onSubmitted!(value);
             }
@@ -222,6 +198,7 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
             fillColor: widget.checkedNode
                 ? const Color.fromARGB(255, 139, 255, 178)
                 : const Color.fromARGB(255, 255, 201, 218),
+            errorText: _errorText, // Display error message
           ),
         ),
       ),

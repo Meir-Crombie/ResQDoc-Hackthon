@@ -184,6 +184,9 @@ class _ParamedicDocState extends State<ParamedicDoc> {
           IconButton(
             icon: Icon(Icons.save), // Icon of your choice
             tooltip: 'save to json',
+            color: (StaticTools.allowSubmit.every((value) => value))
+                ? const Color.fromARGB(255, 0, 255, 8)
+                : const Color.fromARGB(255, 255, 0, 0),
             onPressed: () {
               if (StaticTools.allowSubmit.every((value) => value)) {
                 // All elements in allowSubmit are true
