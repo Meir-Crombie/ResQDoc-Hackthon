@@ -18,9 +18,8 @@ class AboutPage extends StatelessWidget {
     Tuple2('Daniel Pilant', 'second year SE'),
     Tuple2('Moshe Hanau', 'first year CS'),
     Tuple2('Oria Hanuka', 'second year CS'),
-    Tuple2('Yedidia Bakurdza', 'second year CS'), 
+    Tuple2('Yedidia Bakurdza', 'second year CS'),
     Tuple2('Yitshac Brody', 'second year CS'),
-    
   ];
 
   @override
@@ -51,19 +50,18 @@ class AboutPage extends StatelessWidget {
             Center(
               child: Column(
                 children: [
-                  CircleAvatar(
-                    radius: 50,
-                    backgroundImage:
-                        AssetImage('assets/Developer_photos/developer1.jpg'),
-                  child: GestureDetector(
+                  GestureDetector(
                     onTap: () => _launchURL(linkedinLinks[0]),
                     child: CircleAvatar(
                       radius: 50,
-                      backgroundImage: AssetImage('assets/Developer_photos/developer1.jpg'),
+                      backgroundImage:
+                          AssetImage('assets/Developer_photos/developer1.jpg'),
                     ),
                   ),
                   SizedBox(height: 8),
-                  Text(developerInfo[0].item1, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                  Text(developerInfo[0].item1,
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                   Text(developerInfo[0].item2, style: TextStyle(fontSize: 14)),
                 ],
               ),
@@ -76,22 +74,20 @@ class AboutPage extends StatelessWidget {
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      CircleAvatar(
-                        radius: 40,
-                        backgroundImage: AssetImage(
-                            'assets/Developer_photos/developer${index + 2}.jpg'),
-                      child: GestureDetector(
+                      GestureDetector(
                         onTap: () => _launchURL(linkedinLinks[index + 1]),
                         child: CircleAvatar(
                           radius: 40,
-                          backgroundImage: AssetImage('assets/Developer_photos/developer${index + 2}.jpg'),
+                          backgroundImage: AssetImage(
+                              'assets/Developer_photos/developer${index + 2}.jpg'),
                         ),
                       ),
                       SizedBox(height: 8),
-                      Text('Developer ${index + 2}',
-                          style: TextStyle(fontSize: 14)),
-                      Text(developerInfo[index + 1].item1, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-                      Text(developerInfo[index + 1].item2, style: TextStyle(fontSize: 12)),
+                      Text(developerInfo[index + 1].item1,
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.bold)),
+                      Text(developerInfo[index + 1].item2,
+                          style: TextStyle(fontSize: 12)),
                     ],
                   );
                 }),
@@ -102,7 +98,8 @@ class AboutPage extends StatelessWidget {
       ),
     );
   }
- void _launchURL(String url) async {
+
+  void _launchURL(String url) async {
     print('Attempting to launch URL: $url');
     try {
       bool canLaunchUrl = await canLaunch(url);
