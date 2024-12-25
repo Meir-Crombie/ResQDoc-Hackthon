@@ -51,7 +51,7 @@ class AboutPage extends StatelessWidget {
               child: Column(
                 children: [
                   GestureDetector(
-                    onTap: () => _launchURL(linkedinLinks[0]),
+                    onTap: () => _launchURL(context, linkedinLinks[0]),
                     child: CircleAvatar(
                       radius: 50,
                       backgroundImage:
@@ -75,7 +75,7 @@ class AboutPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       GestureDetector(
-                        onTap: () => _launchURL(linkedinLinks[index + 1]),
+                        onTap: () => _launchURL(context, linkedinLinks[index + 1]),
                         child: CircleAvatar(
                           radius: 40,
                           backgroundImage: AssetImage(
@@ -99,23 +99,26 @@ class AboutPage extends StatelessWidget {
     );
   }
 
-  void _launchURL(String url) async {
-    print('Attempting to launch URL: $url');
+  void _launchURL(BuildContext context, String url) async {
+    debugPrint('Attempting to launch URL: $url');
     try {
-      bool canLaunchUrl = await canLaunch(url);
-      print('Can launch URL: $canLaunchUrl');
-      if (canLaunchUrl) {
-        print('Launching URL: $url');
-        await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+      Uri uri = Uri.parse(url);
+      if (await canLaunchUrl(uri)) {
+        debugPrint('Launching URL: $url');
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
       } else {
-        print('Could not launch URL: $url');
-        throw 'Could not launch $url';
+        debugPrint('Could not launch URL: $url');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Could not launch $url')),
+        );
       }
     } catch (e) {
-      print('Error launching URL: $e');
+      debugPrint('Error launching URL: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error launching URL: $e')),
+      );
     }
-  }
-}
+  }}
 
 class Tuple2<T1, T2> {
   final T1 item1;
