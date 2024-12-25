@@ -4,6 +4,8 @@ import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 Future<Map<String, dynamic>> readJson() async {
   final String response = await rootBundle.loadString('data/dummydata.json');
@@ -11,8 +13,9 @@ Future<Map<String, dynamic>> readJson() async {
 }
 
 class ParamedicDoc extends StatefulWidget {
-  const ParamedicDoc({super.key});
-
+  //The path to the recording
+  final String fileName;
+  const ParamedicDoc({super.key, required this.fileName});
   @override
   State<ParamedicDoc> createState() => _ParamedicDocState();
 }
@@ -33,9 +36,27 @@ class _ParamedicDocState extends State<ParamedicDoc> {
     loadJsonData();
   }
 
+  Future<dynamic> readJsonFromServer(String fileName) async {
+    try {
+      final response =
+          await http.get(Uri.parse('http://20.84.43.139:5000/analyze'));
+      if (response.statusCode == 200) {
+        jsonData = jsonDecode(response.body);
+        return jsonData;
+      } else {
+        throw Exception('Failed to load JSON data');
+      }
+    } catch (e) {
+      print('Error: $e');
+      errorMessage = 'Error loading JSON data';
+      setState(() {});
+    }
+  }
+
   Future<void> loadJsonData() async {
     try {
-      jsonData = await readJson();
+      // jsonData = await readJson();
+      jsonData = await readJsonFromServer(widget.fileName);
       print('JSON Loaded Successfully: $jsonData'); // הודעת דיבוג
       setState(() {});
     } catch (e) {
