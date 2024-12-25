@@ -32,7 +32,6 @@ class ParamedicDoc extends StatefulWidget {
 
 class _ParamedicDocState extends State<ParamedicDoc> {
   final List<FocusNode> focusNodes = [];
-
   Map<String, dynamic>? serverJsonData;
   Map<String, dynamic>? localJsonData;
   String? errorMessage;
@@ -254,7 +253,6 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                   ),
                   child: Text(
                     'פרטי כונן',
-                    key: _medicDetailsKey,
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,

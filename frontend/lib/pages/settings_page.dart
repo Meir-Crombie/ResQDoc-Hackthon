@@ -14,6 +14,13 @@ class _SettingsState extends State<Settings> {
   bool _locationAlerts = false; // Define the variable here
   bool _locationReminder = false; // Define the variable here
 
+  late GoogleMapController mapController;
+  final LatLng _center = const LatLng(45.521563, -122.677433);
+
+  void _onMapCreated(GoogleMapController controller) {
+    mapController = controller;
+  }
+
   void _showPointMap() {
     showGeneralDialog(
       context: context,
@@ -32,10 +39,11 @@ class _SettingsState extends State<Settings> {
               color: Colors.white,
               borderRadius: BorderRadius.circular(8.0),
             ),
-            child: Center(
-              child: Text(
-                'Point Map Editor',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            child: GoogleMap(
+              onMapCreated: _onMapCreated,
+              initialCameraPosition: CameraPosition(
+                target: _center,
+                zoom: 11.0,
               ),
             ),
           ),

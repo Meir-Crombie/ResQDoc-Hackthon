@@ -4,7 +4,7 @@ import 'package:logger/logger.dart';
 
 class AboutPage extends StatelessWidget {
   final List<String> linkedinLinks = [
-    'https://www.linkedin.com/in/mendel-wagner-239901239/',
+    'https://linkedin.com/in/mendel-wagner-239901239/',
     'https://www.linkedin.com/in/meir-crombie-310816289/',
     'https://www.linkedin.com/in/daniel-pilant-5a8a052b5/',
     'https://www.linkedin.com/in/moshe-hanau-29a56131a/',
