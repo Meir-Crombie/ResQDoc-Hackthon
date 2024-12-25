@@ -29,6 +29,7 @@ export const medicalTemplate = {
       anamnesis: "",
       medicalSensitivities: "",
       statusWhenFound: "",
+      CaseFound: "",
     },
     medicalMetrics: {
       bloodPressure: { value: "", time: "" },
@@ -57,7 +58,7 @@ const deploymentName = "whisper";
 
 //The fieled auto fill Ai connection object
 const groq = new Groq({
-  apiKey: "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",
+  apiKey: "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",
 });
 
 function getWhissperClient() {
@@ -88,6 +89,7 @@ Use empty string for missing information.
 All values should be in Hebrew.
 If you dont know the values, please write that u dont know to analye is rather to say random values
 
+
 Here is an example of an trascript and a good response which i request from you to provide:
 
 The trascript:
@@ -117,7 +119,8 @@ The response in JSON which im expecting you to deliver:
       "mainComplaint": "לחץ חזק בחזה עם הקרנה ליד שמאל וללסת",
       "anamnesis": "סובל מסוכרת ולחץ דם גבוה, מעשן קופסה ביום, נוטל גלוקומין ולוסרטן",
       "medicalSensitivities": "אין רגישויות ידועות",
-      "statusWhenFound": "תעוקת חזה"
+      "statusWhenFound": "תעוקת חזה",
+      "CaseFound": "חשד לאירוע לבבי"
     },
     "medicalMetrics": {
       "bloodPressure": { "value": "145/95", "time": "" },

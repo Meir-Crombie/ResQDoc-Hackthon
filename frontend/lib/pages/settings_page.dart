@@ -10,6 +10,8 @@ class Settings extends StatefulWidget {
 class _SettingsState extends State<Settings> {
   bool _trackLocation = false; // משתנה למעקב מיקום
   bool _learningMode = false; // משתנה למצב למידה
+  bool _locationAlerts = false; // Define the variable here
+  bool _locationReminder = false; // Define the variable here
 
   @override
   Widget build(BuildContext context) {
@@ -80,9 +82,83 @@ class _SettingsState extends State<Settings> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 16), // מרווח אנכי בין השורה להערה
+                  const SizedBox(height: 16),
                   Text(
                     'אפליקציה תתחיל הקלטה במקרה שיתקבל זיהוי קירבה לאיזור אירוע',
+                    textAlign: TextAlign.center, // יישור הטקסט למרכז
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey[600], // צבע טקסט אפור כהה
+                    ),
+                  ),
+                  const SizedBox(height: 16), // מרווח אנכי בין השורה להערה
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Switch(
+                        value: _locationAlerts,
+                        onChanged: (bool value) {
+                          setState(() {
+                            _locationAlerts = value; // עדכון מצב ההתראות
+                          });
+                        },
+                        activeColor: Colors.black, // צבע רקע במצב פעיל
+                        inactiveTrackColor: Colors.white, // צבע רקע במצב כבוי
+                        thumbColor: WidgetStateProperty.resolveWith<Color>(
+                            (Set<WidgetState> states) {
+                          if (states.contains(WidgetState.selected)) {
+                            return Colors.white; // צבע העיגול הפנימי במצב פעיל
+                          }
+                          return Colors.black; // צבע העיגול הפנימי במצב כבוי
+                        }),
+                      ),
+                      Text(
+                        'התראות על מיקום קרוב',
+                        style: TextStyle(fontSize: 16),
+                        textAlign: TextAlign.right,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16), // מרווח אנכי בין השורה להערה
+                  Text(
+                    'קבלת התראות בעת כניסה לאזור מוגדר מראש',
+                    textAlign: TextAlign.center, // יישור הטקסט למרכז
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey[600], // צבע טקסט אפור כהה
+                    ),
+                  ),
+                  const SizedBox(height: 16), // מרווח אנכי בין השורה להערה
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Switch(
+                        value: _locationReminder,
+                        onChanged: (bool value) {
+                          setState(() {
+                            _locationReminder = value; // עדכון מצב התזכורת
+                          });
+                        },
+                        activeColor: Colors.black, // צבע רקע במצב פעיל
+                        inactiveTrackColor: Colors.white, // צבע רקע במצב כבוי
+                        thumbColor: WidgetStateProperty.resolveWith<Color>(
+                            (Set<WidgetState> states) {
+                          if (states.contains(WidgetState.selected)) {
+                            return Colors.white; // צבע העיגול הפנימי במצב פעיל
+                          }
+                          return Colors.black; // צבע העיגול הפנימי במצב כבוי
+                        }),
+                      ),
+                      Text(
+                        'תזכורת מבוססת מיקום',
+                        style: TextStyle(fontSize: 16),
+                        textAlign: TextAlign.right,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16), // מרווח אנכי בין השורה להערה
+                  Text(
+                    'קבלת תזכורת לבצע שליחת טופס 15 דק אחרי הגעה למקום האירוע',
                     textAlign: TextAlign.center, // יישור הטקסט למרכז
                     style: TextStyle(
                       fontSize: 14,
