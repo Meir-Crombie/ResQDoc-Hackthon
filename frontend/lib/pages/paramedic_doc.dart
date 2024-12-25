@@ -82,8 +82,10 @@ class _ParamedicDocState extends State<ParamedicDoc> {
   void _scrollToSection(GlobalKey key) {
     final context = key.currentContext;
     if (context != null) {
-      Scrollable.ensureVisible(context,
-          duration: Duration(seconds: 1), curve: Curves.easeInOut);
+      Scrollable.ensureVisible(
+        context,
+        duration: Duration(milliseconds: 100),
+      );
     }
   }
 
