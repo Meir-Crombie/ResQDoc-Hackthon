@@ -5,8 +5,14 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:http/http.dart' as http;
 import 'tools.dart';
 
-Future<Map<String, dynamic>> readJson() async {
+Future<Map<String, dynamic>> readBackendJson() async {
   final String response = await rootBundle.loadString('data/dummydata.json');
+  return jsonDecode(response);
+}
+
+Future<Map<String, dynamic>> readFrontendJson() async {
+  final String response =
+      await rootBundle.loadString('data/frontDataBase.json');
   return jsonDecode(response);
 }
 
@@ -28,7 +34,8 @@ class ParamedicDoc extends StatefulWidget {
 class _ParamedicDocState extends State<ParamedicDoc> {
   final List<FocusNode> focusNodes = [];
 
-  Map<String, dynamic>? jsonData;
+  Map<String, dynamic>? serverJsonData;
+  Map<String, dynamic>? localJsonData;
   String? errorMessage;
 
   final GlobalKey _medicalMetricsKey = GlobalKey(debugLabel: 'medicalMetrics');
@@ -61,19 +68,22 @@ class _ParamedicDocState extends State<ParamedicDoc> {
       }
     } catch (e) {
       print('ERROR WHEN FETCHING FROM SERVER: $e');
-      return await readJson();
+      return await readBackendJson();
     }
   }
 
   Future<void> loadJsonData() async {
     try {
       // jsonData = await readJson();
-      final jsonDataLocal = await readJsonFromServer(widget.fileName);
-      jsonData = jsonDataLocal;
+      final jsonDataServer = await readJsonFromServer(widget.fileName);
+      final jsonDataLocal = await readFrontendJson();
+      serverJsonData = jsonDataServer;
+      localJsonData = jsonDataLocal;
 
-      print('JSON Loaded Successfully: $jsonData'); // הודעת דיבוג
-      print('Specificly: $jsonData["response"]["patientDetails"]');
-      print('Specificly: $jsonData["response"]["patientDetails"]["firstName"]');
+      print('JSON Loaded Successfully: $serverJsonData'); // הודעת דיבוג
+      print('Specificly: $serverJsonData["response"]["patientDetails"]');
+      print(
+          'Specificly: $serverJsonData["response"]["patientDetails"]["firstName"]');
       setState(() {
         // jsonData = jsonDataLocal;
       });
@@ -167,7 +177,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
 
   @override
   Widget build(BuildContext context) {
-    if (jsonData == null) {
+    if (serverJsonData == null) {
       if (errorMessage != null) {
         return Center(child: Text(errorMessage!)); // הצגת הודעת שגיאה
       }
@@ -319,7 +329,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'מזהה כונן',
-                        initialValue: jsonData!['response']['patientDetails']
+                        initialValue: localJsonData!['medicDetails']
                                     ['idOrPassport']
                                 ?.toString() ??
                             "Wrong Fetch",
@@ -349,7 +359,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                           return FocusScope.of(context)
                               .requestFocus(focusNodes[2]);
                         },
-                        initialValue: jsonData!['response']['patientDetails']
+                        initialValue: localJsonData!['medicDetails']
                                     ['firstName']
                                 ?.toString() ??
                             "Wrong Fetch",
@@ -394,8 +404,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                           return FocusScope.of(context)
                               .requestFocus(focusNodes[3]);
                         },
-                        initialValue: jsonData!['response']['patientDetails']
-                                    ['lastName']
+                        initialValue: localJsonData!['eventDetails']['eventId']
                                 ?.toString() ??
                             "Wrong Fetch",
                         writeToJson: null,
@@ -413,8 +422,8 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                           return FocusScope.of(context)
                               .requestFocus(focusNodes[4]);
                         },
-                        initialValue: jsonData!['response']['patientDetails']
-                                    ['age']
+                        initialValue: localJsonData!['eventDetails']
+                                    ['timeEventOpened']
                                 ?.toString() ??
                             "Wrong Fetch",
                         writeToJson: null,
@@ -435,8 +444,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     onSubmitted: (_) {
                       return FocusScope.of(context).requestFocus(focusNodes[5]);
                     },
-                    initialValue: jsonData!['response']['patientDetails']
-                                ['city']
+                    initialValue: localJsonData!['eventDetails']['eventCity']
                             ?.toString() ??
                         "Wrong Fetch",
                     writeToJson: null,
@@ -458,8 +466,8 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                           return FocusScope.of(context)
                               .requestFocus(focusNodes[6]);
                         },
-                        initialValue: jsonData!['response']['patientDetails']
-                                    ['houseNumber']
+                        initialValue: localJsonData!['eventDetails']
+                                    ['eventHouseNumber']
                                 ?.toString() ??
                             "Wrong Fetch",
                         writeToJson: null,
@@ -477,8 +485,8 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                           return FocusScope.of(context)
                               .requestFocus(focusNodes[7]);
                         },
-                        initialValue: jsonData!['response']['patientDetails']
-                                    ['street']
+                        initialValue: localJsonData!['eventDetails']
+                                    ['eventStreet']
                                 ?.toString() ??
                             "Wrong Fetch",
                         writeToJson: null,
@@ -503,8 +511,8 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                           return FocusScope.of(context)
                               .requestFocus(focusNodes[9]);
                         },
-                        initialValue: jsonData!['response']['smartData']
-                                    ['findings']['mainComplaint']
+                        initialValue: localJsonData!['eventDetails']
+                                    ['caseThatWasLaunched']
                                 ?.toString() ??
                             "Wrong Fetch",
                         writeToJson: null,
@@ -527,8 +535,8 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                           return FocusScope.of(context)
                               .requestFocus(focusNodes[10]);
                         },
-                        initialValue: jsonData!['response']['smartData']
-                                    ['findings']['statusWhenFound']
+                        initialValue: localJsonData!['eventDetails']
+                                    ['timeMedicArrived']
                                 ?.toString() ??
                             "Wrong Fetch",
                         writeToJson: null,
@@ -577,8 +585,8 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                           return FocusScope.of(context)
                               .requestFocus(focusNodes[11]);
                         },
-                        initialValue: jsonData!['response']['patientDetails']
-                                    ['idOrPassport']
+                        initialValue: serverJsonData!['response']
+                                    ['patientDetails']['idOrPassport']
                                 ?.toString() ??
                             "Wrong Fetch",
                         writeToJson: writeToJson,
@@ -600,8 +608,8 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                           return FocusScope.of(context)
                               .requestFocus(focusNodes[12]);
                         },
-                        initialValue: jsonData!['response']['patientDetails']
-                                    ['firstName']
+                        initialValue: serverJsonData!['response']
+                                    ['patientDetails']['firstName']
                                 ?.toString() ??
                             "Wrong Fetch",
                         writeToJson: writeToJson,
@@ -625,8 +633,8 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                           return FocusScope.of(context)
                               .requestFocus(focusNodes[13]);
                         },
-                        initialValue: jsonData!['response']['patientDetails']
-                                    ['lastName']
+                        initialValue: serverJsonData!['response']
+                                    ['patientDetails']['lastName']
                                 ?.toString() ??
                             "Wrong Fetch",
                         writeToJson: writeToJson,
@@ -640,8 +648,8 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         checkedNode: false,
                         focusNode: focusNodes[13],
                         textInputAction: TextInputAction.next,
-                        initialValue: jsonData!['response']['patientDetails']
-                                    ['age']
+                        initialValue: serverJsonData!['response']
+                                    ['patientDetails']['age']
                                 ?.toString() ??
                             "Wrong Fetch",
                         onSubmitted: (_) {
@@ -667,7 +675,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                       return FocusScope.of(context)
                           .requestFocus(focusNodes[15]);
                     },
-                    initialValue: jsonData!['response']['patientDetails']
+                    initialValue: serverJsonData!['response']['patientDetails']
                                 ['gender']
                             ?.toString() ??
                         "Wrong Fetch",
@@ -684,7 +692,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     checkedNode: false,
                     focusNode: focusNodes[15],
                     textInputAction: TextInputAction.next,
-                    initialValue: jsonData!['response']['patientDetails']
+                    initialValue: serverJsonData!['response']['patientDetails']
                                 ['city']
                             ?.toString() ??
                         "Wrong Fetch",
@@ -707,8 +715,8 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         checkedNode: false,
                         focusNode: focusNodes[16],
                         textInputAction: TextInputAction.next,
-                        initialValue: jsonData!['response']['patientDetails']
-                                    ['street']
+                        initialValue: serverJsonData!['response']
+                                    ['patientDetails']['street']
                                 ?.toString() ??
                             "Wrong Fetch",
                         onSubmitted: (_) {
@@ -730,8 +738,8 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                           return FocusScope.of(context)
                               .requestFocus(focusNodes[18]);
                         },
-                        initialValue: jsonData!['response']['patientDetails']
-                                    ['houseNumber']
+                        initialValue: serverJsonData!['response']
+                                    ['patientDetails']['houseNumber']
                                 ?.toString() ??
                             "Wrong Fetch",
                         writeToJson: writeToJson,
@@ -749,7 +757,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     checkedNode: false,
                     focusNode: focusNodes[18],
                     textInputAction: TextInputAction.next,
-                    initialValue: jsonData!['response']['patientDetails']
+                    initialValue: serverJsonData!['response']['patientDetails']
                                 ['phone']
                             ?.toString() ??
                         "Wrong Fetch",
@@ -770,7 +778,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     checkedNode: false,
                     focusNode: focusNodes[19],
                     textInputAction: TextInputAction.next,
-                    initialValue: jsonData!['response']['patientDetails']
+                    initialValue: serverJsonData!['response']['patientDetails']
                                 ['email']
                             ?.toString() ??
                         "Wrong Fetch",
@@ -815,7 +823,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         checkedNode: false,
                         focusNode: focusNodes[20],
                         textInputAction: TextInputAction.next,
-                        initialValue: jsonData!['response']['smartData']
+                        initialValue: serverJsonData!['response']['smartData']
                                     ['findings']['statusWhenFound']
                                 ?.toString() ??
                             "Wrong Fetch",
@@ -839,7 +847,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         checkedNode: false,
                         focusNode: focusNodes[21],
                         textInputAction: TextInputAction.next,
-                        initialValue: jsonData!['response']['smartData']
+                        initialValue: serverJsonData!['response']['smartData']
                                     ['findings']['patientStatus']
                                 ?.toString() ??
                             "Wrong Fetch",
@@ -869,7 +877,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         checkedNode: false,
                         focusNode: focusNodes[23],
                         textInputAction: TextInputAction.next,
-                        initialValue: jsonData!['response']['smartData']
+                        initialValue: serverJsonData!['response']['smartData']
                                     ['findings']['mainComplaint']
                                 ?.toString() ??
                             "Wrong Fetch",
@@ -893,7 +901,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         checkedNode: false,
                         focusNode: focusNodes[24],
                         textInputAction: TextInputAction.next,
-                        initialValue: jsonData!['response']['smartData']
+                        initialValue: serverJsonData!['response']['smartData']
                                     ['findings']['diagnosis']
                                 ?.toString() ??
                             "Wrong Fetch",
@@ -923,7 +931,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         checkedNode: false,
                         focusNode: focusNodes[25],
                         textInputAction: TextInputAction.next,
-                        initialValue: jsonData!['response']['smartData']
+                        initialValue: serverJsonData!['response']['smartData']
                                     ['findings']['statusWhenFound']
                                 ?.toString() ??
                             "Wrong Fetch",
@@ -951,8 +959,8 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     checkedNode: false,
                     focusNode: focusNodes[26],
                     textInputAction: TextInputAction.next,
-                    initialValue: jsonData!['response']['smartData']['findings']
-                                ['medicalSensitivities']
+                    initialValue: serverJsonData!['response']['smartData']
+                                ['findings']['medicalSensitivities']
                             ?.toString() ??
                         "Wrong Fetch",
                     onSubmitted: (_) {
@@ -977,8 +985,8 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     checkedNode: false,
                     focusNode: focusNodes[27],
                     textInputAction: TextInputAction.next,
-                    initialValue: jsonData!['response']['smartData']['findings']
-                                ['anamnesis']
+                    initialValue: serverJsonData!['response']['smartData']
+                                ['findings']['anamnesis']
                             ?.toString() ??
                         "Wrong Fetch",
                     onSubmitted: (_) {
@@ -1027,7 +1035,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         checkedNode: false,
                         focusNode: focusNodes[28],
                         textInputAction: TextInputAction.next,
-                        initialValue: jsonData!['response']['smartData']
+                        initialValue: serverJsonData!['response']['smartData']
                                     ['medicalMetrics']['consciousnessLevel']
                                 ?.toString() ??
                             "Wrong Fetch",
@@ -1051,7 +1059,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         checkedNode: false,
                         focusNode: focusNodes[29],
                         textInputAction: TextInputAction.next,
-                        initialValue: jsonData!['response']['smartData']
+                        initialValue: serverJsonData!['response']['smartData']
                                     ['medicalMetrics']['Lung Auscultation']
                                 ?.toString() ??
                             "Wrong Fetch",
@@ -1081,7 +1089,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         checkedNode: false,
                         focusNode: focusNodes[30],
                         textInputAction: TextInputAction.next,
-                        initialValue: jsonData!['response']['smartData']
+                        initialValue: serverJsonData!['response']['smartData']
                                     ['medicalMetrics']['breathingCondition']
                                 ?.toString() ??
                             "Wrong Fetch",
@@ -1105,7 +1113,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         checkedNode: false,
                         focusNode: focusNodes[31],
                         textInputAction: TextInputAction.next,
-                        initialValue: jsonData!['response']['smartData']
+                        initialValue: serverJsonData!['response']['smartData']
                                     ['medicalMetrics']['breathingRate']
                                 ?.toString() ??
                             "Wrong Fetch",
@@ -1135,7 +1143,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         checkedNode: false,
                         focusNode: focusNodes[32],
                         textInputAction: TextInputAction.next,
-                        initialValue: jsonData!['response']['smartData']
+                        initialValue: serverJsonData!['response']['smartData']
                                     ['medicalMetrics']['bloodPressure']['value']
                                 ?.toString() ??
                             "Wrong Fetch",
@@ -1159,7 +1167,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         checkedNode: false,
                         focusNode: focusNodes[33],
                         textInputAction: TextInputAction.next,
-                        initialValue: jsonData!['response']['smartData']
+                        initialValue: serverJsonData!['response']['smartData']
                                     ['medicalMetrics']['CO2Level']
                                 ?.toString() ??
                             "Wrong Fetch",
@@ -1189,7 +1197,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         checkedNode: false,
                         focusNode: focusNodes[34],
                         textInputAction: TextInputAction.next,
-                        initialValue: jsonData!['response']['smartData']
+                        initialValue: serverJsonData!['response']['smartData']
                                     ['medicalMetrics']['Lung Auscultation']
                                 ?.toString() ??
                             "Wrong Fetch",
@@ -1213,7 +1221,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         checkedNode: false,
                         focusNode: focusNodes[35],
                         textInputAction: TextInputAction.next,
-                        initialValue: jsonData!['response']['smartData']
+                        initialValue: serverJsonData!['response']['smartData']
                                     ['medicalMetrics']['skinCondition']
                                 ?.toString() ??
                             "Wrong Fetch",

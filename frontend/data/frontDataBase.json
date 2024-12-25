@@ -1,0 +1,16 @@
+{
+    "medicDetails": {
+    "firstName": "אוסאמה",
+      "idOrPassport": "987654321"
+    },
+    "eventDetails": {
+        "timeEventOpened": "21/01/22 13:04:54",
+        "eventId": "QQ334",
+        "eventCity": "ירושלים",
+        "eventStreet": "רחוב יפו",
+        "eventHouseNumber": 15,
+        "caseThatWasLaunched": "חשד לאירוע לבבי",
+        "timeMedicArrived": "21/01/22 13:04:53"
+        }
+  }
+  
