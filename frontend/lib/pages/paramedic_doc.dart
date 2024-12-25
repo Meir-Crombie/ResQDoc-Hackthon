@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:http/http.dart' as http;
 import 'tools.dart';
-import 'package:path/path.dart';
 
 Future<Map<String, dynamic>> readBackendJson() async {
   final String response = await rootBundle.loadString('data/dummydata.json');
@@ -83,39 +82,12 @@ class _ParamedicDocState extends State<ParamedicDoc> {
   //This method requests from the server the dummy data which is saved in the backend, if failed it will return a local dummy JSON
   Future<dynamic> readJsonFromServer(String fileName) async {
     try {
-      print("FILE NAME IS $fileName");
-      if (fileName == "") {
-        final response =
-            await http.get(Uri.parse('http://20.84.43.139:5000/showCase'));
-        if (response.statusCode == 200) {
-          print("---------- HERE IS THE RESPONSE ----------");
-          return jsonDecode(response.body);
-        }
+      final response =
+          await http.get(Uri.parse('http://20.84.43.139:5000/analyzeDemo'));
+      if (response.statusCode == 200) {
+        print("---------- HERE IS THE RESPONSE ----------");
+        return jsonDecode(response.body);
       } else {
-        print("HELOO AGAIN NIGAA");
-        // Create multipart request
-        var request = http.MultipartRequest(
-          'POST',
-          Uri.parse('http://20.84.43.139:5000/analyze'),
-        );
-
-        // Add audio file to request
-        var audioFile = await http.MultipartFile.fromPath(
-          'audio', // field name expected by server
-          fileName,
-          filename: basename(fileName),
-        );
-
-        request.files.add(audioFile);
-
-        // Send request
-        var streamedResponse = await request.send();
-        var response = await http.Response.fromStream(streamedResponse);
-
-        if (response.statusCode == 200) {
-          print("HELOO AGAIN NIGAA");
-          return jsonDecode(response.body);
-        }
         throw Exception('Failed to load JSON data');
       }
     } catch (e) {
@@ -177,18 +149,13 @@ class _ParamedicDocState extends State<ParamedicDoc> {
     return MaterialApp(
         home: Scaffold(
       appBar: AppBar(
-        title: Text(
-          'תיעוד רפואי מלא',
-          style: TextStyle(
-            fontFamily: 'AlmoniTzarAAA', // Updated font family
-          ),
-        ),
+        title: Text('תיעוד רפואי מלא'),
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 255, 123, 0),
         actions: [
           IconButton(
             icon: Icon(Icons.save), // Icon of your choice
-            tooltip: 'שמור טופס',
+            tooltip: 'save to json',
             color: (StaticTools.allowSubmit.every((value) => value))
                 ? const Color.fromARGB(255, 0, 255, 8)
                 : const Color.fromARGB(255, 255, 0, 0),
@@ -199,7 +166,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     StaticTools.allowSubmit.map((value) => false).toList();
                 StaticTools.nextAlowNum = 0;
                 StaticTools.nextNum++;
-                Navigator.pushNamed(context, '/home');
+                Navigator.pushNamed(context, '/past');
               } else {
                 // Not all elements are true
                 print('Some fields are not ready yet.');
@@ -225,15 +192,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                                 _scrollToSection(
                                     _medicalMetricsKey); // פעולה שתבוצע בלחיצה על הכפתור
                               },
-                              child: Text(
-                                'מדדים רפואיים',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily:
-                                      'AlmoniTzarAAA', // Updated font family
-                                ),
-                              ),
+                              child: Text('מדדים רפואיים'),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor:
                                     const Color.fromARGB(255, 234, 216, 236),
@@ -247,15 +206,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                                 _scrollToSection(
                                     _findingsKey); // פעולה שתבוצע בלחיצה על הכפתור
                               },
-                              child: Text(
-                                'ממצאים רפואיים',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily:
-                                      'AlmoniTzarAAA', // Updated font family
-                                ),
-                              ),
+                              child: Text('ממצאים רפואיים'),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor:
                                     const Color.fromARGB(255, 234, 216, 236),
@@ -269,15 +220,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                                 _scrollToSection(
                                     _patientDetailsKey); // פעולה שתבוצע בלחיצה על הכפתור
                               },
-                              child: Text(
-                                'פרטי מטופל',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily:
-                                      'AlmoniTzarAAA', // Updated font family
-                                ),
-                              ),
+                              child: Text('פרטי מטופל'),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor:
                                     const Color.fromARGB(255, 234, 216, 236),
@@ -291,15 +234,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                                 _scrollToSection(
                                     _eventDetailsKey); // פעולה שתבוצע בלחיצה על הכפתור
                               },
-                              child: Text(
-                                'פרטי אירוע',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily:
-                                      'AlmoniTzarAAA', // Updated font family
-                                ),
-                              ),
+                              child: Text('פרטי אירוע'),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor:
                                     const Color.fromARGB(255, 234, 216, 236),
@@ -313,15 +248,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                                 _scrollToSection(
                                     _medicDetailsKey); // פעולה שתבוצע בלחיצה על הכפתור
                               },
-                              child: Text(
-                                'פרטי כונן',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily:
-                                      'AlmoniTzarAAA', // Updated font family
-                                ),
-                              ),
+                              child: Text('פרטי כונן'),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor:
                                     const Color.fromARGB(255, 234, 216, 236),
@@ -356,7 +283,6 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      fontFamily: 'AlmoniTzarAAA', // Updated font family
                     ),
                   ),
                 ),
@@ -423,7 +349,6 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      fontFamily: 'AlmoniTzarAAA', // Updated font family
                     ),
                   ),
                 ),
@@ -603,7 +528,6 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      fontFamily: 'AlmoniTzarAAA', // Updated font family
                     ),
                   ),
                 ),
@@ -836,7 +760,6 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      fontFamily: 'AlmoniTzarAAA', // Updated font family
                     ),
                   ),
                 ),
@@ -1042,7 +965,6 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      fontFamily: 'AlmoniTzarAAA', // Updated font family
                     ),
                   ),
                 ),

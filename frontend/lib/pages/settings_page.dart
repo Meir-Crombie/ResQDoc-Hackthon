@@ -31,7 +31,16 @@ class _SettingsState extends State<Settings> {
         backgroundColor: Color.fromARGB(255, 255, 118, 44), // צבע הרקע
       ),
       body: Container(
-        color: Colors.white, // צבע הרקע לבן
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              const Color.fromARGB(255, 255, 255, 255), // Gradient start color
+              const Color.fromARGB(255, 255, 191, 132), // Gradient end color
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
         padding: const EdgeInsets.all(16.0), // ריווח מסביב לתוכן
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start, // יישור התוכן לשמאל
@@ -47,12 +56,16 @@ class _SettingsState extends State<Settings> {
                 ),
               ),
             ),
+
             const SizedBox(height: 20), // מרווח אנכי
             Container(
               decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 255, 118, 44), // רקע אפור בהיר
+                color:
+                    const Color.fromARGB(255, 255, 255, 255), // רקע אפור בהיר
                 borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: Colors.grey), // גבול אפור
+                border: Border.all(
+                    color:
+                        const Color.fromARGB(255, 255, 255, 255)), // גבול אפור
               ),
               padding: const EdgeInsets.all(16.0),
               child: Column(
@@ -67,14 +80,16 @@ class _SettingsState extends State<Settings> {
                             _trackLocation = value; // עדכון מצב המעקב
                           });
                         },
-                        activeColor: Colors.black, // צבע רקע במצב פעיל
+                        activeColor: const Color.fromARGB(
+                            255, 255, 89, 0), // צבע רקע במצב פעיל
                         inactiveTrackColor: Colors.white, // צבע רקע במצב כבוי
                         thumbColor: WidgetStateProperty.resolveWith<Color>(
                             (Set<WidgetState> states) {
                           if (states.contains(WidgetState.selected)) {
                             return Colors.white; // צבע העיגול הפנימי במצב פעיל
                           }
-                          return Colors.black; // צבע העיגול הפנימי במצב כבוי
+                          return const Color.fromARGB(255, 255, 190,
+                              155); // צבע העיגול הפנימי במצב כבוי
                         }),
                       ),
                       Text(
@@ -108,14 +123,16 @@ class _SettingsState extends State<Settings> {
                             _locationAlerts = value; // עדכון מצב ההתראות
                           });
                         },
-                        activeColor: Colors.black, // צבע רקע במצב פעיל
+                        activeColor: const Color.fromARGB(
+                            255, 255, 89, 0), // צבע רקע במצב פעיל
                         inactiveTrackColor: Colors.white, // צבע רקע במצב כבוי
                         thumbColor: WidgetStateProperty.resolveWith<Color>(
                             (Set<WidgetState> states) {
                           if (states.contains(WidgetState.selected)) {
                             return Colors.white; // צבע העיגול הפנימי במצב פעיל
                           }
-                          return Colors.black; // צבע העיגול הפנימי במצב כבוי
+                          return const Color.fromARGB(255, 255, 190,
+                              155); // צבע העיגול הפנימי במצב כבוי
                         }),
                       ),
                       Text(
@@ -149,14 +166,16 @@ class _SettingsState extends State<Settings> {
                             _locationReminder = value; // עדכון מצב התזכורת
                           });
                         },
-                        activeColor: Colors.black, // צבע רקע במצב פעיל
+                        activeColor: const Color.fromARGB(
+                            255, 255, 89, 0), // צבע רקע במצב פעיל
                         inactiveTrackColor: Colors.white, // צבע רקע במצב כבוי
                         thumbColor: WidgetStateProperty.resolveWith<Color>(
                             (Set<WidgetState> states) {
                           if (states.contains(WidgetState.selected)) {
                             return Colors.white; // צבע העיגול הפנימי במצב פעיל
                           }
-                          return Colors.black; // צבע העיגול הפנימי במצב כבוי
+                          return const Color.fromARGB(255, 255, 190,
+                              155); // צבע העיגול הפנימי במצב כבוי
                         }),
                       ),
                       Text(
@@ -197,10 +216,10 @@ class _SettingsState extends State<Settings> {
             const SizedBox(height: 20), // מרווח אנכי
             Container(
               decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 255, 118, 44), // רקע בצבע חדש
+                color: const Color.fromARGB(255, 255, 255, 255), // רקע בצבע חדש
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(
-                  color: const Color.fromARGB(255, 0, 0, 0), // גבול אפור
+                  color: const Color.fromARGB(255, 255, 255, 255), // גבול אפור
                 ),
               ),
               padding: const EdgeInsets.all(16.0),
@@ -216,14 +235,16 @@ class _SettingsState extends State<Settings> {
                             _learningMode = value; // עדכון מצב למידה
                           });
                         },
-                        activeColor: Colors.black, // צבע רקע במצב פעיל
+                        activeColor: const Color.fromARGB(
+                            255, 255, 89, 0), // צבע רקע במצב פעיל
                         inactiveTrackColor: Colors.white, // צבע רקע במצב כבוי
                         thumbColor: WidgetStateProperty.resolveWith<Color>(
                             (Set<WidgetState> states) {
                           if (states.contains(WidgetState.selected)) {
                             return Colors.white; // צבע העיגול הפנימי במצב פעיל
                           }
-                          return Colors.black; // צבע העיגול הפנימי במצב כבוי
+                          return const Color.fromARGB(255, 255, 190,
+                              155); // צבע העיגול הפנימי במצב כבוי
                         }),
                       ),
                       Text(

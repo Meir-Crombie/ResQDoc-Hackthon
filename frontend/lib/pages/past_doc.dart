@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'dart:convert';
-
 import 'package:path_provider/path_provider.dart';
 
 class PastDoc extends StatefulWidget {
@@ -25,24 +24,45 @@ class _PastDocState extends State<PastDoc> {
 
   @override
   Widget build(BuildContext context) {
-    // מציאת הערך "David Cohen" מתוך ה-JSON
     if (widget.fileNum == null) {
       AppBar(
         title: Text('שגיאת ערך ריק'),
         centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 255, 187, 0),
+        backgroundColor: const Color.fromARGB(255, 255, 123, 0),
       );
       throw "Error cannot load null";
     }
     return Scaffold(
       appBar: AppBar(
-        title: Text('תיעוד רפואי מלא'),
+        title: Text(
+          'היסטורית משימות',
+          style: TextStyle(
+            fontFamily: 'AlmoniTzarAAA', // Updated font family
+          ),
+        ),
         centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 255, 187, 0),
+        backgroundColor: const Color.fromARGB(255, 255, 123, 0),
+        actions: [],
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(60.0),
+          child: Container(
+            color: const Color.fromARGB(255, 255, 255, 255),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              reverse: true,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 5.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                ),
+              ),
+            ),
+          ),
+        ),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          // עטוף את התוכן ב-SingleChildScrollView
+          controller: ScrollController(),
           child: Column(
             children: [
               Padding(
@@ -52,16 +72,16 @@ class _PastDocState extends State<PastDoc> {
                   height: 50, // Adjust the height as needed
                   alignment: Alignment.center, // Center the text
                   decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 150, 179, 190),
-                    border: Border.all(
-                        color: Colors.black,
-                        width: 1), // Adding border for visibility
+                    borderRadius: BorderRadius.circular(30),
+                    color: const Color.fromARGB(255, 255, 118, 44),
+                    // Adding border for visibility
                   ),
                   child: Text(
-                    'פרטי הכונן',
+                    'פרטי כונן',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
+                      fontFamily: 'AlmoniTzarAAA', // Updated font family
                     ),
                   ),
                 ),
@@ -95,16 +115,15 @@ class _PastDocState extends State<PastDoc> {
                   height: 50, // Adjust the height as needed
                   alignment: Alignment.center, // Center the text
                   decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 150, 179, 190),
-                    border: Border.all(
-                        color: Colors.black,
-                        width: 1), // Adding border for visibility
+                    borderRadius: BorderRadius.circular(30),
+                    color: const Color.fromARGB(255, 255, 118, 44),
                   ),
                   child: Text(
-                    'פרטי האירוע',
+                    'פרטי אירוע',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
+                      fontFamily: 'AlmoniTzarAAA', // Updated font family
                     ),
                   ),
                 ),
@@ -206,16 +225,15 @@ class _PastDocState extends State<PastDoc> {
                   height: 50, // Adjust the height as needed
                   alignment: Alignment.center, // Center the text
                   decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 150, 179, 190),
-                    border: Border.all(
-                        color: Colors.black,
-                        width: 1), // Adding border for visibility
+                    borderRadius: BorderRadius.circular(30),
+                    color: const Color.fromARGB(255, 255, 118, 44),
                   ),
                   child: Text(
-                    'פרטי המטופל',
+                    'פרטי מטופל',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
+                      fontFamily: 'AlmoniTzarAAA', // Updated font family
                     ),
                   ),
                 ),
@@ -337,16 +355,15 @@ class _PastDocState extends State<PastDoc> {
                   height: 50, // Adjust the height as needed
                   alignment: Alignment.center, // Center the text
                   decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 150, 179, 190),
-                    border: Border.all(
-                        color: Colors.black,
-                        width: 1), // Adding border for visibility
+                    borderRadius: BorderRadius.circular(30),
+                    color: const Color.fromARGB(255, 255, 118, 44),
                   ),
                   child: Text(
                     'ממצאים רפואיים',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
+                      fontFamily: 'AlmoniTzarAAA', // Updated font family
                     ),
                   ),
                 ),
@@ -469,16 +486,15 @@ class _PastDocState extends State<PastDoc> {
                   height: 50, // Adjust the height as needed
                   alignment: Alignment.center, // Center the text
                   decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 150, 179, 190),
-                    border: Border.all(
-                        color: Colors.black,
-                        width: 1), // Adding border for visibility
+                    borderRadius: BorderRadius.circular(30),
+                    color: const Color.fromARGB(255, 255, 118, 44),
                   ),
                   child: Text(
                     'מדדים רפואיים',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
+                      fontFamily: 'AlmoniTzarAAA', // Updated font family
                     ),
                   ),
                 ),
@@ -730,7 +746,7 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
             border: OutlineInputBorder(),
             floatingLabelAlignment: FloatingLabelAlignment.start,
             filled: true,
-            fillColor: Colors.green,
+            fillColor: const Color.fromARGB(255, 255, 233, 186),
           ),
         ),
       ),
