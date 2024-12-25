@@ -259,7 +259,7 @@ class _HomeState extends State<Home> {
               colors: [
                 const Color.fromARGB(
                     255, 255, 255, 255), // Gradient start color
-                const Color.fromARGB(255, 255, 191, 132), // Gradient end color
+                const Color.fromARGB(255, 247, 139, 76), // Gradient end color
               ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,

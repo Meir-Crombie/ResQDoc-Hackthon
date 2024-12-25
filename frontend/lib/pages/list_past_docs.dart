@@ -93,7 +93,9 @@ class _MissionsPageState extends State<MissionsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Missions'),
+        title: Text('היסטורית קריאות',
+            style: TextStyle(fontFamily: 'AlmoniTzarAAA')),
+        backgroundColor: const Color.fromARGB(255, 255, 123, 0),
       ),
       body: missionFiles.isEmpty
           ? Center(child: CircularProgressIndicator())
@@ -107,18 +109,38 @@ class _MissionsPageState extends State<MissionsPage> {
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return ListTile(
-                        title: Text('Loading mission $missionNum...'),
-                        subtitle: CircularProgressIndicator(),
+                        title: Text(
+                          'Loading mission $missionNum...',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        tileColor: Colors.blue,
                       );
                     } else if (snapshot.hasError || snapshot.data == null) {
                       return ListTile(
-                        title: Text('Mission $missionNum'),
-                        subtitle: Text('Error reading file or data not found'),
+                        title: Text(
+                          'Mission $missionNum',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        subtitle: Text(
+                          'Error reading file or data not found',
+                          style: TextStyle(color: Colors.white70),
+                        ),
+                        tileColor: Colors.redAccent,
                       );
                     } else {
                       return ListTile(
-                        title: Text('Mission $missionNum'),
-                        subtitle: Text('ID: ${snapshot.data}'),
+                        title: Text(
+                          'Mission $missionNum',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        subtitle: Text(
+                          'ID: ${snapshot.data}',
+                          style: TextStyle(color: Colors.white70),
+                        ),
+                        tileColor: const Color.fromARGB(255, 247, 139, 76),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                         onTap: () {
                           Navigator.push(
                             context,
