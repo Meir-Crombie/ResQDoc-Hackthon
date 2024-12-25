@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:frontend/pages/paramedic_doc.dart';
 import 'package:record/record.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:path_provider/path_provider.dart';
@@ -53,7 +54,6 @@ class _HomeState extends State<Home> {
         'recording_${DateTime.now().millisecondsSinceEpoch}.mp3'; // Generate unique file name
     filePath =
         '${directory.path}/$fileName'; // Combine directory path and file name
-
     await recorder.start(const RecordConfig(),
         path: filePath!); // Start recording with specified config
 
@@ -99,10 +99,17 @@ class _HomeState extends State<Home> {
     });
 
     // Navigate to the paramedic screen with the recorded file's name as an argument
-    Navigator.pushNamed(
+    if (filePath == null) {
+      print("FILE NAME IS NULL");
+      return;
+    }
+    Navigator.push(
       context,
-      '/paramedic',
-      arguments: {"recordingName": filePath},
+      MaterialPageRoute(
+        builder: (context) => ParamedicDoc(
+          fileName: filePath!,
+        ),
+      ),
     );
   }
 
@@ -295,8 +302,15 @@ class _HomeState extends State<Home> {
                   children: [
                     ElevatedButton(
                       onPressed: () {
-                        Navigator.pushNamed(context,
-                            '/paramedic'); // Navigate to paramedic screen
+                        //Debug Mode
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ParamedicDoc(
+                              fileName: "",
+                            ),
+                          ),
+                        );
                       },
                       style: ElevatedButton.styleFrom(
                         foregroundColor: const Color.fromARGB(
