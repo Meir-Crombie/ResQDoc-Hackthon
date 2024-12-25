@@ -48,6 +48,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
         throw Exception('Failed to load JSON data');
       }
     } catch (e) {
+      print('ERROR WHEN FETCHING FROM SERVER: $e');
       return await readJson();
     }
   }
