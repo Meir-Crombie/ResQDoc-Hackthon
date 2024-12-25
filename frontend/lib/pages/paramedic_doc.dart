@@ -183,7 +183,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
         actions: [
           IconButton(
             icon: Icon(Icons.save), // Icon of your choice
-            tooltip: 'save to json',
+            tooltip: 'שמור טופס',
             color: (StaticTools.allowSubmit.every((value) => value))
                 ? const Color.fromARGB(255, 0, 255, 8)
                 : const Color.fromARGB(255, 255, 0, 0),
@@ -194,7 +194,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     StaticTools.allowSubmit.map((value) => false).toList();
                 StaticTools.nextAlowNum = 0;
                 StaticTools.nextNum++;
-                Navigator.pushNamed(context, '/past');
+                Navigator.pushNamed(context, '/home');
               } else {
                 // Not all elements are true
                 print('Some fields are not ready yet.');
