@@ -89,9 +89,18 @@ Use empty string for missing information.
 All values should be in Hebrew.
 If you dont know the values, please write that u dont know to analye is rather to say random values
 
+I have a specifcal request about the "anamnesis" field, dont skip it! ITS IMPORTANT:
+Please create a detailed medical anamnesis including all of the following information in a logical sequence:
+Begin with the patient's identifying details (full name, age, and ID number if known).
+Continue with a chronological description of the condition THE FOLLOWINGS: when symptoms began, what was the initial trigger, how symptoms developed over time, and what event led to the current medical intervention.
+Detail the main complaint that led to seeking medical treatment.
+INCLUDE RELEVENT MEDICAL HISTORY including allergies, chronic diseases, regular medications, and significant previous medical events.
+Describe the current condition including level of consciousness, vital signs, skin color, breathing, additional complaints, and patient behavior.
+Finally, detail the treatment measures taken and the patient's response to them.
+Please organize the information clearly and systematically while maintaining a logical flow.
+it shouldnt be a short string, it should be a long and meaningfull way! REMEMBER I NEED TO UNDERSTANDS WHAT HAPPNED
 
 Here is an example of an trascript and a good response which i request from you to provide:
-
 The trascript:
 יוסי מאיחוד הצלה. שלום, מה שלומך? איך אני יכול לעזור לך? אני מרגיש לחץ חזק בחזה, זה התחיל לפני בערך חצי שעה. שם מלא בבקשה. חיים לוי. תעודת זהות? 123456789. בן כמה אתה? 58. כתובת? רחוב הרצל 25, ירושלים. האם יש לך רקע רפואי כלשהו או מחלות רקע? כן, יש לי סוכרת ולחץ דם גבוה. האם אתה נוטל תרופות? כן, גלוקומין ולוסרטן. האם אתה מעשן? כן, בערך קופסה ביום. האם יש לך אלרגיות לתרופות או חומרים אחרים? לא. אתה זוכר מתי הייתה הפעם האחרונה שאכלת או שתית? אכלתי ארוחת בוקר בערך בשמונה בבוקר, שתיתי קפה לפני שעה. הלחץ בחזה מלווה בהקרנה ליד שמאל או ללסת? כן, זה מקרין ליד שמאל וללסת.
 האם אתה מרגיש סחרחורת או קוצר נשימה? כן, יש לי תחושת סחרחורת וקצת קשה לי לנשום. האם יש לך היסטוריה של בעיות בלב או התקף לב? לא, אף פעם לא היה לי התקף לב. האם זה התחיל תוך כדי מאמץ או במנוחה? זה התחיל בזמן שהייתי במנוחה, ישבתי בבית על הספה. האם אתה מרגיש כאב נוסף או תופעות נלוות אחרות? כן, אני מרגיש חולשה חזקה וזיעה קרה.
@@ -117,7 +126,7 @@ The response in JSON which im expecting you to deliver:
       "diagnosis": "חשד לאירוע לבבי",
       "patientStatus": "יציב אך סובל",
       "mainComplaint": "לחץ חזק בחזה עם הקרנה ליד שמאל וללסת",
-      "anamnesis": "סובל מסוכרת ולחץ דם גבוה, מעשן קופסה ביום, נוטל גלוקומין ולוסרטן",
+      "anamnesis": "חיים לוי, בן 58, פנה עקב תחושת לחץ חזק בחזה שהחלה במנוחה, עם הקרנה ליד שמאל וללסת, מלווה בסחרחורת, קוצר נשימה, חולשה וזיעה קרה. רקע רפואי כולל סוכרת ולחץ דם גבוה, מעשן כקופסה ביום, לוקח גלוקומין ולוסרטן. בדיקות: לחץ דם 145/95, דופק 110, סוכר 210, סטורציה 92%.",
       "medicalSensitivities": "אין רגישויות ידועות",
       "statusWhenFound": "תעוקת חזה",
       "CaseFound": "חשד לאירוע לבבי"
