@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/pages/settings_page.dart';
 import 'pages/home.dart';
-import 'pages/loading_screen.dart';
 import 'pages/paramedic_doc.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
@@ -15,10 +14,11 @@ Future<Map<String, dynamic>> readJson() async {
 void main() => runApp(MaterialApp(
       initialRoute: '/home',
       routes: {
-        '/': (context) => Loading(),
         '/home': (context) => Home(),
-        '/paramedic': (context) => ParamedicDoc(),
+        '/paramedic': (context) => ParamedicDoc(
+              fileName: "",
+            ),
         '/settings': (context) => Settings(),
-       '/about': (context) => AboutPage(),
+        '/about': (context) => AboutPage(),
       },
     )); // Material app
