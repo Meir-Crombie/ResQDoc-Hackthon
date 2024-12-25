@@ -23,7 +23,6 @@ void main() => runApp(MaterialApp(
             ),
         '/settings': (context) => Settings(),
         '/about': (context) => AboutPage(),
-        '/past': (context) => MissionsPage(),
         '/studymode': (context) => StudyModePage(),
         '/history': (context) => MissionsPage(),
       },
