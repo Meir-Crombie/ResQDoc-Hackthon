@@ -62,6 +62,18 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('כונן'),
+        titleTextStyle: TextStyle(
+          fontSize: 30,
+          fontWeight: FontWeight.bold,
+          fontFamily: 'David',
+          color: const Color.fromARGB(255, 0, 0, 0),
+        ),
+        centerTitle: true,
+        backgroundColor: const Color.fromARGB(255, 255, 123, 0),
+        actions: [],
+      ),
       backgroundColor: const Color.fromARGB(255, 26, 199, 49),
       body: Container(
         decoration: BoxDecoration(
