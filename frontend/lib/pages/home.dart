@@ -208,7 +208,7 @@ class _HomeState extends State<Home> {
               ListTile(
                 leading: const Icon(Icons.history), // Info icon
                 title: const Text(
-                  'הסטוריה',
+                  'היסטוריה',
                   style: TextStyle(
                     fontFamily: 'AlmoniTzarAAA', // Updated font family
                   ),
