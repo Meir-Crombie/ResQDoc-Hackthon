@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
@@ -94,68 +93,6 @@ class _ParamedicDocState extends State<ParamedicDoc> {
     }
   }
 
-  Future<void> writeToJson(String text, List<String> path) async {
-    try {
-      print("data: $text ${path.join(' -> ')}");
-      final directoryPath = 'storage/emulated/0/Documents';
-      final filePath = '$directoryPath/file.json';
-      final directory = Directory(directoryPath);
-
-      // Ensure the directory exists
-      if (!await directory.exists()) {
-        await directory.create(recursive: true);
-      }
-
-      final file = File(filePath);
-
-      Map<String, dynamic> jsonData;
-
-      // Check if the file already exists
-      if (await file.exists()) {
-        // Read the current JSON data from the file
-        String content = await file.readAsString();
-        if (content.isNotEmpty) {
-          jsonData = jsonDecode(content);
-        } else {
-          jsonData = {
-            "patientDetails": {},
-            "smartData": {
-              "findings": {},
-              "medicalMetrics": {"bloodPressure": {}}
-            }
-          };
-        }
-      } else {
-        // If the file does not exist, create the full structure
-        jsonData = {
-          "patientDetails": {},
-          "smartData": {
-            "findings": {},
-            "medicalMetrics": {"bloodPressure": {}}
-          }
-        };
-      }
-
-      // Traverse the path and update the value
-      Map<String, dynamic> currentMap = jsonData;
-      for (int i = 0; i < path.length - 1; i++) {
-        if (!currentMap.containsKey(path[i])) {
-          currentMap[path[i]] = {};
-        }
-        currentMap = currentMap[path[i]];
-      }
-      currentMap[path.last] = text;
-
-      // Write back the updated JSON data
-      await file.writeAsString('${jsonEncode(jsonData)}\n',
-          mode: FileMode.write);
-
-      print('Data written to file successfully');
-    } catch (e) {
-      print('Error writing to file: $e');
-    }
-  }
-
   @override
   void dispose() {
     // Dispose of all FocusNodes
@@ -202,8 +139,8 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                 // All elements in allowSubmit are true
                 StaticTools.allowSubmit =
                     StaticTools.allowSubmit.map((value) => !value).toList();
-
-                Navigator.pushNamed(context, '/home');
+                StaticTools.nextNum++;
+                Navigator.pushNamed(context, '/past');
               } else {
                 // Not all elements are true
                 print('Some fields are not ready yet.');
@@ -413,7 +350,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                                 ?.toString() ??
                             "Wrong Fetch",
                         writeToJson: null,
-                        jsonPath: ['response', 'patientDetails', 'lastName'],
+                        jsonPath: ['response', 'eventDetails', 'id'],
                         isEditable: false,
                       ),
                     ),
@@ -433,7 +370,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                                 ?.toString() ??
                             "Wrong Fetch",
                         writeToJson: null,
-                        jsonPath: ['response', 'patientDetails', 'age'],
+                        jsonPath: ['response', 'eventDetails', 'timeOpened'],
                         isEditable: false,
                       ),
                     ),
@@ -455,7 +392,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                             ?.toString() ??
                         "Wrong Fetch",
                     writeToJson: null,
-                    jsonPath: ['response', 'patientDetails', 'city'],
+                    jsonPath: ['response', 'eventDetails', 'city'],
                     isEditable: false,
                   ),
                 ),
@@ -479,7 +416,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                                 ?.toString() ??
                             "Wrong Fetch",
                         writeToJson: null,
-                        jsonPath: ['response', 'patientDetails', 'houseNumber'],
+                        jsonPath: ['response', 'eventDetails', 'houseNumber'],
                         isEditable: false,
                       ),
                     ),
@@ -499,7 +436,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                                 ?.toString() ??
                             "Wrong Fetch",
                         writeToJson: null,
-                        jsonPath: ['response', 'patientDetails', 'street'],
+                        jsonPath: ['response', 'eventDetails', 'street'],
                         isEditable: false,
                       ),
                     ),
@@ -528,9 +465,8 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                         writeToJson: null,
                         jsonPath: [
                           'response',
-                          'smartData',
-                          'findings',
-                          'mainComplaint'
+                          'eventDetails',
+                          'missionevent',
                         ],
                         isEditable: false,
                       ),
@@ -551,12 +487,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                                 ?.toString() ??
                             "Wrong Fetch",
                         writeToJson: null,
-                        jsonPath: [
-                          'response',
-                          'smartData',
-                          'findings',
-                          'statusWhenFound'
-                        ],
+                        jsonPath: ['response', 'eventDetails', 'timeArrived'],
                         isEditable: false,
                       ),
                     ),
@@ -601,7 +532,6 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                                     ['patientDetails']['idOrPassport']
                                 ?.toString() ??
                             "Wrong Fetch",
-                        writeToJson: writeToJson,
                         jsonPath: [
                           'response',
                           'patientDetails',
@@ -624,7 +554,6 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                                     ['patientDetails']['firstName']
                                 ?.toString() ??
                             "Wrong Fetch",
-                        writeToJson: writeToJson,
                         jsonPath: ['response', 'patientDetails', 'firstName'],
                       ),
                     ),
@@ -649,7 +578,6 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                                     ['patientDetails']['lastName']
                                 ?.toString() ??
                             "Wrong Fetch",
-                        writeToJson: writeToJson,
                         jsonPath: ['response', 'patientDetails', 'lastName'],
                       ),
                     ),
@@ -668,7 +596,6 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                           return FocusScope.of(context)
                               .requestFocus(focusNodes[14]);
                         },
-                        writeToJson: writeToJson,
                         jsonPath: ['response', 'patientDetails', 'age'],
                       ),
                     ),
@@ -691,7 +618,6 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                                 ['gender']
                             ?.toString() ??
                         "Wrong Fetch",
-                    writeToJson: writeToJson,
                     jsonPath: ['response', 'patientDetails', 'gender'],
                   ),
                 ),
@@ -712,7 +638,6 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                       return FocusScope.of(context)
                           .requestFocus(focusNodes[16]);
                     },
-                    writeToJson: writeToJson,
                     jsonPath: ['response', 'patientDetails', 'city'],
                   ),
                 ),
@@ -735,7 +660,6 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                           return FocusScope.of(context)
                               .requestFocus(focusNodes[17]);
                         },
-                        writeToJson: writeToJson,
                         jsonPath: ['response', 'patientDetails', 'street'],
                       ),
                     ),
@@ -754,7 +678,6 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                                     ['patientDetails']['houseNumber']
                                 ?.toString() ??
                             "Wrong Fetch",
-                        writeToJson: writeToJson,
                         jsonPath: ['response', 'patientDetails', 'houseNumber'],
                       ),
                     ),
@@ -777,7 +700,6 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                       return FocusScope.of(context)
                           .requestFocus(focusNodes[19]);
                     },
-                    writeToJson: writeToJson,
                     jsonPath: ['response', 'patientDetails', 'phone'],
                   ),
                 ),
@@ -798,7 +720,6 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                       return FocusScope.of(context)
                           .requestFocus(focusNodes[20]);
                     },
-                    writeToJson: writeToJson,
                     jsonPath: ['response', 'patientDetails', 'email'],
                   ),
                 ),
@@ -843,12 +764,11 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                           return FocusScope.of(context)
                               .requestFocus(focusNodes[21]);
                         },
-                        writeToJson: writeToJson,
                         jsonPath: [
                           'response',
                           'smartData',
                           'findings',
-                          'statusWhenFound'
+                          'caseFound'
                         ],
                       ),
                     ),
@@ -867,7 +787,6 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                           return FocusScope.of(context)
                               .requestFocus(focusNodes[22]);
                         },
-                        writeToJson: writeToJson,
                         jsonPath: [
                           'response',
                           'smartData',
@@ -897,7 +816,6 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                           return FocusScope.of(context)
                               .requestFocus(focusNodes[24]);
                         },
-                        writeToJson: writeToJson,
                         jsonPath: [
                           'response',
                           'smartData',
@@ -921,7 +839,6 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                           return FocusScope.of(context)
                               .requestFocus(focusNodes[25]);
                         },
-                        writeToJson: writeToJson,
                         jsonPath: [
                           'response',
                           'smartData',
@@ -951,7 +868,6 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                           return FocusScope.of(context)
                               .requestFocus(focusNodes[26]);
                         },
-                        writeToJson: writeToJson,
                         jsonPath: [
                           'response',
                           'smartData',
@@ -979,7 +895,6 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                       return FocusScope.of(context)
                           .requestFocus(focusNodes[27]);
                     },
-                    writeToJson: writeToJson,
                     jsonPath: [
                       'response',
                       'smartData',
@@ -1005,7 +920,6 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                       return FocusScope.of(context)
                           .requestFocus(focusNodes[28]);
                     },
-                    writeToJson: writeToJson,
                     jsonPath: [
                       'response',
                       'smartData',
@@ -1055,7 +969,6 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                           return FocusScope.of(context)
                               .requestFocus(focusNodes[29]);
                         },
-                        writeToJson: writeToJson,
                         jsonPath: [
                           'response',
                           'smartData',
@@ -1079,7 +992,6 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                           return FocusScope.of(context)
                               .requestFocus(focusNodes[30]);
                         },
-                        writeToJson: writeToJson,
                         jsonPath: [
                           'response',
                           'smartData',
@@ -1109,7 +1021,6 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                           return FocusScope.of(context)
                               .requestFocus(focusNodes[31]);
                         },
-                        writeToJson: writeToJson,
                         jsonPath: [
                           'response',
                           'smartData',
@@ -1133,7 +1044,6 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                           return FocusScope.of(context)
                               .requestFocus(focusNodes[32]);
                         },
-                        writeToJson: writeToJson,
                         jsonPath: [
                           'response',
                           'smartData',
@@ -1163,7 +1073,6 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                           return FocusScope.of(context)
                               .requestFocus(focusNodes[33]);
                         },
-                        writeToJson: writeToJson,
                         jsonPath: [
                           'response',
                           'smartData',
@@ -1187,7 +1096,6 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                           return FocusScope.of(context)
                               .requestFocus(focusNodes[34]);
                         },
-                        writeToJson: writeToJson,
                         jsonPath: [
                           'response',
                           'smartData',
@@ -1217,7 +1125,6 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                           return FocusScope.of(context)
                               .requestFocus(focusNodes[35]);
                         },
-                        writeToJson: writeToJson,
                         jsonPath: [
                           'response',
                           'smartData',
@@ -1238,7 +1145,6 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                                 ?.toString() ??
                             "Wrong Fetch",
                         onSubmitted: (_) {},
-                        writeToJson: writeToJson,
                         jsonPath: [
                           'response',
                           'smartData',

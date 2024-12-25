@@ -50,7 +50,6 @@ class _MissionsPageState extends State<MissionsPage> {
               return null;
             }
           }
-
           // Return the value at the last key in the path
           return currentMap[path.last]?.toString();
         }
