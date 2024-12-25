@@ -281,11 +281,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                               .requestFocus(focusNodes[1]);
                         },
                         writeToJson: null,
-                        jsonPath: [
-                          'response',
-                          'patientDetails',
-                          'idOrPassport'
-                        ],
+                        jsonPath: [],
                         isEditable: false,
                       ),
                     ),
@@ -305,7 +301,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                                 ?.toString() ??
                             "Wrong Fetch",
                         writeToJson: null,
-                        jsonPath: ['response', 'patientDetails', 'firstName'],
+                        jsonPath: [],
                         isEditable: false,
                       ),
                     ),
