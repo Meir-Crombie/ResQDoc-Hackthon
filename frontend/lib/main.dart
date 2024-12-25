@@ -5,6 +5,7 @@ import 'pages/paramedic_doc.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 import 'pages/about_page.dart';
+import 'pages/study_mode.dart';
 
 Future<Map<String, dynamic>> readJson() async {
   final String response = await rootBundle.loadString('data/dummydata.json');
@@ -20,5 +21,6 @@ void main() => runApp(MaterialApp(
             ),
         '/settings': (context) => Settings(),
         '/about': (context) => AboutPage(),
+        '/studymode': (context) => StudyModePage(),
       },
     )); // Material app

@@ -187,6 +187,64 @@ class _HomeState extends State<Home> {
                   ),
                 ],
               ),
+              SizedBox(height: 10), // Add some space between the buttons
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/studymode');
+                    },
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor:
+                          const Color.fromARGB(255, 0, 0, 0), // צבע הטקסט
+                      backgroundColor:
+                          const Color.fromARGB(255, 255, 89, 0), // צבע הרקע
+                      elevation: 0, // גובה הצל
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.circular(30), // פינות לא מעוגלות
+                      ),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 100, vertical: 15), // שוליים פנימיים
+                      textStyle:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    child: const Text('Study Mode'),
+                  ),
+                ],
+              ),
+              SizedBox(
+                width: 150, // רוחב התמונה
+                height: 250, // גובה התמונה
+                child: Image.asset('assets/logo_ichud_2.png'),
+              ),
+              Spacer(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    icon: Icon(
+                      Icons.settings,
+                      size: 40,
+                      color: Color.fromARGB(255, 0, 0, 0),
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/settings');
+                    },
+                  ),
+                  IconButton(
+                    icon: Icon(
+                      Icons.info,
+                      size: 40,
+                      color: Color.fromARGB(255, 0, 0, 0),
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/about');
+                    },
+                  ),
+                ],
+              ),
             ],
           ),
         ),
