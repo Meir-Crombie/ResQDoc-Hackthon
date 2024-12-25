@@ -1,6 +1,12 @@
 import { AzureOpenAI } from "openai";
 import Groq from "groq-sdk";
 
+//This function prints to the screen with the current time
+function logWithTimestamp(message) {
+  const timestamp = new Date().toISOString();
+  console.log(`[${timestamp}] ${message}`);
+}
+
 //The template of the form
 export const medicalTemplate = {
   patientDetails: {
@@ -65,6 +71,8 @@ function getWhissperClient() {
 
 //Getting the values from the Ai filed in the JSON fields
 async function getJsonFieldsFilled(txt) {
+  logWithTimestamp("Step Five: Connecting to Groq -> llama3 Model ...");
+  logWithTimestamp("Step Six: Processing form filling ...");
   const completion = await groq.chat.completions.create({
     messages: [
       {
@@ -133,7 +141,7 @@ The response in JSON which im expecting you to deliver:
     ],
     model: "llama3-8b-8192",
   });
-  console.log(completion.choices[0].message.content);
+  logWithTimestamp("Step Seven: Form data been recived succefully ...");
   return completion.choices[0].message.content;
 }
 
@@ -187,4 +195,9 @@ function formatModelResponse(modelResponse) {
   }
 }
 
-export { getWhissperClient, formatModelResponse, getJsonFieldsFilled };
+export {
+  getWhissperClient,
+  formatModelResponse,
+  getJsonFieldsFilled,
+  logWithTimestamp,
+};

@@ -25,6 +25,11 @@ class AboutPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('אודות'),
+        backgroundColor: const Color.fromARGB(255, 255, 123, 0),
+        centerTitle: true, // מרכז את הכותרת
+      ),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -74,11 +79,6 @@ class AboutPage extends StatelessWidget {
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      CircleAvatar(
-                        radius: 40,
-                        backgroundImage: AssetImage(
-                            'assets/Developer_photos/developer${index + 2}.jpg'),
-                      ),
                       GestureDetector(
                         onTap: () => _launchURL(linkedinLinks[index + 1]),
                         child: CircleAvatar(
@@ -111,7 +111,7 @@ class AboutPage extends StatelessWidget {
       print('Can launch URL: $canLaunchUrl');
       if (canLaunchUrl) {
         print('Launching URL: $url');
-        await launch(url, forceSafariVC: false, forceWebView: false);
+        await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
       } else {
         print('Could not launch URL: $url');
         throw 'Could not launch $url';
