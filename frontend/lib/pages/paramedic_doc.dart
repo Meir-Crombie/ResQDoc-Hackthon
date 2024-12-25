@@ -200,6 +200,9 @@ class _ParamedicDocState extends State<ParamedicDoc> {
             onPressed: () {
               if (StaticTools.allowSubmit.every((value) => value)) {
                 // All elements in allowSubmit are true
+                StaticTools.allowSubmit =
+                    StaticTools.allowSubmit.map((value) => !value).toList();
+
                 Navigator.pushNamed(context, '/home');
               } else {
                 // Not all elements are true

@@ -29,6 +29,7 @@ export const medicalTemplate = {
       anamnesis: "",
       medicalSensitivities: "",
       statusWhenFound: "",
+      CaseFound: "",
     },
     medicalMetrics: {
       bloodPressure: { value: "", time: "" },
@@ -88,6 +89,61 @@ Use empty string for missing information.
 All values should be in Hebrew.
 If you dont know the values, please write that u dont know to analye is rather to say random values
 
+To help you with the adjusment of the values to thier proper, i've provided the fields' descriptions and a case with an expected return value.
+
+
+Here is the fields' descriptions:
+
+Patient Details (patientDetails)
+Basic information for identifying and contacting the patient:
+
+Smart Medical Data (smartData)
+A. Findings (findings)
+Medical data and a report on the event:
+
+diagnosis: The medical diagnosis provided to the patient or the initial suspicion.
+patientStatus: The patient’s condition at the time of examination (e.g., "Stable," "Critical").
+mainComplaint: The primary complaint that prompted the medical intervention (e.g., chest pain, difficulty breathing).
+anamnesis:
+Anamnesis is a chronological review of the patient’s medical history related to the current event.
+Structured Template for Anamnesis:
+Patient's Name: [Full Name].
+
+Age: [Patient’s Age].
+
+Timeline of the Medical Issue:
+
+[A chronological description of the progression. Example: "Two days ago, mild chest pain began. Yesterday, the pain worsened and was accompanied by shortness of breath. Today, the patient called for medical assistance."].
+Medical Procedures Performed:
+
+[A list of procedures such as blood pressure checks, IV fluids, or other tests].
+[Example: "Blood pressure measured (120/80), IV fluids administered."].
+Volunteer Summary:
+
+Final Status: [Example: "The patient was semi-conscious and transported to the hospital by ambulance." or "The patient refused transportation."].
+Personal Conclusion: [Example: "Based on the findings, this may be a mild cardiac event."].
+medicalSensitivities: Known medical sensitivities (e.g., "Allergic to penicillin").
+
+statusWhenFound: Description of the patient’s condition when found (e.g., "Unconscious, pale, and cold skin").
+
+CaseFound: A general description which would categorize the current call by what the volunteer saw when arrived (e.g, a woman having a layber, an animal bite, an unconsciousness, a gunshot)
+
+B. Medical Metrics (medicalMetrics)
+Measured medical metrics during the event:
+
+bloodPressure:
+value: The patient’s blood pressure reading, typically systolic/diastolic (e.g., "120/80").
+time: The time when the blood pressure was measured (e.g., "14:35").
+Heart Rate: The patient’s heart rate (e.g., "78 bpm").
+Lung Auscultation: Findings from a lung examination (e.g., "Clear bilaterally" or "Wheezing in the lower left lobe").
+consciousnessLevel: The patient’s level of consciousness (e.g., "Fully conscious," "Drowsy," "Unconscious").
+breathingRate: The number of breaths per minute (e.g., "18 breaths per minute").
+breathingCondition: Description of breathing status (e.g., "Normal," "Labored").
+skinCondition: The condition of the skin (e.g., "Pale," "Cyanotic," "Sweaty").
+lungCondition: Description of the lungs (e.g., "Normal," "Fluid in lungs").
+CO2Level: The carbon dioxide level in the blood, measured via capnography (e.g., "35 mmHg").
+
+
 Here is an example of an trascript and a good response which i request from you to provide:
 
 The trascript:
@@ -117,7 +173,8 @@ The response in JSON which im expecting you to deliver:
       "mainComplaint": "לחץ חזק בחזה עם הקרנה ליד שמאל וללסת",
       "anamnesis": "סובל מסוכרת ולחץ דם גבוה, מעשן קופסה ביום, נוטל גלוקומין ולוסרטן",
       "medicalSensitivities": "אין רגישויות ידועות",
-      "statusWhenFound": "תעוקת חזה"
+      "statusWhenFound": "תעוקת חזה",
+      "CaseFound": "חשד לאירוע לבבי"
     },
     "medicalMetrics": {
       "bloodPressure": { "value": "145/95", "time": "" },
