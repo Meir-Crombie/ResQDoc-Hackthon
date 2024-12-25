@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 abstract class StaticTools {
   static int nextNum = 1; // Static variable to track the next file number
-  static List<bool> allowSubmit = List.filled(27, false);
+  static List<bool> allowSubmit = List.filled(25, false);
   static int nextAlowNum = 0; // Static variable to track the next file number
 }
 
@@ -137,12 +137,14 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
       setState(() {
         _errorText = 'השדה זה לא יכול להיות ריק'; // Error message
         widget.checkedNode = false;
-        StaticTools.allowSubmit[StaticTools.nextAlowNum] = false;
         StaticTools.nextAlowNum--;
+        StaticTools.allowSubmit[StaticTools.nextAlowNum] = false;
+        StaticTools.allowSubmit;
       });
     } else {
       setState(() {
         _errorText = null; // Clear the error
+        StaticTools.allowSubmit;
       });
 
       if (widget.writeToJson != null) {
@@ -157,7 +159,13 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
       onDoubleTap: () async {
         setState(() {
           widget.checkedNode = !widget.checkedNode;
+          if (widget.writeToJson != null && widget.checkedNode) {
+            StaticTools.allowSubmit[StaticTools.nextAlowNum] = true;
+            StaticTools.nextAlowNum++;
+          }
+          StaticTools.allowSubmit;
         });
+        print(StaticTools.nextAlowNum);
 
         if (widget.checkedNode) {
           // Write the text from _controller to the JSON file if checkedNode is true
@@ -177,10 +185,14 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
           textInputAction: widget.textInputAction,
           onSubmitted: (value) {
             setState(() {
-              widget.checkedNode = true;
-              StaticTools.allowSubmit[StaticTools.nextAlowNum] = true;
-              StaticTools.nextAlowNum++;
+              if (widget.checkedNode != true) {
+                widget.checkedNode = true;
+                StaticTools.allowSubmit[StaticTools.nextAlowNum] = true;
+                StaticTools.nextAlowNum++;
+              }
+              StaticTools.allowSubmit;
             });
+            print(StaticTools.nextAlowNum);
             _validateAndWriteToJson();
 
             if (widget.onSubmitted != null) {
