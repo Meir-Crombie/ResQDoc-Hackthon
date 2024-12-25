@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 Future<Map<String, dynamic>> readJson() async {
   final String response = await rootBundle.loadString('data/dummydata.json');
@@ -45,67 +44,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
     }
   }
 
-  Future<void> writeToJson(String text, List<String> path) async {
-    try {
-      print("data: $text ${path.join(' -> ')}");
-      final directoryPath = 'storage/emulated/0/Documents';
-      final filePath = '$directoryPath/file.json';
-      final directory = Directory(directoryPath);
-
-      // Ensure the directory exists
-      if (!await directory.exists()) {
-        await directory.create(recursive: true);
-      }
-
-      final file = File(filePath);
-
-      Map<String, dynamic> jsonData;
-
-      // Check if the file already exists
-      if (await file.exists()) {
-        // Read the current JSON data from the file
-        String content = await file.readAsString();
-        if (content.isNotEmpty) {
-          jsonData = jsonDecode(content);
-        } else {
-          jsonData = {
-            "patientDetails": {},
-            "smartData": {
-              "findings": {},
-              "medicalMetrics": {"bloodPressure": {}}
-            }
-          };
-        }
-      } else {
-        // If the file does not exist, create the full structure
-        jsonData = {
-          "patientDetails": {},
-          "smartData": {
-            "findings": {},
-            "medicalMetrics": {"bloodPressure": {}}
-          }
-        };
-      }
-
-      // Traverse the path and update the value
-      Map<String, dynamic> currentMap = jsonData;
-      for (int i = 0; i < path.length - 1; i++) {
-        if (!currentMap.containsKey(path[i])) {
-          currentMap[path[i]] = {};
-        }
-        currentMap = currentMap[path[i]];
-      }
-      currentMap[path.last] = text;
-
-      // Write back the updated JSON data
-      await file.writeAsString('${jsonEncode(jsonData)}\n',
-          mode: FileMode.write);
-
-      print('Data written to file successfully');
-    } catch (e) {
-      print('Error writing to file: $e');
-    }
-  }
+  Future<void> writeToJson(String text, List<String> path) async {}
 
   @override
   void dispose() {
@@ -960,7 +899,7 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
   Future<void> writeToJson(String text, List<String> path) async {
     try {
       print("data: $text ${path.join(' -> ')}");
-      final directoryPath = 'storage/emulated/0/Documents';
+      final directoryPath = (await getApplicationDocumentsDirectory()).path;
       final filePath = '$directoryPath/file.json';
       final directory = Directory(directoryPath);
 
@@ -970,7 +909,7 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
       }
 
       final file = File(filePath);
-
+      print("$file");
       Map<String, dynamic> jsonData;
 
       // Check if the file already exists
@@ -978,87 +917,20 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
         // Read the current JSON data from the file
         String content = await file.readAsString();
         if (content.isNotEmpty) {
-          jsonData = jsonDecode(content) as Map<String, dynamic>;
+          jsonData = Map<String, dynamic>.from(jsonDecode(content));
         } else {
-          jsonData = {
-            "patientDetails": {
-              "idOrPassport": "",
-              "firstName": "",
-              "lastName": "",
-              "age": "",
-              "gender": "",
-              "city": "",
-              "street": "",
-              "houseNumber": "",
-              "phone": "",
-              "email": ""
-            },
-            "smartData": {
-              "findings": {
-                "diagnosis": "",
-                "patientStatus": "",
-                "mainComplaint": "",
-                "anamnesis": "",
-                "medicalSensitivities": "",
-                "statusWhenFound": ""
-              },
-              "medicalMetrics": {
-                "bloodPressure": {"value": "", "time": ""},
-                "Heart Rate": "",
-                "Lung Auscultation": "",
-                "consciousnessLevel": "",
-                "breathingRate": "",
-                "breathingCondition": "",
-                "skinCondition": "",
-                "lungCondition": "",
-                "CO2Level": ""
-              }
-            }
-          };
+          jsonData = _initializeDefaultData();
         }
       } else {
         // If the file does not exist, create the full structure
-        jsonData = {
-          "patientDetails": {
-            "idOrPassport": "",
-            "firstName": "",
-            "lastName": "",
-            "age": "",
-            "gender": "",
-            "city": "",
-            "street": "",
-            "houseNumber": "",
-            "phone": "",
-            "email": ""
-          },
-          "smartData": {
-            "findings": {
-              "diagnosis": "",
-              "patientStatus": "",
-              "mainComplaint": "",
-              "anamnesis": "",
-              "medicalSensitivities": "",
-              "statusWhenFound": ""
-            },
-            "medicalMetrics": {
-              "bloodPressure": {"value": "", "time": ""},
-              "Heart Rate": "",
-              "Lung Auscultation": "",
-              "consciousnessLevel": "",
-              "breathingRate": "",
-              "breathingCondition": "",
-              "skinCondition": "",
-              "lungCondition": "",
-              "CO2Level": ""
-            }
-          }
-        };
+        jsonData = _initializeDefaultData();
       }
 
-      // Traverse the path and update the value using the helper function
+      // Traverse the path and update the value
       Map<String, dynamic> currentMap = jsonData;
       for (int i = 0; i < path.length - 1; i++) {
-        currentMap = getNestedMap(currentMap, path[i]);
+        currentMap = currentMap.putIfAbsent(path[i], () => <String, dynamic>{})
+            as Map<String, dynamic>;
       }
       currentMap[path.last] = text;
 
@@ -1070,6 +942,44 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
     } catch (e) {
       print('Error writing to file: $e');
     }
+  }
+
+  Map<String, dynamic> _initializeDefaultData() {
+    return {
+      "patientDetails": {
+        "idOrPassport": "",
+        "firstName": "",
+        "lastName": "",
+        "age": "",
+        "gender": "",
+        "city": "",
+        "street": "",
+        "houseNumber": "",
+        "phone": "",
+        "email": ""
+      },
+      "smartData": {
+        "findings": {
+          "diagnosis": "",
+          "patientStatus": "",
+          "mainComplaint": "",
+          "anamnesis": "",
+          "medicalSensitivities": "",
+          "statusWhenFound": ""
+        },
+        "medicalMetrics": {
+          "bloodPressure": {"value": "", "time": ""},
+          "Heart Rate": "",
+          "Lung Auscultation": "",
+          "consciousnessLevel": "",
+          "breathingRate": "",
+          "breathingCondition": "",
+          "skinCondition": "",
+          "lungCondition": "",
+          "CO2Level": ""
+        }
+      }
+    };
   }
 
   @override

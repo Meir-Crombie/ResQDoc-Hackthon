@@ -131,7 +131,7 @@ class _HomeState extends State<Home> {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/paramedic');
+                      Navigator.pushNamed(context, '/listPastDocs');
                     },
                     style: ElevatedButton.styleFrom(
                       foregroundColor:
