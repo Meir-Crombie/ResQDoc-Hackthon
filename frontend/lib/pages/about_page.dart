@@ -51,6 +51,10 @@ class AboutPage extends StatelessWidget {
             Center(
               child: Column(
                 children: [
+                  CircleAvatar(
+                    radius: 50,
+                    backgroundImage:
+                        AssetImage('assets/Developer_photos/developer1.jpg'),
                   GestureDetector(
                     onTap: () => _launchURL(linkedinLinks[0]),
                     child: CircleAvatar(
@@ -72,6 +76,10 @@ class AboutPage extends StatelessWidget {
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      CircleAvatar(
+                        radius: 40,
+                        backgroundImage: AssetImage(
+                            'assets/Developer_photos/developer${index + 2}.jpg'),
                       GestureDetector(
                         onTap: () => _launchURL(linkedinLinks[index + 1]),
                         child: CircleAvatar(
@@ -80,6 +88,8 @@ class AboutPage extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: 8),
+                      Text('Developer ${index + 2}',
+                          style: TextStyle(fontSize: 14)),
                       Text(developerInfo[index + 1].item1, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
                       Text(developerInfo[index + 1].item2, style: TextStyle(fontSize: 12)),
                     ],

@@ -65,9 +65,9 @@ class _SettingsState extends State<Settings> {
                         },
                         activeColor: Colors.black, // צבע רקע במצב פעיל
                         inactiveTrackColor: Colors.white, // צבע רקע במצב כבוי
-                        thumbColor: MaterialStateProperty.resolveWith<Color>(
-                            (Set<MaterialState> states) {
-                          if (states.contains(MaterialState.selected)) {
+                        thumbColor: WidgetStateProperty.resolveWith<Color>(
+                            (Set<WidgetState> states) {
+                          if (states.contains(WidgetState.selected)) {
                             return Colors.white; // צבע העיגול הפנימי במצב פעיל
                           }
                           return Colors.black; // צבע העיגול הפנימי במצב כבוי
@@ -127,9 +127,9 @@ class _SettingsState extends State<Settings> {
                         },
                         activeColor: Colors.black, // צבע רקע במצב פעיל
                         inactiveTrackColor: Colors.white, // צבע רקע במצב כבוי
-                        thumbColor: MaterialStateProperty.resolveWith<Color>(
-                            (Set<MaterialState> states) {
-                          if (states.contains(MaterialState.selected)) {
+                        thumbColor: WidgetStateProperty.resolveWith<Color>(
+                            (Set<WidgetState> states) {
+                          if (states.contains(WidgetState.selected)) {
                             return Colors.white; // צבע העיגול הפנימי במצב פעיל
                           }
                           return Colors.black; // צבע העיגול הפנימי במצב כבוי
