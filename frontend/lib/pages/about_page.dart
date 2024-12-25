@@ -55,7 +55,7 @@ class AboutPage extends StatelessWidget {
                     radius: 50,
                     backgroundImage:
                         AssetImage('assets/Developer_photos/developer1.jpg'),
-                  GestureDetector(
+                  child: GestureDetector(
                     onTap: () => _launchURL(linkedinLinks[0]),
                     child: CircleAvatar(
                       radius: 50,
@@ -80,7 +80,7 @@ class AboutPage extends StatelessWidget {
                         radius: 40,
                         backgroundImage: AssetImage(
                             'assets/Developer_photos/developer${index + 2}.jpg'),
-                      GestureDetector(
+                      child: GestureDetector(
                         onTap: () => _launchURL(linkedinLinks[index + 1]),
                         child: CircleAvatar(
                           radius: 40,
