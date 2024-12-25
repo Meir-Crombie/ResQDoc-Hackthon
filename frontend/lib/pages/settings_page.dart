@@ -70,7 +70,7 @@ class _SettingsState extends State<Settings> {
           style: TextStyle(
             fontSize: 30,
             fontWeight: FontWeight.bold,
-            fontFamily: 'David',
+            fontFamily: 'AlmoniTzarAAA',
             color: const Color.fromARGB(255, 0, 0, 0),
           ),
         ),
@@ -90,6 +90,7 @@ class _SettingsState extends State<Settings> {
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
+                  fontFamily: 'AlmoniTzarAAA',
                 ),
               ),
             ),
@@ -125,7 +126,10 @@ class _SettingsState extends State<Settings> {
                       ),
                       Text(
                         'עקוב אחרי המיקום שלי',
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: 'AlmoniTzarAAA',
+                        ),
                         textAlign: TextAlign.right,
                       ),
                     ],
@@ -135,6 +139,7 @@ class _SettingsState extends State<Settings> {
                     'אפליקציה תתחיל הקלטה במקרה שיתקבל זיהוי קירבה לאיזור אירוע',
                     textAlign: TextAlign.center, // יישור הטקסט למרכז
                     style: TextStyle(
+                      fontFamily: 'AlmoniTzarAAA',
                       fontSize: 14,
                       color: Colors.grey[600], // צבע טקסט אפור כהה
                     ),
@@ -162,7 +167,10 @@ class _SettingsState extends State<Settings> {
                       ),
                       Text(
                         'התראות על מיקום קרוב',
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: 'AlmoniTzarAAA',
+                        ),
                         textAlign: TextAlign.right,
                       ),
                     ],
@@ -172,6 +180,7 @@ class _SettingsState extends State<Settings> {
                     'קבלת התראות בעת כניסה לאזור מוגדר מראש',
                     textAlign: TextAlign.center, // יישור הטקסט למרכז
                     style: TextStyle(
+                      fontFamily: 'AlmoniTzarAAA',
                       fontSize: 14,
                       color: Colors.grey[600], // צבע טקסט אפור כהה
                     ),
@@ -199,7 +208,10 @@ class _SettingsState extends State<Settings> {
                       ),
                       Text(
                         'תזכורת מבוססת מיקום',
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: 'AlmoniTzarAAA',
+                        ),
                         textAlign: TextAlign.right,
                       ),
                     ],
@@ -209,6 +221,7 @@ class _SettingsState extends State<Settings> {
                     'קבלת תזכורת לבצע שליחת טופס 15 דק אחרי הגעה למקום האירוע',
                     textAlign: TextAlign.center, // יישור הטקסט למרכז
                     style: TextStyle(
+                      fontFamily: 'AlmoniTzarAAA',
                       fontSize: 14,
                       color: Colors.grey[600], // צבע טקסט אפור כהה
                     ),
@@ -229,6 +242,7 @@ class _SettingsState extends State<Settings> {
               child: Text(
                 'למידה באפליקציה',
                 style: TextStyle(
+                  fontFamily: 'AlmoniTzarAAA',
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
@@ -268,7 +282,10 @@ class _SettingsState extends State<Settings> {
                       ),
                       Text(
                         'מצב למידה',
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: 'AlmoniTzarAAA',
+                        ),
                       ),
                     ],
                   ),
@@ -277,6 +294,7 @@ class _SettingsState extends State<Settings> {
                     'כאשר מצב למידה מופעל, האפליקציה תספק טיפים והדרכות',
                     textAlign: TextAlign.center, // יישור הטקסט למרכז
                     style: TextStyle(
+                      fontFamily: 'AlmoniTzarAAA',
                       fontSize: 14,
                       color: Colors.grey[600], // צבע טקסט אפור כהה
                     ),

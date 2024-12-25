@@ -40,3 +40,8 @@ flutter:
     - assets/logo_ichud_2.png
     - assets/daniel_pilant.jpg
     - assets/Developer_photos/
+
+  fonts:
+    - family: AlmoniTzarAAA
+      fonts:
+        - asset: assets/almoni-tzar-aaa-regular.otf
