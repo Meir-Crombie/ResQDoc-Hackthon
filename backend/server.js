@@ -23,7 +23,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-console.log(`Server starting in ${env} mode`);
+console.log(`Server starting in dev mode`);
 
 app.get("/", (req, res) => {
   res.send("API Endpoint is served");
