@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 
 abstract class StaticTools {
   static int nextNum = 1; // Static variable to track the next file number
@@ -15,7 +16,7 @@ class DefaultTextField extends StatefulWidget {
   final FocusNode? focusNode;
   final TextInputAction? textInputAction;
   final ValueChanged<String>? onSubmitted;
-  final Function(String text, List<String> labelText)? writeToJson;
+  final bool? writeToJson;
   final List<String> jsonPath;
   final bool isEditable; // New property to enable/disable editing
 
@@ -26,7 +27,7 @@ class DefaultTextField extends StatefulWidget {
     this.focusNode,
     this.textInputAction,
     this.onSubmitted,
-    required this.writeToJson,
+    this.writeToJson = true,
     required this.jsonPath,
     this.isEditable = true, // Default to true
     super.key,
@@ -60,13 +61,109 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
   }
 
   Future<void> writeToJson(String text, List<String> path) async {
-    // JSON writing logic remains the same...
+    try {
+      print("data: $text ${path.join(' -> ')}");
+      final directoryPath = (await (getApplicationDocumentsDirectory())).path;
+      final filePath =
+          '$directoryPath/file${StaticTools.nextNum}.json'; // Use the static variable for the file name
+      final directory = Directory(directoryPath);
+
+      // Ensure the directory exists
+      if (!await directory.exists()) {
+        await directory.create(recursive: true);
+      }
+
+      final file = File(filePath);
+
+      Map<String, dynamic> jsonData;
+
+      // Check if the file already exists
+      if (await file.exists()) {
+        // Read the current JSON data from the file
+        String content = await file.readAsString();
+        if (content.isNotEmpty) {
+          jsonData = jsonDecode(content) as Map<String, dynamic>;
+        } else {
+          jsonData = _initializeJsonStructure();
+        }
+      } else {
+        // If the file does not exist, initialize the structure
+        jsonData = _initializeJsonStructure();
+      }
+
+      // Traverse the path and update the value using the helper function
+
+      Map<String, dynamic> currentMap = jsonData;
+      for (int i = 0; i < path.length - 1; i++) {
+        currentMap = getNestedMap(currentMap, path[i]);
+      }
+      currentMap[path.last] = text;
+      // Write back the updated JSON data
+      print(jsonEncode(jsonData));
+      await file.writeAsString(jsonEncode(jsonData), mode: FileMode.write);
+
+      print('Data written to file successfully');
+    } catch (e) {
+      print('Error writing to file: $e');
+    }
+  }
+
+  Map<String, dynamic> _initializeJsonStructure() {
+    return {
+      "response": {
+        "patientDetails": {
+          "idOrPassport": "",
+          "firstName": "",
+          "lastName": "",
+          "age": "",
+          "city": "",
+          "street": "",
+          "houseNumber": "",
+          "phone": "",
+          "email": ""
+        },
+        "smartData": {
+          "findings": {
+            "diagnosis": "",
+            "patientStatus": "",
+            "mainComplaint": "",
+            "anamnesis": "",
+            "medicalSensitivities": "",
+            "statusWhenFound": "",
+            "caseFound": ""
+          },
+          "medicalMetrics": {
+            "bloodPressure": {"value": "", "time": ""},
+            "Heart Rate": "",
+            "Lung Auscultation": "",
+            "consciousnessLevel": "",
+            "breathingRate": "",
+            "breathingCondition": "",
+            "skinCondition": "",
+            "lungCondition": "",
+            "CO2Level": ""
+          }
+        },
+        "eventDetails": {
+          "timeOpened": "",
+          "id": "",
+          "city": "",
+          "houseNumber": "",
+          "street": "",
+          "patientName": "",
+          "missionEvent": "",
+          "timeArrived": ""
+        }
+      }
+    };
   }
 
   void _validateAndWriteToJson() {
     if (_controller.text.trim().isEmpty) {
+      print("adding to file");
       setState(() {
         _errorText = 'השדה זה לא יכול להיות ריק'; // Error message
+        widget.checkedNode = false;
       });
     } else {
       setState(() {
@@ -74,7 +171,8 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
       });
 
       if (widget.writeToJson != null) {
-        widget.writeToJson!(_controller.text, widget.jsonPath);
+        writeToJson(_controller.text, widget.jsonPath);
+        print("adding to file");
       }
     }
   }
@@ -86,7 +184,18 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
         if (widget.isEditable) {
           setState(() {
             widget.checkedNode = !widget.checkedNode;
+            if (widget.writeToJson != null && widget.checkedNode) {
+              StaticTools.allowSubmit[StaticTools.nextAlowNum] = true;
+              StaticTools.nextAlowNum++;
+            }
           });
+          print(StaticTools.nextAlowNum);
+          if (widget.checkedNode) {
+            // Write the text from _controller to the JSON file if checkedNode is true
+            _validateAndWriteToJson();
+          }
+        } else {
+          writeToJson(_controller.text, widget.jsonPath);
         }
       },
       child: Container(
@@ -99,11 +208,19 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
           focusNode: widget.focusNode,
           textInputAction: widget.textInputAction,
           onSubmitted: (value) {
-            if (widget.isEditable) {
-              _validateAndWriteToJson();
-              if (widget.onSubmitted != null) {
-                widget.onSubmitted!(value);
+            setState(() {
+              if (widget.checkedNode != true) {
+                widget.checkedNode = true;
+                StaticTools.allowSubmit[StaticTools.nextAlowNum] = true;
+                StaticTools.nextAlowNum++;
               }
+              StaticTools.allowSubmit;
+            });
+            print(StaticTools.nextAlowNum);
+            _validateAndWriteToJson();
+
+            if (widget.onSubmitted != null) {
+              widget.onSubmitted!(value);
             }
           },
           enabled: widget.isEditable, // Enable/disable based on isEditable
