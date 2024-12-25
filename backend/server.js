@@ -23,6 +23,8 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
+console.log(`Server starting in dev mode`);
+
 app.get("/", (req, res) => {
   res.send("API Endpoint is served");
 });
@@ -57,19 +59,55 @@ app.post("/analyze", upload.single("audio"), async (req, res) => {
     if (!req.file) {
       return res.status(400).send("No audio file uploaded");
     }
-
+    console.log("Step One");
     // Only on production
     const audioFilePath = req.file.path;
+    console.log("Step Two");
     const client = getWhissperClient();
+    console.log("Step Three");
     const resultText = await client.audio.transcriptions.create({
       model: "whisper",
       language: "he",
       prompt: "Provide the text result in hebrew",
       file: createReadStream(audioFilePath),
     });
+    console.log("Step Foud");
     const result = await getJsonFieldsFilled(resultText.text);
     // res.json(JSON.parse(result));
+    console.log("Step Five");
     const formattedResult = formatModelResponse(result);
+
+    console.log("About To return");
+
+    res.setHeader("Content-Type", "application/json");
+    res.send(formattedResult);
+  } catch (err) {
+    console.error("Error analyzing transcript:", err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+app.get("/analyzeDemo", async (req, res) => {
+  try {
+    console.log("Step One");
+    // Only on production
+    const audioFilePath = "./AudioFinal.m4a";
+    console.log("Step Two");
+    const client = getWhissperClient();
+    console.log("Step Three");
+    const resultText = await client.audio.transcriptions.create({
+      model: "whisper",
+      language: "he",
+      prompt: "Provide the text result in hebrew",
+      file: createReadStream(audioFilePath),
+    });
+    console.log("Step Foud");
+    const result = await getJsonFieldsFilled(resultText.text);
+    // res.json(JSON.parse(result));
+    console.log("Step Five");
+    const formattedResult = formatModelResponse(result);
+
+    console.log("About To return");
 
     res.setHeader("Content-Type", "application/json");
     res.send(formattedResult);
