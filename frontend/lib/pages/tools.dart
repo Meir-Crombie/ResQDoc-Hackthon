@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 
 class DefaultTextField extends StatefulWidget {
   final String labelText;
@@ -22,8 +21,8 @@ class DefaultTextField extends StatefulWidget {
     this.onSubmitted,
     required this.writeToJson,
     required this.jsonPath,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   _DefaultTextFieldState createState() => _DefaultTextFieldState();
@@ -54,7 +53,7 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
   Future<void> writeToJson(String text, List<String> path) async {
     try {
       print("data: $text ${path.join(' -> ')}");
-      final directoryPath = (await getApplicationDocumentsDirectory()).path;
+      final directoryPath = 'storage/emulated/0/Documents';
       final filePath = '$directoryPath/file.json';
       final directory = Directory(directoryPath);
 
@@ -64,7 +63,7 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
       }
 
       final file = File(filePath);
-      print("$file");
+
       Map<String, dynamic> jsonData;
 
       // Check if the file already exists
@@ -72,20 +71,87 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
         // Read the current JSON data from the file
         String content = await file.readAsString();
         if (content.isNotEmpty) {
-          jsonData = Map<String, dynamic>.from(jsonDecode(content));
+          jsonData = jsonDecode(content) as Map<String, dynamic>;
         } else {
-          jsonData = _initializeDefaultData();
+          jsonData = {
+            "patientDetails": {
+              "idOrPassport": "",
+              "firstName": "",
+              "lastName": "",
+              "age": "",
+              "gender": "",
+              "city": "",
+              "street": "",
+              "houseNumber": "",
+              "phone": "",
+              "email": ""
+            },
+            "smartData": {
+              "findings": {
+                "diagnosis": "",
+                "patientStatus": "",
+                "mainComplaint": "",
+                "anamnesis": "",
+                "medicalSensitivities": "",
+                "statusWhenFound": ""
+              },
+              "medicalMetrics": {
+                "bloodPressure": {"value": "", "time": ""},
+                "Heart Rate": "",
+                "Lung Auscultation": "",
+                "consciousnessLevel": "",
+                "breathingRate": "",
+                "breathingCondition": "",
+                "skinCondition": "",
+                "lungCondition": "",
+                "CO2Level": ""
+              }
+            }
+          };
         }
       } else {
         // If the file does not exist, create the full structure
-        jsonData = _initializeDefaultData();
+        jsonData = {
+          "patientDetails": {
+            "idOrPassport": "",
+            "firstName": "",
+            "lastName": "",
+            "age": "",
+            "gender": "",
+            "city": "",
+            "street": "",
+            "houseNumber": "",
+            "phone": "",
+            "email": ""
+          },
+          "smartData": {
+            "findings": {
+              "diagnosis": "",
+              "patientStatus": "",
+              "mainComplaint": "",
+              "anamnesis": "",
+              "medicalSensitivities": "",
+              "statusWhenFound": ""
+            },
+            "medicalMetrics": {
+              "bloodPressure": {"value": "", "time": ""},
+              "Heart Rate": "",
+              "Lung Auscultation": "",
+              "consciousnessLevel": "",
+              "breathingRate": "",
+              "breathingCondition": "",
+              "skinCondition": "",
+              "lungCondition": "",
+              "CO2Level": ""
+            }
+          }
+        };
       }
 
-      // Traverse the path and update the value
+      // Traverse the path and update the value using the helper function
       Map<String, dynamic> currentMap = jsonData;
       for (int i = 0; i < path.length - 1; i++) {
-        currentMap = currentMap.putIfAbsent(path[i], () => <String, dynamic>{})
-            as Map<String, dynamic>;
+        currentMap = getNestedMap(currentMap, path[i]);
       }
       currentMap[path.last] = text;
 
@@ -97,44 +163,6 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
     } catch (e) {
       print('Error writing to file: $e');
     }
-  }
-
-  Map<String, dynamic> _initializeDefaultData() {
-    return {
-      "patientDetails": {
-        "idOrPassport": "",
-        "firstName": "",
-        "lastName": "",
-        "age": "",
-        "gender": "",
-        "city": "",
-        "street": "",
-        "houseNumber": "",
-        "phone": "",
-        "email": ""
-      },
-      "smartData": {
-        "findings": {
-          "diagnosis": "",
-          "patientStatus": "",
-          "mainComplaint": "",
-          "anamnesis": "",
-          "medicalSensitivities": "",
-          "statusWhenFound": ""
-        },
-        "medicalMetrics": {
-          "bloodPressure": {"value": "", "time": ""},
-          "Heart Rate": "",
-          "Lung Auscultation": "",
-          "consciousnessLevel": "",
-          "breathingRate": "",
-          "breathingCondition": "",
-          "skinCondition": "",
-          "lungCondition": "",
-          "CO2Level": ""
-        }
-      }
-    };
   }
 
   @override
@@ -175,10 +203,15 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
           },
           decoration: InputDecoration(
             labelText: widget.labelText,
-            border: OutlineInputBorder(),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(15.0), // פינות מעוגלות
+              borderSide: BorderSide.none, // ללא מסגרת
+            ),
             floatingLabelAlignment: FloatingLabelAlignment.start,
             filled: true,
-            fillColor: widget.checkedNode ? Colors.green : Colors.red,
+            fillColor: widget.checkedNode
+                ? const Color.fromARGB(255, 139, 255, 178)
+                : const Color.fromARGB(255, 255, 201, 218),
           ),
         ),
       ),

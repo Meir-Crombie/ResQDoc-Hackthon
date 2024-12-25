@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:http/http.dart' as http;
 import 'tools.dart';
-import 'package:path_provider/path_provider.dart';
+import 'dart:convert';
 
 Future<Map<String, dynamic>> readJson() async {
   final String response = await rootBundle.loadString('data/dummydata.json');
@@ -47,7 +47,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
       // Adjust based on your total number of fields
       focusNodes.add(FocusNode());
     }
-    readJson();
+    loadJsonData();
   }
 
   //This method requests from the server the dummy data which is saved in the backend, if failed it will return a local dummy JSON
@@ -67,7 +67,86 @@ class _ParamedicDocState extends State<ParamedicDoc> {
     }
   }
 
-  Future<void> writeToJson(String text, List<String> path) async {}
+  Future<void> loadJsonData() async {
+    try {
+      // jsonData = await readJson();
+      final jsonDataLocal = await readJsonFromServer(widget.fileName);
+      jsonData = jsonDataLocal;
+
+      print('JSON Loaded Successfully: $jsonData'); // הודעת דיבוג
+      print('Specificly: $jsonData["response"]["patientDetails"]');
+      print('Specificly: $jsonData["response"]["patientDetails"]["firstName"]');
+      setState(() {
+        // jsonData = jsonDataLocal;
+      });
+    } catch (e) {
+      print('Error loading JSON: $e'); // הודעת דיבוג במקרה של שגיאה
+      errorMessage = 'Error loading JSON data';
+      setState(() {});
+    }
+  }
+
+  Future<void> writeToJson(String text, List<String> path) async {
+    try {
+      print("data: $text ${path.join(' -> ')}");
+      final directoryPath = 'storage/emulated/0/Documents';
+      final filePath = '$directoryPath/file.json';
+      final directory = Directory(directoryPath);
+
+      // Ensure the directory exists
+      if (!await directory.exists()) {
+        await directory.create(recursive: true);
+      }
+
+      final file = File(filePath);
+
+      Map<String, dynamic> jsonData;
+
+      // Check if the file already exists
+      if (await file.exists()) {
+        // Read the current JSON data from the file
+        String content = await file.readAsString();
+        if (content.isNotEmpty) {
+          jsonData = jsonDecode(content);
+        } else {
+          jsonData = {
+            "patientDetails": {},
+            "smartData": {
+              "findings": {},
+              "medicalMetrics": {"bloodPressure": {}}
+            }
+          };
+        }
+      } else {
+        // If the file does not exist, create the full structure
+        jsonData = {
+          "patientDetails": {},
+          "smartData": {
+            "findings": {},
+            "medicalMetrics": {"bloodPressure": {}}
+          }
+        };
+      }
+
+      // Traverse the path and update the value
+      Map<String, dynamic> currentMap = jsonData;
+      for (int i = 0; i < path.length - 1; i++) {
+        if (!currentMap.containsKey(path[i])) {
+          currentMap[path[i]] = {};
+        }
+        currentMap = currentMap[path[i]];
+      }
+      currentMap[path.last] = text;
+
+      // Write back the updated JSON data
+      await file.writeAsString('${jsonEncode(jsonData)}\n',
+          mode: FileMode.write);
+
+      print('Data written to file successfully');
+    } catch (e) {
+      print('Error writing to file: $e');
+    }
+  }
 
   @override
   void dispose() {
@@ -81,10 +160,8 @@ class _ParamedicDocState extends State<ParamedicDoc> {
   void _scrollToSection(GlobalKey key) {
     final context = key.currentContext;
     if (context != null) {
-      Scrollable.ensureVisible(
-        context,
-        duration: Duration(milliseconds: 100),
-      );
+      Scrollable.ensureVisible(context,
+          duration: Duration(seconds: 1), curve: Curves.easeInOut);
     }
   }
 
@@ -1159,4 +1236,3 @@ class _ParamedicDocState extends State<ParamedicDoc> {
     ));
   }
 }
-
