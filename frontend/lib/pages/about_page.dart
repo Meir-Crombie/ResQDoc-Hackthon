@@ -46,6 +46,16 @@ class AboutPage extends StatelessWidget {
                 child: SizedBox(),
               ),
             ),
+            // Title at the top
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                'Meet the Team',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+            ),
+            // Add some space before the main developer section
+            SizedBox(height: 20),
             // Main developer at the top center
             Center(
               child: Column(
@@ -93,6 +103,14 @@ class AboutPage extends StatelessWidget {
                 }),
               ),
             ),
+            // Version text at the bottom
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                'Version 1.0.0',
+                style: TextStyle(fontSize: 12),
+              ),
+            ),
           ],
         ),
       ),
@@ -106,7 +124,7 @@ class AboutPage extends StatelessWidget {
       print('Can launch URL: $canLaunchUrl');
       if (canLaunchUrl) {
         print('Launching URL: $url');
-        await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+        await launch(url, forceSafariVC: false, forceWebView: false);
       } else {
         print('Could not launch URL: $url');
         throw 'Could not launch $url';
