@@ -21,8 +21,8 @@ class DefaultTextField extends StatefulWidget {
     this.onSubmitted,
     required this.writeToJson,
     required this.jsonPath,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   _DefaultTextFieldState createState() => _DefaultTextFieldState();

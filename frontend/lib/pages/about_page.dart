@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class AboutPage extends StatelessWidget {
+  const AboutPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +33,8 @@ class AboutPage extends StatelessWidget {
                 children: [
                   CircleAvatar(
                     radius: 50,
-                    backgroundImage: AssetImage('assets/Developer_photos/developer1.jpg'),
+                    backgroundImage:
+                        AssetImage('assets/Developer_photos/developer1.jpg'),
                   ),
                   SizedBox(height: 8),
                   Text('Main Developer', style: TextStyle(fontSize: 16)),
@@ -48,10 +51,12 @@ class AboutPage extends StatelessWidget {
                     children: [
                       CircleAvatar(
                         radius: 40,
-                        backgroundImage: AssetImage('assets/Developer_photos/developer${index + 2}.jpg'),
+                        backgroundImage: AssetImage(
+                            'assets/Developer_photos/developer${index + 2}.jpg'),
                       ),
                       SizedBox(height: 8),
-                      Text('Developer ${index + 2}', style: TextStyle(fontSize: 14)),
+                      Text('Developer ${index + 2}',
+                          style: TextStyle(fontSize: 14)),
                     ],
                   );
                 }),
