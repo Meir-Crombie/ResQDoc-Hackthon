@@ -11,7 +11,6 @@ class DefaultTextField extends StatefulWidget {
   final ValueChanged<String>? onSubmitted;
   final Function(String text, List<String> labelText)? writeToJson;
   final List<String> jsonPath;
-  final double? height; // New parameter for custom height
 
   DefaultTextField({
     required this.labelText,
@@ -22,7 +21,6 @@ class DefaultTextField extends StatefulWidget {
     this.onSubmitted,
     required this.writeToJson,
     required this.jsonPath,
-    this.height, // Initialize custom height parameter
     super.key,
   });
 
@@ -183,7 +181,6 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
         }
       },
       child: Container(
-        height: widget.height, // Set the custom height
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
         ),
@@ -216,7 +213,6 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
                 ? const Color.fromARGB(255, 139, 255, 178)
                 : const Color.fromARGB(255, 255, 201, 218),
           ),
-          maxLines: null, // Allow for multiline input
         ),
       ),
     );

@@ -963,7 +963,6 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                 padding: const EdgeInsets.all(8.0),
                 child: Center(
                   child: DefaultTextField(
-                    height: 200,
                     labelText: 'אנמנזה וסיפור המקרה',
                     checkedNode: false,
                     focusNode: focusNodes[27],
