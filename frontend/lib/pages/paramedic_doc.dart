@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:http/http.dart' as http;
 import 'tools.dart';
-import 'dart:convert';
 
 Future<Map<String, dynamic>> readJson() async {
   final String response = await rootBundle.loadString('data/dummydata.json');
@@ -31,13 +30,11 @@ class _ParamedicDocState extends State<ParamedicDoc> {
   Map<String, dynamic>? jsonData;
   String? errorMessage;
 
-  final ScrollController _scrollController =
-      ScrollController(); // צור ScrollController
-  final GlobalKey _medicalMetricsKey = GlobalKey();
-  final GlobalKey _findingsKey = GlobalKey();
-  final GlobalKey _patientDetailsKey = GlobalKey();
-  final GlobalKey _eventDetailsKey = GlobalKey();
-  final GlobalKey _medicDetailsKey = GlobalKey();
+  final GlobalKey _medicalMetricsKey = GlobalKey(debugLabel: 'medicalMetrics');
+  final GlobalKey _findingsKey = GlobalKey(debugLabel: 'findings');
+  final GlobalKey _patientDetailsKey = GlobalKey(debugLabel: 'patientDetails');
+  final GlobalKey _eventDetailsKey = GlobalKey(debugLabel: 'eventDetails');
+  final GlobalKey _medicDetailsKey = GlobalKey(debugLabel: 'medicDetails');
 
   @override
   void initState() {
@@ -160,8 +157,10 @@ class _ParamedicDocState extends State<ParamedicDoc> {
   void _scrollToSection(GlobalKey key) {
     final context = key.currentContext;
     if (context != null) {
-      Scrollable.ensureVisible(context,
-          duration: Duration(seconds: 1), curve: Curves.easeInOut);
+      Scrollable.ensureVisible(
+        context,
+        duration: Duration(milliseconds: 300),
+      );
     }
   }
 

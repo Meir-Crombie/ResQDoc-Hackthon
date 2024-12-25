@@ -77,13 +77,62 @@ class _HomeState extends State<Home> {
         ),
         child: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              Spacer(),
               SizedBox(
-                width: 300, // רוחב התמונה
-                height: 250, // גובה התמונה
-                child: Image.asset('assets/svgviewer-png-output.png'),
+                height: 30,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    icon: Icon(
+                      Icons.settings,
+                      size: 40,
+                      color: Color.fromARGB(255, 0, 0, 0),
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/settings');
+                    },
+                  ),
+                  IconButton(
+                    icon: Icon(
+                      Icons.info,
+                      size: 40,
+                      color: Color.fromARGB(255, 0, 0, 0),
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/about');
+                    },
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    width: 20,
+                  ),
+                  SizedBox(
+                    width: 150, // רוחב התמונה
+                    height: 150, // גובה התמונה
+                    child: Image.asset('assets/logo_ichud_2.png'),
+                  ),
+                  SizedBox(
+                    width: 150, // רוחב התמונה
+                    height: 150, // גובה התמונה
+                    child: Image.asset('assets/svgviewer-png-output.png'),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 80,
               ),
               Container(
                 decoration: BoxDecoration(
@@ -117,7 +166,7 @@ class _HomeState extends State<Home> {
                   ),
                 ),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 90),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -144,34 +193,30 @@ class _HomeState extends State<Home> {
                   ),
                 ],
               ),
-              SizedBox(
-                width: 150, // רוחב התמונה
-                height: 250, // גובה התמונה
-                child: Image.asset('assets/logo_ichud_2.png'),
-              ),
-              Spacer(),
+              SizedBox(height: 40), // Add some space between the buttons
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  IconButton(
-                    icon: Icon(
-                      Icons.settings,
-                      size: 40,
-                      color: Color.fromARGB(255, 0, 0, 0),
-                    ),
+                  ElevatedButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/settings');
+                      Navigator.pushNamed(context, '/studymode');
                     },
-                  ),
-                  IconButton(
-                    icon: Icon(
-                      Icons.info,
-                      size: 40,
-                      color: Color.fromARGB(255, 0, 0, 0),
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor:
+                          const Color.fromARGB(255, 0, 0, 0), // צבע הטקסט
+                      backgroundColor:
+                          const Color.fromARGB(255, 255, 89, 0), // צבע הרקע
+                      elevation: 0, // גובה הצל
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.circular(30), // פינות לא מעוגלות
+                      ),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 77, vertical: 15), // שוליים פנימיים
+                      textStyle:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/about');
-                    },
+                    child: const Text('מצב למידה'),
                   ),
                 ],
               ),
