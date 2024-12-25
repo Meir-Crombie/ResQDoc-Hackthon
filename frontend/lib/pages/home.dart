@@ -207,6 +207,22 @@ class _HomeState extends State<Home> {
                   Navigator.pushNamed(context, '/about'); // Navigate to about
                 },
               ),
+              ListTile(
+                leading: const Icon(Icons.home), // Info icon
+                title: const Text('בית'), // About text
+                onTap: () {
+                  Navigator.pop(context); // Close the drawer
+                  Navigator.pushNamed(context, '/home'); // Navigate to about
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.home), // Info icon
+                title: const Text('הסטוריה'), // About text
+                onTap: () {
+                  Navigator.pop(context); // Close the drawer
+                  Navigator.pushNamed(context, '/home'); // Navigate to about
+                },
+              ),
             ],
           ),
         ),
@@ -337,7 +353,7 @@ class _HomeState extends State<Home> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 40), // Vertical spacing
+                const SizedBox(height: 20), // Vertical spacing
                 Row(
                   mainAxisAlignment: MainAxisAlignment
                       .spaceEvenly, // Even spacing between buttons

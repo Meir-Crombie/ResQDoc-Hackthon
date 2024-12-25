@@ -25,5 +25,6 @@ void main() => runApp(MaterialApp(
         '/about': (context) => AboutPage(),
         '/past': (context) => MissionsPage(),
         '/studymode': (context) => StudyModePage(),
+        '/history': (context) => MissionsPage(),
       },
     )); // Material app
