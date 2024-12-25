@@ -336,7 +336,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                                     ['idOrPassport']
                                 ?.toString() ??
                             "Wrong Fetch",
-                        checkedNode: false, // וודא שהפרמטר מועבר כאן
+                        checkedNode: true, // וודא שהפרמטר מועבר כאן
                         focusNode: focusNodes[0],
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) {
@@ -355,7 +355,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'שם כונן',
-                        checkedNode: false,
+                        checkedNode: true,
                         focusNode: focusNodes[1],
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) {
@@ -400,7 +400,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'מספר משימה',
-                        checkedNode: false,
+                        checkedNode: true,
                         focusNode: focusNodes[2],
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) {
@@ -418,7 +418,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'זמן פתיחת האירוע',
-                        checkedNode: false,
+                        checkedNode: true,
                         focusNode: focusNodes[3],
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) {
@@ -441,7 +441,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                 child: Center(
                   child: DefaultTextField(
                     labelText: 'עיר',
-                    checkedNode: false,
+                    checkedNode: true,
                     focusNode: focusNodes[4],
                     textInputAction: TextInputAction.next,
                     onSubmitted: (_) {
@@ -462,7 +462,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'מספר בית',
-                        checkedNode: false,
+                        checkedNode: true,
                         focusNode: focusNodes[5],
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) {
@@ -481,7 +481,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'רחוב',
-                        checkedNode: false,
+                        checkedNode: true,
                         focusNode: focusNodes[6],
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) {
@@ -507,7 +507,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'המקרה שהוזנק',
-                        checkedNode: false,
+                        checkedNode: true,
                         focusNode: focusNodes[8],
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) {
@@ -531,7 +531,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                     Expanded(
                       child: DefaultTextField(
                         labelText: 'זמן הגעת הכונן',
-                        checkedNode: false,
+                        checkedNode: true,
                         focusNode: focusNodes[9],
                         textInputAction: TextInputAction.next,
                         onSubmitted: (_) {
