@@ -90,7 +90,7 @@ class _HomeState extends State<Home> {
       final data = {'filePath': filePath, 'duration': secondsElapsed};
       await jsonFile.writeAsString(json.encode(data));
     } catch (e) {
-      debugPrint('שגיאה בשמירת JSON: $e'); // Log error if saving fails
+      debugPrint('Error saving JSON: $e'); // Log error if saving fails
     }
 
     if (!mounted) return; // Check if the widget is still mounted
