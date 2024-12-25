@@ -1,6 +1,7 @@
 import { AzureOpenAI } from "openai";
 import Groq from "groq-sdk";
 
+//The template of the form
 export const medicalTemplate = {
   patientDetails: {
     idOrPassport: "",
@@ -37,27 +38,22 @@ export const medicalTemplate = {
   },
 };
 
+//The Whissper Ai connection object
 const Whissper = {
   endpoint:
     "https://bakur-m52vpsgt-swedencentral.openai.azure.com/openai/deployments/whisper/audio/transcriptions?api-version=2024-06-01",
   apiKey:
     "7vwrlTuBlvTSTJ8AqFj2JbCZZhjkM2LslT8bNKldnJbu2qMNwdiZJQQJ99ALACfhMk5XJ3w3AAAAACOG16Ho",
 };
+// Required Azure OpenAI deployment name and API version
+const apiVersion = "2024-08-01-preview";
+const deploymentName = "whisper";
 
-const GPT4 = {
-  endpoint:
-    "https://bakur-m52vpsgt-swedencentral.openai.azure.com/openai/deployments/gpt-4/chat/completions?api-version=2024-08-01-preview",
-  apiKey:
-    "7vwrlTuBlvTSTJ8AqFj2JbCZZhjkM2LslT8bNKldnJbu2qMNwdiZJQQJ99ALACfhMk5XJ3w3AAAAACOG16Ho",
-};
-
+//The fieled auto fill Ai connection object
 const groq = new Groq({
   apiKey: "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",
 });
 
-// Required Azure OpenAI deployment name and API version
-const apiVersion = "2024-08-01-preview";
-const deploymentName = "whisper";
 function getWhissperClient() {
   return new AzureOpenAI({
     endpoint: Whissper.endpoint,
@@ -67,49 +63,7 @@ function getWhissperClient() {
   });
 }
 
-// Create separate client for GPT-4
-function getGPT4Client() {
-  return new AzureOpenAI({
-    endpoint: GPT4.endpoint,
-    apiKey: GPT4.apiKey,
-    apiVersion,
-    deployment: "gpt-4", // Make sure this matches your GPT-4 deployment name
-  });
-}
-
-async function extractMedicalData(transcript) {
-  const client = getGPT4Client();
-
-  const systemPrompt = `
-    You are a medical data extraction system. 
-    Extract information from the Hebrew transcript and fill the medical form template.
-    Return a JSON object matching the template structure with extracted values.
-    Use empty string for missing information.
-    All values should be in Hebrew.
-  `;
-
-  const completion = await client.chat.completions.create({
-    model: "gpt-4",
-    messages: [
-      {
-        role: "system",
-        content: systemPrompt,
-      },
-      {
-        role: "user",
-        content: `Template: ${JSON.stringify(
-          medicalTemplate,
-          null,
-          2
-        )}\n\nTranscript: ${transcript}`,
-      },
-    ],
-    response_format: { type: "json_object" },
-    temperature: 0.3,
-  });
-
-  return completion.choices[0].message.content;
-}
+//Getting the values from the Ai filed in the JSON fields
 async function getJsonFieldsFilled(txt) {
   const completion = await groq.chat.completions.create({
     messages: [
@@ -180,16 +134,57 @@ The response in JSON which im expecting you to deliver:
     model: "llama3-8b-8192",
   });
   console.log(completion.choices[0].message.content);
-  return JSON.stringify(
-    JSON.parse(completion.choices[0].message.content),
-    null,
-    2
-  );
+  return completion.choices[0].message.content;
 }
 
-export {
-  getWhissperClient,
-  getGPT4Client,
-  extractMedicalData,
-  getJsonFieldsFilled,
-};
+//Converting to a valid value
+function formatModelResponse(modelResponse) {
+  try {
+    // Initialize response structure
+    let formattedResponse = {
+      response: {},
+    };
+
+    // Split response by newlines to separate JSON and notes
+    const lines = modelResponse.split("\n");
+    let jsonStartIndex = -1;
+    let jsonEndIndex = -1;
+    let noteCounter = 65; // ASCII for 'A'
+
+    // Find JSON boundaries
+    lines.forEach((line, index) => {
+      if (line.trim().startsWith("{")) jsonStartIndex = index;
+      if (line.trim().endsWith("}")) jsonEndIndex = index;
+    });
+
+    // Extract and parse JSON
+    if (jsonStartIndex !== -1 && jsonEndIndex !== -1) {
+      const jsonString = lines
+        .slice(jsonStartIndex, jsonEndIndex + 1)
+        .join("\n");
+      formattedResponse.response = JSON.parse(jsonString);
+    }
+
+    // Add notes
+    lines.forEach((line, index) => {
+      if (index < jsonStartIndex || index > jsonEndIndex) {
+        const trimmedLine = line.trim();
+        if (
+          trimmedLine &&
+          !trimmedLine.startsWith("{") &&
+          !trimmedLine.endsWith("}")
+        ) {
+          formattedResponse[`Note${String.fromCharCode(noteCounter)}`] =
+            trimmedLine;
+          noteCounter++;
+        }
+      }
+    });
+
+    return JSON.stringify(formattedResponse, null, 2);
+  } catch (error) {
+    throw new Error(`Failed to format response: ${error.message}`);
+  }
+}
+
+export { getWhissperClient, formatModelResponse, getJsonFieldsFilled };
