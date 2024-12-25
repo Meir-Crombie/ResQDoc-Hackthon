@@ -2,6 +2,12 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 
+abstract class StaticTools {
+  static int nextNum = 1; // Static variable to track the next file number
+  static List<bool> allowSubmit = List.filled(28, false);
+  static int nextAlowNum = 0; // Static variable to track the next file number
+}
+
 class DefaultTextField extends StatefulWidget {
   final String labelText;
   final String initialValue; // Initial value for the text field
@@ -148,20 +154,22 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
         };
       }
 
-      // Traverse the path and update the value using the helper function
-      Map<String, dynamic> currentMap = jsonData;
-      for (int i = 0; i < path.length - 1; i++) {
-        currentMap = getNestedMap(currentMap, path[i]);
+  void _validateAndWriteToJson() {
+    if (_controller.text.trim().isEmpty) {
+      setState(() {
+        _errorText = 'השדה זה לא יכול להיות ריק'; // Error message
+        widget.checkedNode = false;
+        StaticTools.allowSubmit[StaticTools.nextAlowNum] = false;
+        StaticTools.nextAlowNum--;
+      });
+    } else {
+      setState(() {
+        _errorText = null; // Clear the error
+      });
+
+      if (widget.writeToJson != null) {
+        widget.writeToJson!(_controller.text, widget.jsonPath);
       }
-      currentMap[path.last] = text;
-
-      // Write back the updated JSON data
-      await file.writeAsString('${jsonEncode(jsonData)}\n',
-          mode: FileMode.write);
-
-      print('Data written to file successfully');
-    } catch (e) {
-      print('Error writing to file: $e');
     }
   }
 
@@ -191,7 +199,9 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
           textInputAction: widget.textInputAction,
           onSubmitted: (value) {
             setState(() {
-              widget.checkedNode = true; // Update checkedNode state
+              widget.checkedNode = true;
+              StaticTools.allowSubmit[StaticTools.nextAlowNum] = true;
+              StaticTools.nextAlowNum++;
             });
             if (widget.writeToJson != null) {
               widget.writeToJson!(_controller.text,
