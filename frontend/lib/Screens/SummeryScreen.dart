@@ -84,10 +84,12 @@ const BackendJSON = {
   },
 };
 
-class SummeryScreeen extends StatelessWidget {
-  const SummeryScreeen({super.key});
+class SummeryScreen extends StatelessWidget {
+  const SummeryScreen({super.key});
   @override
   Widget build(BuildContext context) {
+    print(BackendJSON);
+    print(SystemJSON);
     return Scaffold(
       body: Container(
         //Gradient coloring
@@ -145,7 +147,7 @@ class SummeryScreeen extends StatelessWidget {
                 subTitleLeft:
                     "Case Found: ${BackendJSON["Phase Three"]!["Main Couse"]}",
                 clockValue:
-                    "${BackendJSON["Phase Two"]!["Arrived At"]}", //TODO: Fix its to have more meaningfull value
+                    "${SystemJSON["Phase Two"]!["Arrived At"]}", //TODO: Fix its to have more meaningfull value
                 icon: Icons.info,
               ),
               Container(
