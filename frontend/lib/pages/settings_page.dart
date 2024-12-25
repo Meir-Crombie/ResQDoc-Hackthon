@@ -90,7 +90,8 @@ class _SettingsState extends State<Settings> {
                       fontSize: 14,
                       color: Colors.grey[600], // צבע טקסט אפור כהה
                     ),
-                  ), // מרווח אנכי בין השורה להערה
+                  ),
+                  const SizedBox(height: 16), // מרווח אנכי בין השורה להערה
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
