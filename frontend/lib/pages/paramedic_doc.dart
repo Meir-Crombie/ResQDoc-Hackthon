@@ -83,38 +83,39 @@ class _ParamedicDocState extends State<ParamedicDoc> {
   //This method requests from the server the dummy data which is saved in the backend, if failed it will return a local dummy JSON
   Future<dynamic> readJsonFromServer(String fileName) async {
     try {
+      print("FILE NAME IS $fileName");
       if (fileName == "") {
         final response =
             await http.get(Uri.parse('http://20.84.43.139:5000/showCase'));
         if (response.statusCode == 200) {
           print("---------- HERE IS THE RESPONSE ----------");
           return jsonDecode(response.body);
-        } else {
-          // Create multipart request
-          var request = http.MultipartRequest(
-            'POST',
-            Uri.parse('http://20.84.43.139:5000/analyze'),
-          );
-
-          // Add audio file to request
-          var audioFile = await http.MultipartFile.fromPath(
-            'audio', // field name expected by server
-            fileName,
-            filename: basename(fileName),
-          );
-
-          request.files.add(audioFile);
-
-          // Send request
-          var streamedResponse = await request.send();
-          var response = await http.Response.fromStream(streamedResponse);
-
-          if (response.statusCode == 200) {
-            print("HELOO AGAIN NIGAA");
-            return jsonDecode(response.body);
-          }
         }
       } else {
+        print("HELOO AGAIN NIGAA");
+        // Create multipart request
+        var request = http.MultipartRequest(
+          'POST',
+          Uri.parse('http://20.84.43.139:5000/analyze'),
+        );
+
+        // Add audio file to request
+        var audioFile = await http.MultipartFile.fromPath(
+          'audio', // field name expected by server
+          fileName,
+          filename: basename(fileName),
+        );
+
+        request.files.add(audioFile);
+
+        // Send request
+        var streamedResponse = await request.send();
+        var response = await http.Response.fromStream(streamedResponse);
+
+        if (response.statusCode == 200) {
+          print("HELOO AGAIN NIGAA");
+          return jsonDecode(response.body);
+        }
         throw Exception('Failed to load JSON data');
       }
     } catch (e) {
