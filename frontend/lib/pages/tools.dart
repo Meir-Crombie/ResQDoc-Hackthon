@@ -168,8 +168,11 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
     } else {
       setState(() {
         _errorText = null; // Clear the error
-        StaticTools.allowSubmit[StaticTools.nextAlowNum] = true;
-        StaticTools.nextAlowNum++;
+        if (widget.checkedNode == false) {
+          StaticTools.allowSubmit[StaticTools.nextAlowNum] = true;
+          StaticTools.nextAlowNum++;
+          widget.checkedNode = true;
+        }
       });
 
       if (widget.writeToJson != null) {
@@ -190,6 +193,7 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
           print(StaticTools.nextAlowNum);
           if (widget.checkedNode) {
             // Write the text from _controller to the JSON file if checkedNode is true
+            widget.checkedNode = false;
             _validateAndWriteToJson();
           }
         } else {
@@ -207,8 +211,6 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
           textInputAction: widget.textInputAction,
           onSubmitted: (value) {
             setState(() {
-              widget.checkedNode = true;
-
               StaticTools.allowSubmit;
             });
             print(StaticTools.nextAlowNum);

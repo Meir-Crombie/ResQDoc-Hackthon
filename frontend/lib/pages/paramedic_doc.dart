@@ -51,7 +51,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
       // Adjust based on your total number of fields
       focusNodes.add(FocusNode());
     }
-
+    print(StaticTools.nextAlowNum);
     // Load JSON data and then execute subsequent code
     _initializeData();
   }
@@ -880,7 +880,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                             "Wrong Fetch",
                         onSubmitted: (_) {
                           return FocusScope.of(context)
-                              .requestFocus(focusNodes[22]);
+                              .requestFocus(focusNodes[23]);
                         },
                         jsonPath: [
                           'response',
