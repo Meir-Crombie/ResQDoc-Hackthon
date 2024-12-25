@@ -8,7 +8,8 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  bool _trackLocation = false; // משתנה לניהול מצב המעקב אחרי המיקום
+  bool _trackLocation = false; // משתנה למעקב מיקום
+  bool _learningMode = false; // משתנה למצב למידה
 
   @override
   Widget build(BuildContext context) {
@@ -23,11 +24,14 @@ class _SettingsState extends State<Settings> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start, // יישור התוכן לשמאל
           children: [
-            Text(
-              'הגדרות מיקום',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+            Align(
+              alignment: Alignment.centerRight, // יישור הכותרת לימין
+              child: Text(
+                'הגדרות מיקום',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             const SizedBox(height: 20), // מרווח אנכי
@@ -60,6 +64,45 @@ class _SettingsState extends State<Settings> {
                   const SizedBox(height: 16), // מרווח אנכי בין השורה להערה
                   Text(
                     'אפליקציה תתחיל הקלטה במקרה שיתקבל זיהוי קירבה לאיזור אירוע',
+                    textAlign: TextAlign.center, // יישור הטקסט למרכז
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey[600], // צבע טקסט אפור כהה
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 20), // מרווח אנכי
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.grey[200], // רקע אפור בהיר
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: Colors.grey), // גבול אפור
+              ),
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Switch(
+                        value: _learningMode,
+                        onChanged: (bool value) {
+                          setState(() {
+                            _learningMode = value; // עדכון מצב למידה
+                          });
+                        },
+                      ),
+                      Text(
+                        'מצב למידה',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16), // מרווח אנכי בין השורה להערה
+                  Text(
+                    'כאשר מצב למידה מופעל, האפליקציה תספק טיפים והדרכות',
                     textAlign: TextAlign.center, // יישור הטקסט למרכז
                     style: TextStyle(
                       fontSize: 14,
