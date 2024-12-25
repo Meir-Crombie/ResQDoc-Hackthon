@@ -10,7 +10,10 @@ class Rowofcontent extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        LeftText(),
+        LeftText(
+          mainTitle: "Main title left",
+          subTitle: "Sub Title left",
+        ),
         SizedBox(
           width: space,
         ),
