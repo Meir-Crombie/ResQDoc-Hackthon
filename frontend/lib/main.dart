@@ -12,7 +12,7 @@ void main() => runApp(MaterialApp(
       routes: {
         '/home': (context) => Home(),
         '/paramedic': (context) => ParamedicDoc(
-              fileName: "",
+              fileName: '',
             ),
         '/pastDoc': (context) => PastDoc(fileNum: null),
         '/listPastDocs': (context) => MissionsPage(),
