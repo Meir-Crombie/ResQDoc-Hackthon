@@ -4,7 +4,7 @@ import 'package:logger/logger.dart';
 
 class AboutPage extends StatelessWidget {
   final List<String> linkedinLinks = [
-    'https://linkedin.com/in/mendel-wagner-239901239/',
+    'https://www.linkedin.com/in/mendel-wagner-239901239/',
     'https://www.linkedin.com/in/meir-crombie-310816289/',
     'https://www.linkedin.com/in/daniel-pilant-5a8a052b5/',
     'https://www.linkedin.com/in/moshe-hanau-29a56131a/',
@@ -80,41 +80,41 @@ class AboutPage extends StatelessWidget {
             ),
             SizedBox(height: 20),
             Expanded(
-              child: GridView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 1,
-                  mainAxisSpacing: 20,
-                  crossAxisSpacing: 20,
-                ),
-                itemCount: 6,
-                itemBuilder: (context, index) {
-                  return Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      GestureDetector(
-                        onTap: () =>
-                            _launchURL(context, linkedinLinks[index + 1]),
-                        child: CircleAvatar(
-                          radius: 40,
-                          backgroundImage: AssetImage(
-                              'assets/Developer_photos/developer${index + 2}.jpg'),
+              child: SingleChildScrollView(
+                child: GridView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 1,
+                    mainAxisSpacing: 20,
+                    crossAxisSpacing: 20,
+                  ),
+                  itemCount: 6,
+                  itemBuilder: (context, index) {
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        GestureDetector(
+                          onTap: () => _launchURL(context, linkedinLinks[index + 1]),
+                          child: CircleAvatar(
+                            radius: 40,
+                            backgroundImage: AssetImage(
+                                'assets/Developer_photos/developer${index + 2}.jpg'),
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 8),
-                      Text(developerInfo[index + 1].item1,
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.bold)),
-                      Text(developerInfo[index + 1].item2,
-                          style: TextStyle(fontSize: 12)),
-                    ],
-                  );
-                },
+                        SizedBox(height: 8),
+                        Text(developerInfo[index + 1].item1,
+                            style: TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.bold)),
+                        Text(developerInfo[index + 1].item2,
+                            style: TextStyle(fontSize: 12)),
+                      ],
+                    );
+                  },
+                ),
               ),
             ),
-
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
@@ -132,6 +132,7 @@ class AboutPage extends StatelessWidget {
   }
 
   final logger = Logger();
+
   void _launchURL(BuildContext context, String url) async {
     logger.d('Attempting to launch URL: $url');
     Uri uri = Uri.parse(url);
@@ -141,22 +142,13 @@ class AboutPage extends StatelessWidget {
         await launchUrl(uri, mode: LaunchMode.externalApplication);
       } else {
         logger.w('Could not launch URL: $url');
-        _showErrorMessage(context, 'Could not launch URL');
       }
     } catch (e) {
       logger.e('Error launching URL: $e');
-      _showErrorMessage(context, 'Error launching URL');
     }
   }
-
-  void _showErrorMessage(BuildContext context, String message) {
-    final snackBar = SnackBar(
-      content: Text(message),
-      duration: Duration(seconds: 1),
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
 }
+
 
 class Tuple2<T1, T2> {
   final T1 item1;
