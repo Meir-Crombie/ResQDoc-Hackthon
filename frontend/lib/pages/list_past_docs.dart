@@ -93,7 +93,7 @@ class _MissionsPageState extends State<MissionsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('היסטורית קריאות',
+        title: Text('היסטוריית קריאות',
             style: TextStyle(fontFamily: 'AlmoniTzarAAA')),
         backgroundColor: const Color.fromARGB(255, 255, 123, 0),
       ),

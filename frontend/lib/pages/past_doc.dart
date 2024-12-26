@@ -36,7 +36,7 @@ class _PastDocState extends State<PastDoc> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'היסטורית משימות',
+          'היסטוריית משימות',
           style: TextStyle(
             fontFamily: 'AlmoniTzarAAA', // Updated font family
           ),
