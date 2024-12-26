@@ -5,6 +5,7 @@
       "firstName": "John",
       "lastName": "Doe",
       "age": "45",
+      "gender": "male",
       "city": "New York",
       "street": "5th Avenue",
       "houseNumber": "123",

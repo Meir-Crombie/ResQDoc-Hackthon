@@ -511,7 +511,7 @@ class _EmptyParamedicDocState extends State<EmptyParamedicDoc> {
                               .requestFocus(focusNodes[11]);
                         },
                         initialValue: localJsonData!['response']
-                                    ['patientDetails']['id']
+                                    ['patientDetails']['idOrPassport']
                                 ?.toString() ??
                             "Wrong Fetch",
                         jsonPath: [
@@ -870,7 +870,7 @@ class _EmptyParamedicDocState extends State<EmptyParamedicDoc> {
                     focusNode: focusNodes[26],
                     textInputAction: TextInputAction.next,
                     initialValue: localJsonData!['response']['smartData']
-                                ['findings']['allergies']
+                                ['findings']['medicalSensitivities']
                             ?.toString() ??
                         "Wrong Fetch",
                     onSubmitted: (_) {
@@ -1048,7 +1048,7 @@ class _EmptyParamedicDocState extends State<EmptyParamedicDoc> {
                         focusNode: focusNodes[32],
                         textInputAction: TextInputAction.next,
                         initialValue: localJsonData!['response']['smartData']
-                                    ['medicalMetrics']['bloodPressure']
+                                    ['medicalMetrics']['bloodPressure']['value']
                                 ?.toString() ??
                             "Wrong Fetch",
                         onSubmitted: (_) {
