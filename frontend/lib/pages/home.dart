@@ -220,7 +220,7 @@ class _HomeState extends State<Home> {
                   onTap: () {
                     Navigator.pop(context); // Close the drawer
                     Navigator.pushNamed(
-                        context, '/admin'); // Navigate to history
+                        context, '/history'); // Navigate to history
                   },
                 ),
                 ListTile(
@@ -233,12 +233,8 @@ class _HomeState extends State<Home> {
                     ), // History text
                     onTap: () {
                       Navigator.pop(context); // Close the drawer
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                PastDocForConfirmation(fileNum: '1'),
-                          ));
+                      Navigator.pushNamed(
+                          context, '/admin'); // Navigate to settings
                     }),
                 ListTile(
                   leading: const Icon(Icons.settings), // Settings icon
