@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/pages/admin.dart';
 import 'package:frontend/pages/history_for_maneger.dart';
+import 'package:frontend/pages/list_past_docs.dart';
 
 class ManegerDashBoard extends StatelessWidget {
   const ManegerDashBoard({super.key});
@@ -15,7 +16,7 @@ class ManegerDashBoard extends StatelessWidget {
           children: const [
             SizedBox(width: 10), // Spacing between icon and title
             Text(
-              '',
+              'לוח מנהלים',
               style: TextStyle(
                   color: Color.fromARGB(255, 0, 0, 0),
                   fontSize: 20,
@@ -24,6 +25,12 @@ class ManegerDashBoard extends StatelessWidget {
           ],
         ),
         automaticallyImplyLeading: false, // Disable default back button
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.black), // Back arrow
+          onPressed: () {
+            Navigator.pop(context); // Navigate back to the previous screen
+          },
+        ),
         actions: [
           Builder(
             builder: (BuildContext context) {
@@ -178,8 +185,13 @@ class ManegerDashBoard extends StatelessWidget {
                       'assets/images.png'), // עדכון שם התמונה בהתאם לצורך
                 ),
               ),
+              const Text(
+                'מנהל ברירת מחדל',
+                style: TextStyle(
+                  fontFamily: 'AlmoniTzarAAA', // Updated font family
+                ),
+              ),
               const SizedBox(height: 40),
-              // כפתור אישור קריאות
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   padding:
@@ -199,15 +211,43 @@ class ManegerDashBoard extends StatelessWidget {
                   );
                 },
                 child: const Text(
-                  'פתח אישור קריאות',
+                  'נהל אישור קריאות',
                   style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 255, 255, 255)),
+                    fontFamily: 'AlmoniTzarAAA',
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromARGB(255, 255, 255, 255),
+                  ),
                 ),
               ),
-
-              // תמונה מעגלית
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  backgroundColor:
+                      const Color.fromARGB(255, 247, 139, 76), // צבע רקע
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12), // פינות מעוגלות
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MissionsPage(),
+                    ),
+                  );
+                },
+                child: const Text(
+                  'נהל הסטוריית קריאות',
+                  style: TextStyle(
+                    fontFamily: 'AlmoniTzarAAA',
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromARGB(255, 255, 255, 255),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
