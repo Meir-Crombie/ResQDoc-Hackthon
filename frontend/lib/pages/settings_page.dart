@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -11,8 +10,8 @@ class Settings extends StatefulWidget {
 class _SettingsState extends State<Settings> {
   bool _trackLocation = false; // משתנה למעקב מיקום
   bool _learningMode = false; // משתנה למצב למידה
-  bool _locationAlerts = false; // Define the variable here
-  bool _locationReminder = false; // Define the variable here
+  bool _locationAlerts = false; // משתנה להתראות מיקום
+  bool _locationReminder = false; // משתנה לתזכורת מיקום
 
   @override
   Widget build(BuildContext context) {
@@ -154,7 +153,6 @@ class _SettingsState extends State<Settings> {
                 ),
               ),
             ),
-
             const SizedBox(height: 20), // מרווח אנכי
             Container(
               decoration: BoxDecoration(
@@ -181,9 +179,9 @@ class _SettingsState extends State<Settings> {
                         activeColor: const Color.fromARGB(
                             255, 255, 89, 0), // צבע רקע במצב פעיל
                         inactiveTrackColor: Colors.white, // צבע רקע במצב כבוי
-                        thumbColor: WidgetStateProperty.resolveWith<Color>(
-                            (Set<WidgetState> states) {
-                          if (states.contains(WidgetState.selected)) {
+                        thumbColor: MaterialStateProperty.resolveWith<Color>(
+                            (Set<MaterialState> states) {
+                          if (states.contains(MaterialState.selected)) {
                             return Colors.white; // צבע העיגול הפנימי במצב פעיל
                           }
                           return const Color.fromARGB(255, 255, 190,
@@ -224,9 +222,9 @@ class _SettingsState extends State<Settings> {
                         activeColor: const Color.fromARGB(
                             255, 255, 89, 0), // צבע רקע במצב פעיל
                         inactiveTrackColor: Colors.white, // צבע רקע במצב כבוי
-                        thumbColor: WidgetStateProperty.resolveWith<Color>(
-                            (Set<WidgetState> states) {
-                          if (states.contains(WidgetState.selected)) {
+                        thumbColor: MaterialStateProperty.resolveWith<Color>(
+                            (Set<MaterialState> states) {
+                          if (states.contains(MaterialState.selected)) {
                             return Colors.white; // צבע העיגול הפנימי במצב פעיל
                           }
                           return const Color.fromARGB(255, 255, 190,
@@ -267,9 +265,9 @@ class _SettingsState extends State<Settings> {
                         activeColor: const Color.fromARGB(
                             255, 255, 89, 0), // צבע רקע במצב פעיל
                         inactiveTrackColor: Colors.white, // צבע רקע במצב כבוי
-                        thumbColor: WidgetStateProperty.resolveWith<Color>(
-                            (Set<WidgetState> states) {
-                          if (states.contains(WidgetState.selected)) {
+                        thumbColor: MaterialStateProperty.resolveWith<Color>(
+                            (Set<MaterialState> states) {
+                          if (states.contains(MaterialState.selected)) {
                             return Colors.white; // צבע העיגול הפנימי במצב פעיל
                           }
                           return const Color.fromARGB(255, 255, 190,
@@ -336,9 +334,9 @@ class _SettingsState extends State<Settings> {
                         activeColor: const Color.fromARGB(
                             255, 255, 89, 0), // צבע רקע במצב פעיל
                         inactiveTrackColor: Colors.white, // צבע רקע במצב כבוי
-                        thumbColor: WidgetStateProperty.resolveWith<Color>(
-                            (Set<WidgetState> states) {
-                          if (states.contains(WidgetState.selected)) {
+                        thumbColor: MaterialStateProperty.resolveWith<Color>(
+                            (Set<MaterialState> states) {
+                          if (states.contains(MaterialState.selected)) {
                             return Colors.white; // צבע העיגול הפנימי במצב פעיל
                           }
                           return const Color.fromARGB(255, 255, 190,

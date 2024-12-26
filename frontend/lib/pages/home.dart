@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:frontend/pages/history_for_maneger.dart';
 import 'package:frontend/pages/paramedic_doc.dart';
 import 'package:record/record.dart';
 import 'package:just_audio/just_audio.dart';
@@ -218,6 +219,19 @@ class _HomeState extends State<Home> {
                         context, '/history'); // Navigate to history
                   },
                 ),
+                ListTile(
+                    leading: const Icon(Icons.manage_accounts), // Info icon
+                    title: const Text(
+                      'מנהל',
+                      style: TextStyle(
+                        fontFamily: 'AlmoniTzarAAA', // Updated font family
+                      ),
+                    ), // History text
+                    onTap: () {
+                      Navigator.pop(context); // Close the drawer
+                      Navigator.pushNamed(
+                          context, '/maneger'); // Navigate to settings
+                    }),
                 ListTile(
                   leading: const Icon(Icons.settings), // Settings icon
                   title: const Text(

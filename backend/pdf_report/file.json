@@ -1,15 +1,15 @@
 {
   "patientDetails": {
     "idOrPassport": "12345678",
-    "firstName": "ישראל",
-    "lastName": "כהן",
+    "firstName": "דניאל",
+    "lastName": "פיילנט",
     "age": "45",
     "gender": "זכר",
     "city": "תל אביב",
     "street": "דיזנגוף",
     "houseNumber": "10",
     "phone": "050-1234567",
-    "email": "israel@example.com"
+    "email": "Dandan770148@gmail.com"
   },
   "smartData": {
     "findings": {
