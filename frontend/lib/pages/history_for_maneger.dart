@@ -122,10 +122,13 @@ class _PastDocForConfirmationState extends State<PastDocForConfirmation> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
-                  color: checkbox1
-                      ? Colors.green
-                      : Colors
-                          .transparent, // אם checkbox1 הוא true, הצבע ירוק, אחרת צבע שקוף
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    color: checkbox1
+                        ? const Color.fromARGB(255, 255, 255, 255)
+                        : Colors
+                            .transparent, // אם checkbox1 הוא true, הצבע ירוק, אחרת צבע שקוף
+                  ),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
@@ -843,6 +846,7 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: const Color.fromARGB(255, 255, 255, 255)),
         ),
         padding: const EdgeInsets.all(8),
         child: TextField(
