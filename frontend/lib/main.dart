@@ -10,6 +10,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'pages/about_page.dart';
 import 'pages/list_past_docs.dart';
 import "Screens/SummeryScreen.dart";
+import 'pages/dup_parmedic.dart';
 
 Future<Map<String, dynamic>> readJson() async {
   final String response = await rootBundle.loadString('data/dummydata.json');
@@ -31,5 +32,6 @@ void main() => runApp(MaterialApp(
         '/admin': (context) => AdminsPage(),
         '/confirmation': (context) => PastDocForConfirmation(),
         '/maneger': (context) => ManegerDashBoard(),
+        '/paramedic_dup': (context) => EmptyParamedicDoc(),
       },
     )); // Material app
