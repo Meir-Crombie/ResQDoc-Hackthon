@@ -81,15 +81,15 @@ class _SettingsState extends State<Settings> {
                           });
                         },
                         activeColor: const Color.fromARGB(
-                            255, 255, 118, 44), // צבע רקע במצב פעיל
+                            255, 255, 89, 0), // צבע רקע במצב פעיל
                         inactiveTrackColor: Colors.white, // צבע רקע במצב כבוי
                         thumbColor: WidgetStateProperty.resolveWith<Color>(
                             (Set<WidgetState> states) {
                           if (states.contains(WidgetState.selected)) {
                             return Colors.white; // צבע העיגול הפנימי במצב פעיל
                           }
-                          return const Color.fromARGB(
-                              255, 255, 118, 44); // צבע העיגול הפנימי במצב כבוי
+                          return const Color.fromARGB(255, 255, 190,
+                              155); // צבע העיגול הפנימי במצב כבוי
                         }),
                       ),
                       Text(
@@ -124,15 +124,15 @@ class _SettingsState extends State<Settings> {
                           });
                         },
                         activeColor: const Color.fromARGB(
-                            255, 255, 118, 44), // צבע רקע במצב פעיל
+                            255, 255, 89, 0), // צבע רקע במצב פעיל
                         inactiveTrackColor: Colors.white, // צבע רקע במצב כבוי
                         thumbColor: WidgetStateProperty.resolveWith<Color>(
                             (Set<WidgetState> states) {
                           if (states.contains(WidgetState.selected)) {
                             return Colors.white; // צבע העיגול הפנימי במצב פעיל
                           }
-                          return const Color.fromARGB(
-                              255, 255, 118, 44); // צבע העיגול הפנימי במצב כבוי
+                          return const Color.fromARGB(255, 255, 190,
+                              155); // צבע העיגול הפנימי במצב כבוי
                         }),
                       ),
                       Text(
@@ -167,15 +167,15 @@ class _SettingsState extends State<Settings> {
                           });
                         },
                         activeColor: const Color.fromARGB(
-                            255, 255, 118, 44), // צבע רקע במצב פעיל
+                            255, 255, 89, 0), // צבע רקע במצב פעיל
                         inactiveTrackColor: Colors.white, // צבע רקע במצב כבוי
                         thumbColor: WidgetStateProperty.resolveWith<Color>(
                             (Set<WidgetState> states) {
                           if (states.contains(WidgetState.selected)) {
                             return Colors.white; // צבע העיגול הפנימי במצב פעיל
                           }
-                          return const Color.fromARGB(
-                              255, 255, 118, 44); // צבע העיגול הפנימי במצב כבוי
+                          return const Color.fromARGB(255, 255, 190,
+                              155); // צבע העיגול הפנימי במצב כבוי
                         }),
                       ),
                       Text(
@@ -236,15 +236,15 @@ class _SettingsState extends State<Settings> {
                           });
                         },
                         activeColor: const Color.fromARGB(
-                            255, 255, 118, 44), // צבע רקע במצב פעיל
+                            255, 255, 89, 0), // צבע רקע במצב פעיל
                         inactiveTrackColor: Colors.white, // צבע רקע במצב כבוי
                         thumbColor: WidgetStateProperty.resolveWith<Color>(
                             (Set<WidgetState> states) {
                           if (states.contains(WidgetState.selected)) {
                             return Colors.white; // צבע העיגול הפנימי במצב פעיל
                           }
-                          return const Color.fromARGB(
-                              255, 255, 118, 44); // צבע העיגול הפנימי במצב כבוי
+                          return const Color.fromARGB(255, 255, 190,
+                              155); // צבע העיגול הפנימי במצב כבוי
                         }),
                       ),
                       Text(
