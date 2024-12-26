@@ -15,3 +15,9 @@
     
   }
 }
+Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              PastDocForConfirmation(fileNum: '1'),
+                        ));
