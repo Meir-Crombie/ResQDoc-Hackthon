@@ -1,8 +1,10 @@
 import 'dart:convert';
-
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:frontend/widgets/RowOfContent.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:http/http.dart' as http;
 
 const double spaceBetweenNodes = 100;
 const double widthOfLine = 1.1;
@@ -60,13 +62,13 @@ void googleMapsShow(ctx, lat, log) {
   );
 }
 
-const SystemJSON = {
+var DummySystemJSON = {
   "Phase Two": {
     "Agents": "Shmuel",
     "Arrived At": "15:05",
   }
 };
-const BackendJSON = {
+var DummyBackendJSON = {
   "Phase One": {
     "Location": "Jerusalem",
     "Call Accepted At": "15:00",
@@ -83,13 +85,73 @@ const BackendJSON = {
     "Call Closed At": "15:40",
   },
 };
+Future<Map<String, dynamic>> loadJsonFromFile(String fileNumber) async {
+  try {
+    // Load local JSON file
+    final directoryPath = (await getApplicationDocumentsDirectory()).path;
+    final filePath = '$directoryPath/file$fileNumber.json';
+    final file = File(filePath);
+    final jsonString = await file.readAsString();
+    final jsonData = json.decode(jsonString);
 
-class SummeryScreen extends StatelessWidget {
-  const SummeryScreen({super.key});
+    // Extract response field
+    if (!jsonData.containsKey('response')) {
+      throw Exception('No response field in JSON');
+    }
+    print("SNET");
+    // Send POST request to server
+    final response = await http.post(
+      Uri.parse('http://http://20.84.43.139:5000/summary'),
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode({'response': jsonData['response']}),
+    );
+    print("GOT");
+
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      throw Exception('Failed to get summary: ${response.statusCode}');
+    }
+  } catch (e) {
+    print('Error processing JSON: $e');
+    throw Exception('Failed to process JSON file');
+  }
+}
+
+class SummeryScreen extends StatefulWidget {
+  const SummeryScreen({super.key, this.filepath});
+  final String? filepath;
+
+  @override
+  State<SummeryScreen> createState() => _SummeryScreenState();
+}
+
+class _SummeryScreenState extends State<SummeryScreen> {
+  Map<String, dynamic>? jsonData; // Make nullable
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.filepath != null) {
+      loadJsonFromFile(widget.filepath!).then((data) {
+        setState(() {
+          jsonData = data;
+        });
+      }).catchError((error) {
+        print('Error loading JSON: $error');
+        // Handle error state
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    print(BackendJSON);
-    print(SystemJSON);
+    print(jsonData);
+    if (jsonData == null) {
+      return Center(
+        child: CircularProgressIndicator(),
+      );
+    }
     return Scaffold(
       body: Container(
         //Gradient coloring
@@ -111,8 +173,8 @@ class SummeryScreen extends StatelessWidget {
               //Phase one - Call Accepted
               RowofContent(
                 mainTitleLeft: "Call Been Received",
-                subTitleLeft: "Area: ${BackendJSON["Phase One"]!["Location"]}",
-                clockValue: "${BackendJSON["Phase One"]!["Call Accepted At"]}",
+                subTitleLeft: "Area: ${jsonData!["Phase One"]!["Location"]}",
+                clockValue: "${jsonData!["Phase One"]!["Call Accepted At"]}",
                 icon: Icons.inbox,
                 onPressFunc: () =>
                     googleMapsShow(context, 45.521563, -122.677433),
@@ -129,8 +191,8 @@ class SummeryScreen extends StatelessWidget {
                 onPressFunc: () {},
                 mainTitleLeft: "Wearing has arrived",
                 subTitleLeft:
-                    "Agent: ${SystemJSON["Phase Two"]!["Agents"]}", //TODO: Fix, and promot all the agents
-                clockValue: "${SystemJSON["Phase Two"]!["Arrived At"]}",
+                    "Agent: ${DummySystemJSON["Phase Two"]!["Agents"]}", //TODO: Fix, and promot all the agents
+                clockValue: "${DummySystemJSON["Phase Two"]!["Arrived At"]}",
                 icon: Icons.account_balance,
               ),
               Container(
@@ -145,9 +207,9 @@ class SummeryScreen extends StatelessWidget {
                 onPressFunc: () {},
                 mainTitleLeft: "Main Couse",
                 subTitleLeft:
-                    "Case Found: ${BackendJSON["Phase Three"]!["Main Couse"]}",
+                    "Case Found: ${jsonData!["Phase Three"]!["Main Couse"]}",
                 clockValue:
-                    "${SystemJSON["Phase Two"]!["Arrived At"]}", //TODO: Fix its to have more meaningfull value
+                    "${DummySystemJSON["Phase Two"]!["Arrived At"]}", //TODO: Fix its to have more meaningfull value
                 icon: Icons.info,
               ),
               Container(
@@ -162,8 +224,8 @@ class SummeryScreen extends StatelessWidget {
                 onPressFunc: () {},
                 mainTitleLeft: "Treatments given",
                 subTitleLeft:
-                    "Action: ${BackendJSON["Phase Four"]!["Treatments Given"]}",
-                clockValue: "${BackendJSON["Phase Four"]!["Took At"]}",
+                    "Action: ${jsonData!["Phase Four"]!["Treatments Given"]}",
+                clockValue: "${jsonData!["Phase Four"]!["Took At"]}",
                 icon: Icons.account_tree_outlined,
               ),
               Container(
@@ -177,8 +239,9 @@ class SummeryScreen extends StatelessWidget {
               RowofContent(
                 onPressFunc: () {},
                 mainTitleLeft: "Call Closed",
-                subTitleLeft: "Status: ${BackendJSON["Phase Five"]!["Status"]}",
-                clockValue: "${BackendJSON["Phase Five"]!["Call Closed At"]}",
+                subTitleLeft: "Status: ${jsonData!["Phase Five"]!["Status"]}",
+                clockValue:
+                    "${DummyBackendJSON["Phase Five"]!["Call Closed At"]}",
                 icon: Icons.check,
               ),
               SizedBox(

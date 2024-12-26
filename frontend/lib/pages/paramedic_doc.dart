@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:http/http.dart' as http;
 import 'tools.dart';
+import 'package:path/path.dart' as path; // Add this import
 
 Future<Map<String, dynamic>> readBackendJson() async {
   final String response = await rootBundle.loadString('data/dummydata.json');
@@ -50,7 +51,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
       // Adjust based on your total number of fields
       focusNodes.add(FocusNode());
     }
-
+    print(StaticTools.nextAlowNum);
     // Load JSON data and then execute subsequent code
     _initializeData();
   }
@@ -88,6 +89,30 @@ class _ParamedicDocState extends State<ParamedicDoc> {
         print("---------- HERE IS THE RESPONSE ----------");
         return jsonDecode(response.body);
       } else {
+        print("Entering API request");
+        // Create multipart request
+        var request = http.MultipartRequest(
+          'POST',
+          Uri.parse('http://20.84.43.139:5000/analyze'),
+        );
+
+        // Add audio file to request
+        var audioFile = await http.MultipartFile.fromPath(
+          'audio', // field name expected by server
+          fileName,
+          filename: path.basename(fileName),
+        );
+
+        request.files.add(audioFile);
+
+        // Send request
+        var streamedResponse = await request.send();
+        var response = await http.Response.fromStream(streamedResponse);
+
+        if (response.statusCode == 200) {
+          print("HELOO AGAIN NIGAA");
+          return jsonDecode(response.body);
+        }
         throw Exception('Failed to load JSON data');
       }
     } catch (e) {
@@ -803,7 +828,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                             "Wrong Fetch",
                         onSubmitted: (_) {
                           return FocusScope.of(context)
-                              .requestFocus(focusNodes[22]);
+                              .requestFocus(focusNodes[23]);
                         },
                         jsonPath: [
                           'response',
