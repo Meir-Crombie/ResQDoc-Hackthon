@@ -8,7 +8,7 @@ class AboutPage extends StatelessWidget {
     'https://www.linkedin.com/in/meir-crombie-310816289/',
     'https://www.linkedin.com/in/daniel-pilant-5a8a052b5/',
     'https://www.linkedin.com/in/moshe-hanau-29a56131a/',
-    'https://he.wikipedia.org/wiki/%D7%97%D7%A0%D7%95%D7%9A',
+    'https://youtu.be/dQw4w9WgXcQ?si=MaalUNI_XMZzg4Uw',
     'https://www.linkedin.com/in/yedidia-bakuradze-195621271/',
     'https://www.linkedin.com/in/yitshac-brody/',
   ];
@@ -133,22 +133,49 @@ class AboutPage extends StatelessWidget {
 
   final logger = Logger();
 
-  void _launchURL(BuildContext context, String url) async {
-    logger.d('Attempting to launch URL: $url');
-    Uri uri = Uri.parse(url);
-    try {
-      if (await canLaunchUrl(uri)) {
-        logger.d('Launching URL: $url');
-        await launchUrl(uri, mode: LaunchMode.externalApplication);
-      } else {
-        logger.w('Could not launch URL: $url');
-      }
-    } catch (e) {
+void _launchURL(BuildContext context, String urlString) async {
+   final Uri uri = Uri.parse(urlString);
+  try {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+   } catch (e) {
       logger.e('Error launching URL: $e');
-    }
-  }
+      _showError(context);
+   }
 }
 
+
+
+
+ // void _launchURL(BuildContext context, String url) async {
+ //  await launch(url);
+ //   logger.d('Attempting to launch URL: $url');
+ //   final Uri uri = Uri.parse(url);
+ //   if (await canLaunchUrl(uri)) {
+ //     try {
+ //       await launchUrl(
+ //         uri,
+ //         mode: LaunchMode.inAppWebView,
+ //         webViewConfiguration: WebViewConfiguration(enableJavaScript: true),
+ //       );
+ //       logger.d('Successfully launched URL: $url');
+ //     } catch (e) {
+ //       logger.e('Error launching URL: $e');
+ //       _showError(context);
+ //     }
+ //   } else {
+ //     logger.e('Could not launch URL: $url');
+ //     _showError(context);
+ //   }
+ // }
+
+  void _showError(BuildContext context) {
+    final snackBar = SnackBar(
+      content: Text('Could not launch URL'),
+      duration: Duration(seconds: 1),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+}
 
 class Tuple2<T1, T2> {
   final T1 item1;
