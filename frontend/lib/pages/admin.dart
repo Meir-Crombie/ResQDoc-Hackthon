@@ -132,37 +132,64 @@ class _AdminsPageState extends State<AdminsPage> {
                           snapshot.data!.where((v) => v).length / 5;
                       return Column(
                         children: [
-                          ListTile(
-                            title: Text(
-                              '$missionNum אירוע',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            subtitle: Text(
-                              'Progress: ${(progress * 100).toStringAsFixed(0)}%',
-                              style: TextStyle(color: Colors.white70),
-                            ),
-                            tileColor: const Color.fromARGB(255, 247, 139, 76),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50),
-                            ),
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => PastDocForConfirmation(
-                                      fileNum: '$missionNum'),
-                                ),
-                              );
-                            },
-                          ),
                           Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 16.0),
-                            child: LinearProgressIndicator(
-                              value: progress,
-                              backgroundColor: Colors.grey[300],
-                              valueColor:
-                                  AlwaysStoppedAnimation<Color>(Colors.green),
+                            padding: const EdgeInsets.all(
+                                8.0), // Adjust padding as needed
+                            child: ListTile(
+                              title: Text(
+                                '$missionNum אירוע',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Verified Progress: ${(progress * 100).toStringAsFixed(0)}%',
+                                    style: TextStyle(color: Colors.white70),
+                                  ),
+                                  SizedBox(
+                                      height:
+                                          8), // Space between text and progress bar
+                                  ShaderMask(
+                                    shaderCallback: (Rect bounds) {
+                                      return LinearGradient(
+                                        colors: progress > 0
+                                            ? [Colors.green, Colors.orange]
+                                            : [Colors.orange, Colors.orange],
+                                        stops: [0.0, 1.0],
+                                      ).createShader(
+                                        Rect.fromLTRB(
+                                            0,
+                                            0,
+                                            bounds.width * progress,
+                                            bounds.height),
+                                      );
+                                    },
+                                    blendMode: BlendMode.srcIn,
+                                    child: LinearProgressIndicator(
+                                      value: progress,
+                                      backgroundColor: Colors.grey[300],
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                          Colors.white),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              tileColor:
+                                  const Color.fromARGB(255, 247, 139, 76),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        PastDocForConfirmation(
+                                            fileNum: '$missionNum'),
+                                  ),
+                                );
+                              },
                             ),
                           ),
                         ],
