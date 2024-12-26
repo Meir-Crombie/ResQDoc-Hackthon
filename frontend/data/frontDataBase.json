@@ -13,3 +13,9 @@
     "timeMedicArrived": "21/01/22 13:04:53"
   }
 }
+Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              PastDocForConfirmation(fileNum: '1'),
+                        ));
