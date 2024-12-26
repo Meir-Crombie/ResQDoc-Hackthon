@@ -330,7 +330,7 @@ class _EmptyParamedicDocState extends State<EmptyParamedicDoc> {
                               .requestFocus(focusNodes[3]);
                         },
                         initialValue: localJsonData!['response']['eventDetails']
-                                    ['eventId']
+                                    ['id']
                                 ?.toString() ??
                             "Wrong Fetch",
                         jsonPath: ['response', 'eventDetails', 'id'],
@@ -349,7 +349,7 @@ class _EmptyParamedicDocState extends State<EmptyParamedicDoc> {
                               .requestFocus(focusNodes[4]);
                         },
                         initialValue: localJsonData!['response']['eventDetails']
-                                    ['timeEventOpened']
+                                    ['timeOpened']
                                 ?.toString() ??
                             "Wrong Fetch",
                         jsonPath: ['response', 'eventDetails', 'timeOpened'],
@@ -371,7 +371,7 @@ class _EmptyParamedicDocState extends State<EmptyParamedicDoc> {
                       return FocusScope.of(context).requestFocus(focusNodes[5]);
                     },
                     initialValue: localJsonData!['response']['eventDetails']
-                                ['eventCity']
+                                ['city']
                             ?.toString() ??
                         "Wrong Fetch",
                     jsonPath: ['response', 'eventDetails', 'city'],
@@ -394,7 +394,7 @@ class _EmptyParamedicDocState extends State<EmptyParamedicDoc> {
                               .requestFocus(focusNodes[6]);
                         },
                         initialValue: localJsonData!['response']['eventDetails']
-                                    ['eventHouseNumber']
+                                    ['houseNumber']
                                 ?.toString() ??
                             "Wrong Fetch",
                         writeToJson: null,
@@ -414,7 +414,7 @@ class _EmptyParamedicDocState extends State<EmptyParamedicDoc> {
                               .requestFocus(focusNodes[7]);
                         },
                         initialValue: localJsonData!['response']['eventDetails']
-                                    ['eventStreet']
+                                    ['street']
                                 ?.toString() ??
                             "Wrong Fetch",
                         writeToJson: null,
@@ -441,7 +441,7 @@ class _EmptyParamedicDocState extends State<EmptyParamedicDoc> {
                               .requestFocus(focusNodes[9]);
                         },
                         initialValue: localJsonData!['response']['eventDetails']
-                                    ['caseThatWasLaunched']
+                                    ['missionEvent']
                                 ?.toString() ??
                             "Wrong Fetch",
                         writeToJson: null,
@@ -465,7 +465,7 @@ class _EmptyParamedicDocState extends State<EmptyParamedicDoc> {
                               .requestFocus(focusNodes[10]);
                         },
                         initialValue: localJsonData!['response']['eventDetails']
-                                    ['timeMedicArrived']
+                                    ['timeArrived']
                                 ?.toString() ??
                             "Wrong Fetch",
                         writeToJson: null,
