@@ -24,7 +24,7 @@ class _MissionsPageState extends State<MissionsPage> {
 
       // Get the file path
       final directoryPath = (await getApplicationDocumentsDirectory()).path;
-      final filePath = '$directoryPath/verifed$jsonNum.json';
+      final filePath = '$directoryPath/verified$jsonNum.json';
       final file = File(filePath);
 
       print('Reading from file: $filePath');
