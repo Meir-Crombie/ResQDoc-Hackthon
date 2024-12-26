@@ -13,6 +13,10 @@ class PastDocForConfirmation extends StatefulWidget {
 }
 
 class _PastDocForConfirmationState extends State<PastDocForConfirmation> {
+  bool checkbox1 = false;
+  bool checkbox2 = false;
+  bool checkbox3 = false;
+  bool checkbox4 = false;
   @override
   void initState() {
     super.initState();
@@ -87,13 +91,29 @@ class _PastDocForConfirmationState extends State<PastDocForConfirmation> {
                     color: const Color.fromARGB(255, 255, 118, 44),
                     // Adding border for visibility
                   ),
-                  child: Text(
-                    'פרטי כונן',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'AlmoniTzarAAA', // Updated font family
-                    ),
+
+                  child: Row(
+                    children: [
+                      Checkbox(
+                        value: checkbox1,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            checkbox1 = value!;
+                          });
+                        },
+                      ),
+                      SizedBox(width: 125),
+                      Center(
+                        child: Text(
+                          'פרטי כונן',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'AlmoniTzarAAA', // Updated font family
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),

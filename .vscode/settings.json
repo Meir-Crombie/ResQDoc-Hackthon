@@ -1,3 +1,12 @@
 {
-    "cmake.sourceDirectory": "C:/Users/mozs7/ResQDoc/new hack/ResQDoc-Hackthon/frontend/linux"
+    "cmake.sourceDirectory": "C:/Users/mozs7/ResQDoc/new hack/ResQDoc-Hackthon/frontend/linux",
+    "python.testing.unittestArgs": [
+        "-v",
+        "-s",
+        "./backend",
+        "-p",
+        "*test.py"
+    ],
+    "python.testing.pytestEnabled": false,
+    "python.testing.unittestEnabled": true
 }

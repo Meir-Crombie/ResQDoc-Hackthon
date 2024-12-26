@@ -126,6 +126,10 @@ class _HomeState extends State<Home> {
             const Color.fromARGB(255, 255, 123, 0), // App bar background color
         title: Row(
           children: const [
+            Icon(
+              Icons.home, // Home icon
+              color: Color.fromARGB(255, 0, 0, 0), // Icon color
+            ),
             SizedBox(width: 10), // Spacing between icon and title
             Text(
               '',
@@ -229,12 +233,8 @@ class _HomeState extends State<Home> {
                     ), // History text
                     onTap: () {
                       Navigator.pop(context); // Close the drawer
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                PastDocForConfirmation(fileNum: '1'),
-                          ));
+                      Navigator.pushNamed(
+                          context, '/admin'); // Navigate to settings
                     }),
                 ListTile(
                   leading: const Icon(Icons.settings), // Settings icon

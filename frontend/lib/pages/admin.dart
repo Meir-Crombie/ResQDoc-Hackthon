@@ -3,13 +3,14 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:frontend/pages/past_doc.dart';
 import 'package:path_provider/path_provider.dart';
+import 'history_for_maneger.dart';
 
-class MissionsPage extends StatefulWidget {
+class AdminsPage extends StatefulWidget {
   @override
-  _MissionsPageState createState() => _MissionsPageState();
+  _AdminsPageState createState() => _AdminsPageState();
 }
 
-class _MissionsPageState extends State<MissionsPage> {
+class _AdminsPageState extends State<AdminsPage> {
   List<int> missionFiles = [];
 
   @override
@@ -93,8 +94,8 @@ class _MissionsPageState extends State<MissionsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('היסטוריית קריאות',
-            style: TextStyle(fontFamily: 'AlmoniTzarAAA')),
+        title:
+            Text('אישור קריאות', style: TextStyle(fontFamily: 'AlmoniTzarAAA')),
         backgroundColor: const Color.fromARGB(255, 255, 123, 0),
       ),
       body: missionFiles.isEmpty
@@ -103,11 +104,9 @@ class _MissionsPageState extends State<MissionsPage> {
               itemCount: missionFiles.length,
               itemBuilder: (context, index) {
                 int missionNum = missionFiles[index];
-                return FutureBuilder<String?>(
-                  future: readFromJson(
-                      ['response', 'eventDetails', 'id'], missionNum),
+                return FutureBuilder<List<bool>>(
+                  future: _checkMissionProgress(missionNum),
                   builder: (context, snapshot) {
-                    SizedBox(height: 10);
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return ListTile(
                         title: Text(
@@ -119,7 +118,7 @@ class _MissionsPageState extends State<MissionsPage> {
                     } else if (snapshot.hasError || snapshot.data == null) {
                       return ListTile(
                         title: Text(
-                          'Mission $missionNum',
+                          '$missionNum אירוע',
                           style: TextStyle(color: Colors.white),
                         ),
                         subtitle: Text(
@@ -129,129 +128,182 @@ class _MissionsPageState extends State<MissionsPage> {
                         tileColor: Colors.redAccent,
                       );
                     } else {
-                      return ListTile(
-                        title: Text(
-                          'Mission $missionNum',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        subtitle: Text(
-                          'ID: ${snapshot.data}',
-                          style: TextStyle(color: Colors.white70),
-                        ),
-                        tileColor: const Color.fromARGB(255, 247, 139, 76),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50),
-                        ),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  PastDoc(fileNum: '$missionNum'),
+                      double progress =
+                          snapshot.data!.where((v) => v).length / 5;
+                      return Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(
+                                8.0), // Adjust padding as needed
+                            child: ListTile(
+                              title: Text(
+                                '$missionNum אירוע',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Verified Progress: ${(progress * 100).toStringAsFixed(0)}%',
+                                    style: TextStyle(color: Colors.white70),
+                                  ),
+                                  SizedBox(
+                                      height:
+                                          8), // Space between text and progress bar
+                                  ShaderMask(
+                                    shaderCallback: (Rect bounds) {
+                                      return LinearGradient(
+                                        colors: progress > 0
+                                            ? [Colors.green, Colors.orange]
+                                            : [Colors.orange, Colors.orange],
+                                        stops: [0.0, 1.0],
+                                      ).createShader(
+                                        Rect.fromLTRB(
+                                            0,
+                                            0,
+                                            bounds.width * progress,
+                                            bounds.height),
+                                      );
+                                    },
+                                    blendMode: BlendMode.srcIn,
+                                    child: LinearProgressIndicator(
+                                      value: progress,
+                                      backgroundColor: Colors.grey[300],
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                          Colors.white),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              tileColor:
+                                  const Color.fromARGB(255, 247, 139, 76),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        PastDocForConfirmation(
+                                            fileNum: '$missionNum'),
+                                  ),
+                                );
+                              },
                             ),
-                          );
-                        },
+                          ),
+                        ],
                       );
                     }
                   },
                 );
               },
             ),
-      endDrawer: Drawer(
-        child: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                const Color.fromARGB(
-                    255, 255, 163, 110), // Gradient start color
-                const Color.fromARGB(255, 255, 255, 255), // Gradient end color
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
+      endDrawer: _buildEndDrawer(context),
+    );
+  }
+
+  Future<List<bool>> _checkMissionProgress(int missionNum) async {
+    try {
+      final results = await Future.wait([
+        readFromJson(['verified', 'eventId'], missionNum),
+        readFromJson(['verified', 'patientDetails'], missionNum),
+        readFromJson(['verified', 'smartData', 'findings'], missionNum),
+        readFromJson(['verified', 'smartData', 'medicalMetrics'], missionNum),
+        readFromJson(['verified', 'eventDetails'], missionNum),
+      ]);
+
+      return results
+          .map((result) => (result != "false" && result != null))
+          .toList();
+    } catch (e) {
+      return [false, false, false, false, false];
+    }
+  }
+
+  Widget _buildEndDrawer(BuildContext context) {
+    return Drawer(
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              const Color.fromARGB(255, 255, 163, 110),
+              const Color.fromARGB(255, 255, 255, 255),
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
-          child: Directionality(
-            textDirection: TextDirection.rtl, // Force LTR alignment
-            child: ListView(
-              padding: EdgeInsets.zero,
-              children: <Widget>[
-                DrawerHeader(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        const Color.fromARGB(
-                            255, 255, 255, 255), // Gradient color for header
-                        const Color.fromARGB(255, 247, 139, 76),
-                      ],
-                    ),
-                  ),
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        'assets/logo_ichud_2.png', // Add your image asset path here
-                        fit: BoxFit.cover,
-                        height: 100,
-                        width: 167,
-                      ),
+        ),
+        child: Directionality(
+          textDirection: TextDirection.rtl,
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: <Widget>[
+              DrawerHeader(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      const Color.fromARGB(255, 255, 255, 255),
+                      const Color.fromARGB(255, 247, 139, 76),
                     ],
                   ),
                 ),
-                ListTile(
-                  leading: const Icon(Icons.home), // Info icon
-                  title: const Text(
-                    'בית',
-                    style: TextStyle(
-                      fontFamily: 'AlmoniTzarAAA', // Updated font family
+                child: Row(
+                  children: [
+                    Image.asset(
+                      'assets/logo_ichud_2.png',
+                      fit: BoxFit.cover,
+                      height: 100,
+                      width: 167,
                     ),
-                  ), // About text
-                  onTap: () {
-                    Navigator.pop(context); // Close the drawer
-                    Navigator.pushNamed(context, '/home'); // Navigate to home
-                  },
+                  ],
                 ),
-                ListTile(
-                  leading: const Icon(Icons.history), // Info icon
-                  title: const Text(
-                    'היסטוריה',
-                    style: TextStyle(
-                      fontFamily: 'AlmoniTzarAAA', // Updated font family
-                    ),
-                  ), // History text
-                  onTap: () {
-                    Navigator.pop(context); // Close the drawer
-                    Navigator.pushNamed(
-                        context, '/history'); // Navigate to history
-                  },
+              ),
+              ListTile(
+                leading: const Icon(Icons.home),
+                title: const Text(
+                  'בית',
+                  style: TextStyle(fontFamily: 'AlmoniTzarAAA'),
                 ),
-                ListTile(
-                  leading: const Icon(Icons.settings), // Settings icon
-                  title: const Text(
-                    'הגדרות',
-                    style: TextStyle(
-                      fontFamily: 'AlmoniTzarAAA', // Updated font family
-                    ),
-                  ), // Settings text
-                  onTap: () {
-                    Navigator.pop(context); // Close the drawer
-                    Navigator.pushNamed(
-                        context, '/settings'); // Navigate to settings
-                  },
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.pushNamed(context, '/home');
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.history),
+                title: const Text(
+                  'היסטוריה',
+                  style: TextStyle(fontFamily: 'AlmoniTzarAAA'),
                 ),
-                ListTile(
-                  leading: const Icon(Icons.info), // Info icon
-                  title: const Text(
-                    'About',
-                    style: TextStyle(
-                      fontFamily: 'AlmoniTzarAAA', // Updated font family
-                    ),
-                  ), // About text
-                  onTap: () {
-                    Navigator.pop(context); // Close the drawer
-                    Navigator.pushNamed(context, '/about'); // Navigate to about
-                  },
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.pushNamed(context, '/history');
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.settings),
+                title: const Text(
+                  'הגדרות',
+                  style: TextStyle(fontFamily: 'AlmoniTzarAAA'),
                 ),
-              ],
-            ),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.pushNamed(context, '/settings');
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.info),
+                title: const Text(
+                  'About',
+                  style: TextStyle(fontFamily: 'AlmoniTzarAAA'),
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.pushNamed(context, '/about');
+                },
+              ),
+            ],
           ),
         ),
       ),
