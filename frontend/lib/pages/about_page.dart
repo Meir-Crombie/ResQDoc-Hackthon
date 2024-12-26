@@ -96,7 +96,8 @@ class AboutPage extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         GestureDetector(
-                          onTap: () => _launchURL(context, linkedinLinks[index + 1]),
+                          onTap: () =>
+                              _launchURL(context, linkedinLinks[index + 1]),
                           child: CircleAvatar(
                             radius: 40,
                             backgroundImage: AssetImage(
@@ -133,40 +134,39 @@ class AboutPage extends StatelessWidget {
 
   final logger = Logger();
 
-void _launchURL(BuildContext context, String urlString) async {
-   final Uri uri = Uri.parse(urlString);
-  try {
+  AboutPage({super.key});
+
+  void _launchURL(BuildContext context, String urlString) async {
+    final Uri uri = Uri.parse(urlString);
+    try {
       await launchUrl(uri, mode: LaunchMode.externalApplication);
-   } catch (e) {
+    } catch (e) {
       logger.e('Error launching URL: $e');
       _showError(context);
-   }
-}
+    }
+  }
 
-
-
-
- // void _launchURL(BuildContext context, String url) async {
- //  await launch(url);
- //   logger.d('Attempting to launch URL: $url');
- //   final Uri uri = Uri.parse(url);
- //   if (await canLaunchUrl(uri)) {
- //     try {
- //       await launchUrl(
- //         uri,
- //         mode: LaunchMode.inAppWebView,
- //         webViewConfiguration: WebViewConfiguration(enableJavaScript: true),
- //       );
- //       logger.d('Successfully launched URL: $url');
- //     } catch (e) {
- //       logger.e('Error launching URL: $e');
- //       _showError(context);
- //     }
- //   } else {
- //     logger.e('Could not launch URL: $url');
- //     _showError(context);
- //   }
- // }
+  // void _launchURL(BuildContext context, String url) async {
+  //  await launch(url);
+  //   logger.d('Attempting to launch URL: $url');
+  //   final Uri uri = Uri.parse(url);
+  //   if (await canLaunchUrl(uri)) {
+  //     try {
+  //       await launchUrl(
+  //         uri,
+  //         mode: LaunchMode.inAppWebView,
+  //         webViewConfiguration: WebViewConfiguration(enableJavaScript: true),
+  //       );
+  //       logger.d('Successfully launched URL: $url');
+  //     } catch (e) {
+  //       logger.e('Error launching URL: $e');
+  //       _showError(context);
+  //     }
+  //   } else {
+  //     logger.e('Could not launch URL: $url');
+  //     _showError(context);
+  //   }
+  // }
 
   void _showError(BuildContext context) {
     final snackBar = SnackBar(

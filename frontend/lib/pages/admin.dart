@@ -6,6 +6,8 @@ import 'package:path_provider/path_provider.dart';
 import 'history_for_maneger.dart';
 
 class AdminsPage extends StatefulWidget {
+  const AdminsPage({super.key});
+
   @override
   _AdminsPageState createState() => _AdminsPageState();
 }

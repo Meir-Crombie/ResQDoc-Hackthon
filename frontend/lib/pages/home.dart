@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:frontend/pages/history_for_maneger.dart';
 import 'package:frontend/pages/paramedic_doc.dart';
 import 'package:record/record.dart';
 import 'package:just_audio/just_audio.dart';

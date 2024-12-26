@@ -207,13 +207,13 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                                 _scrollToSection(
                                     _medicalMetricsKey); // פעולה שתבוצע בלחיצה על הכפתור
                               },
-                              child: Text('מדדים רפואיים'),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor:
                                     const Color.fromARGB(255, 234, 216, 236),
                                 foregroundColor:
                                     const Color.fromARGB(255, 0, 0, 0),
                               ),
+                              child: Text('מדדים רפואיים'),
                             ),
                             SizedBox(width: 8),
                             ElevatedButton(
@@ -221,13 +221,13 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                                 _scrollToSection(
                                     _findingsKey); // פעולה שתבוצע בלחיצה על הכפתור
                               },
-                              child: Text('ממצאים רפואיים'),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor:
                                     const Color.fromARGB(255, 234, 216, 236),
                                 foregroundColor:
                                     const Color.fromARGB(255, 0, 0, 0),
                               ),
+                              child: Text('ממצאים רפואיים'),
                             ),
                             SizedBox(width: 8),
                             ElevatedButton(
@@ -235,13 +235,13 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                                 _scrollToSection(
                                     _patientDetailsKey); // פעולה שתבוצע בלחיצה על הכפתור
                               },
-                              child: Text('פרטי מטופל'),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor:
                                     const Color.fromARGB(255, 234, 216, 236),
                                 foregroundColor:
                                     const Color.fromARGB(255, 0, 0, 0),
                               ),
+                              child: Text('פרטי מטופל'),
                             ),
                             SizedBox(width: 8),
                             ElevatedButton(
@@ -249,13 +249,13 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                                 _scrollToSection(
                                     _eventDetailsKey); // פעולה שתבוצע בלחיצה על הכפתור
                               },
-                              child: Text('פרטי אירוע'),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor:
                                     const Color.fromARGB(255, 234, 216, 236),
                                 foregroundColor:
                                     const Color.fromARGB(255, 0, 0, 0),
                               ),
+                              child: Text('פרטי אירוע'),
                             ),
                             SizedBox(width: 8),
                             ElevatedButton(
@@ -263,13 +263,13 @@ class _ParamedicDocState extends State<ParamedicDoc> {
                                 _scrollToSection(
                                     _medicDetailsKey); // פעולה שתבוצע בלחיצה על הכפתור
                               },
-                              child: Text('פרטי כונן'),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor:
                                     const Color.fromARGB(255, 234, 216, 236),
                                 foregroundColor:
                                     const Color.fromARGB(255, 0, 0, 0),
                               ),
+                              child: Text('פרטי כונן'),
                             ),
                             SizedBox(width: 8),
                           ]))),

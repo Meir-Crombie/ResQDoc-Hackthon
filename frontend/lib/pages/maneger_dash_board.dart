@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/pages/admin.dart';
-import 'package:frontend/pages/history_for_maneger.dart';
 import 'package:frontend/pages/list_past_docs.dart';
 
 class ManegerDashBoard extends StatelessWidget {
