@@ -30,6 +30,104 @@ class _SettingsState extends State<Settings> {
         centerTitle: true, // מרכז את הכותרת
         backgroundColor: Color.fromARGB(255, 255, 118, 44), // צבע הרקע
       ),
+      endDrawer: Drawer(
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                const Color.fromARGB(
+                    255, 255, 163, 110), // Gradient start color
+                const Color.fromARGB(255, 255, 255, 255), // Gradient end color
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+          child: Directionality(
+            textDirection: TextDirection.rtl, // Force LTR alignment
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: <Widget>[
+                DrawerHeader(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        const Color.fromARGB(
+                            255, 255, 255, 255), // Gradient color for header
+                        const Color.fromARGB(255, 247, 139, 76),
+                      ],
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        'assets/logo_ichud_2.png', // Add your image asset path here
+                        fit: BoxFit.cover,
+                        height: 100,
+                        width: 167,
+                      ),
+                    ],
+                  ),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.home), // Info icon
+                  title: const Text(
+                    'בית',
+                    style: TextStyle(
+                      fontFamily: 'AlmoniTzarAAA', // Updated font family
+                    ),
+                  ), // About text
+                  onTap: () {
+                    Navigator.pop(context); // Close the drawer
+                    Navigator.pushNamed(context, '/home'); // Navigate to home
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.history), // Info icon
+                  title: const Text(
+                    'היסטוריה',
+                    style: TextStyle(
+                      fontFamily: 'AlmoniTzarAAA', // Updated font family
+                    ),
+                  ), // History text
+                  onTap: () {
+                    Navigator.pop(context); // Close the drawer
+                    Navigator.pushNamed(
+                        context, '/history'); // Navigate to history
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.settings), // Settings icon
+                  title: const Text(
+                    'הגדרות',
+                    style: TextStyle(
+                      fontFamily: 'AlmoniTzarAAA', // Updated font family
+                    ),
+                  ), // Settings text
+                  onTap: () {
+                    Navigator.pop(context); // Close the drawer
+                    Navigator.pushNamed(
+                        context, '/settings'); // Navigate to settings
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.info), // Info icon
+                  title: const Text(
+                    'About',
+                    style: TextStyle(
+                      fontFamily: 'AlmoniTzarAAA', // Updated font family
+                    ),
+                  ), // About text
+                  onTap: () {
+                    Navigator.pop(context); // Close the drawer
+                    Navigator.pushNamed(context, '/about'); // Navigate to about
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
