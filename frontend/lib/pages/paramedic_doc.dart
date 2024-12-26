@@ -50,7 +50,6 @@ class _ParamedicDocState extends State<ParamedicDoc> {
       // Adjust based on your total number of fields
       focusNodes.add(FocusNode());
     }
-    print(StaticTools.nextAlowNum);
     // Load JSON data and then execute subsequent code
     _initializeData();
   }
@@ -76,7 +75,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
           "Invalid value",
     ];
 
-    SaveToJson.writeToJson(texts); // Execute only after loadJsonData completes
+    SaveToJson.saveToJson(texts); // Execute only after loadJsonData completes
   }
 
   //This method requests from the server the dummy data which is saved in the backend, if failed it will return a local dummy JSON
@@ -156,16 +155,10 @@ class _ParamedicDocState extends State<ParamedicDoc> {
           IconButton(
             icon: Icon(Icons.save), // Icon of your choice
             tooltip: 'save to json',
-            color: (StaticTools.allowSubmit.every((value) => value))
-                ? const Color.fromARGB(255, 0, 255, 8)
-                : const Color.fromARGB(255, 255, 0, 0),
-            onPressed: () {
-              if (StaticTools.allowSubmit.every((value) => value)) {
+            color: const Color.fromARGB(255, 0, 255, 8),
+            onPressed: () async {
+              if (await StaticTools.checkEmptyValues()) {
                 // All elements in allowSubmit are true
-                StaticTools.allowSubmit =
-                    StaticTools.allowSubmit.map((value) => false).toList();
-                StaticTools.nextAlowNum = 0;
-                StaticTools.nextNum++;
                 Navigator.pushNamed(context, '/past');
               } else {
                 // Not all elements are true
