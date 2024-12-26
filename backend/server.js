@@ -1,7 +1,8 @@
 import express from "express";
 import multer from "multer";
-import { createReadStream } from "fs";
+import { createReadStream, writeFile, unlink } from "fs"; // Added writeFile and unlink
 import crypto from "crypto";
+import { exec } from "child_process"; // Added exec
 import {
   getWhissperClient,
   getJsonFieldsFilled,
@@ -207,7 +208,7 @@ app.post("/final", upload.single("audio"), async (req, res) => {
       "אחת שתיים שלוש ארבע חמש שש שבע שמונה תשע"
       Im expecting you to provide the transcript as:
       "123456789"
-
+      Again, CONVERT ALL NUMBERS WORDS INTO A NUMBER REPRESENTATIONS!
       If the numbers are not in a row, for example there is a stop between the digits and the conversation switched, present it as a digits and not as single number
       its important!
       `,
@@ -231,6 +232,53 @@ app.post("/final", upload.single("audio"), async (req, res) => {
     res.send(formattedResult);
   } catch (err) {
     logWithTimestamp("Error analyzing transcript:", err.message);
+    res.status(500).send("Server Error");
+  }
+});
+app.post("/pdf", upload.single("jsonFile"), async (req, res) => {
+  try {
+    logWithTimestamp("=============== PDF Endpoint ===============");
+    if (!req.file) {
+      return res.status(400).send("No JSON file uploaded");
+    }
+
+    const jsonFilePath = req.file.path;
+    const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
+    const pdfFileName = `output_${timestamp}.pdf`;
+
+    console.log(jsonFilePath);
+    console.log(pdfFileName);
+
+    // Call the Python script
+    exec(
+      `python ./pdf_report/main.py ${jsonFilePath} ${pdfFileName}`,
+      (error, stdout, stderr) => {
+        if (error) {
+          logWithTimestamp(`Error executing Python script: ${error.message}`);
+          return res.status(500).send("Error generating PDF");
+        }
+        if (stderr) {
+          logWithTimestamp(`Python script stderr: ${stderr}`);
+        }
+        logWithTimestamp(`Python script stdout: ${stdout}`);
+
+        // Read the generated PDF file and send it as response
+        res.setHeader("Content-Type", "application/pdf");
+        createReadStream(pdfFileName).pipe(res);
+
+        // Clean up temporary files
+        unlink(jsonFilePath, (err) => {
+          if (err)
+            logWithTimestamp(`Error deleting temp JSON file: ${err.message}`);
+        });
+        unlink(pdfFileName, (err) => {
+          if (err)
+            logWithTimestamp(`Error deleting temp PDF file: ${err.message}`);
+        });
+      }
+    );
+  } catch (err) {
+    logWithTimestamp(`Error processing PDF request: ${err.message}`);
     res.status(500).send("Server Error");
   }
 });
