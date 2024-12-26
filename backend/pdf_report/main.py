@@ -3,6 +3,8 @@ from jinja2 import Environment, FileSystemLoader
 import os
 import json
 import sys
+import requests
+import subprocess  # Add this import
 
 # Function to create HTML from JSON data
 def create_html(data):
@@ -27,9 +29,11 @@ def generate_pdf(data, output_pdf):
     }
 
     pdfkit.from_file('report.html', output_pdf, options=pdf_options)
-    print("PDF נוצר בהצלחה!")
+    print("PDF Successfully Generated!")
 
-# Example usage
+    # Open the PDF file
+    subprocess.run(['start', output_pdf], shell=True)  # Add this line
+
 if __name__ == "__main__":
     if len(sys.argv) != 3:
         print("Usage: python main.py <input_json_file> <output_pdf_file>")
@@ -39,5 +43,6 @@ if __name__ == "__main__":
     output_pdf_file = sys.argv[2]
 
     with open(input_json_file, 'r', encoding='utf-8') as file:
-        json_data = json.load(file)
-    generate_pdf(json_data, output_pdf_file)
+        data = json.load(file)
+
+    generate_pdf(data, output_pdf_file)
