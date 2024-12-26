@@ -84,7 +84,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
   Future<dynamic> readJsonFromServer(String fileName) async {
     try {
       final response =
-          await http.get(Uri.parse('http://20.84.43.139:5000/analyzeDemo'));
+          await http.get(Uri.parse('http://20.84.43.139:5000/showCase'));
       if (response.statusCode == 200) {
         print("---------- HERE IS THE RESPONSE ----------");
         return jsonDecode(response.body);
