@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/pages/admin.dart';
 import 'package:frontend/pages/history_for_maneger.dart';
+import 'package:frontend/pages/maneger_dash_board.dart';
 import 'package:frontend/pages/settings_page.dart';
 import 'pages/home.dart';
 import 'pages/paramedic_doc.dart';
@@ -29,5 +30,6 @@ void main() => runApp(MaterialApp(
         '/history': (context) => MissionsPage(),
         '/admin': (context) => AdminsPage(),
         '/confirmation': (context) => PastDocForConfirmation(),
+        '/maneger': (context) => ManegerDashBoard(),
       },
     )); // Material app

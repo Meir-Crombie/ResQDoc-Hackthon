@@ -409,8 +409,8 @@ abstract class SaveToJson {
       "verified": {
         "patientDetails": "false",
         "smartData": {
-          "findings": "false",
-          "medicalMetrics": "false",
+          "findings": "true",
+          "medicalMetrics": "true",
         },
         "eventDetails": "false",
         "eventId": "false",

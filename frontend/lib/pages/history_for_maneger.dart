@@ -149,13 +149,28 @@ class _PastDocForConfirmationState extends State<PastDocForConfirmation> {
                     borderRadius: BorderRadius.circular(30),
                     color: const Color.fromARGB(255, 255, 118, 44),
                   ),
-                  child: Text(
-                    'פרטי אירוע',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'AlmoniTzarAAA', // Updated font family
-                    ),
+                  child: Row(
+                    children: [
+                      Checkbox(
+                        value: checkbox1,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            checkbox1 = value!;
+                          });
+                        },
+                      ),
+                      SizedBox(width: 125),
+                      Center(
+                        child: Text(
+                          'פרטי אירוע',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'AlmoniTzarAAA', // Updated font family
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -259,13 +274,28 @@ class _PastDocForConfirmationState extends State<PastDocForConfirmation> {
                     borderRadius: BorderRadius.circular(30),
                     color: const Color.fromARGB(255, 255, 118, 44),
                   ),
-                  child: Text(
-                    'פרטי מטופל',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'AlmoniTzarAAA', // Updated font family
-                    ),
+                  child: Row(
+                    children: [
+                      Checkbox(
+                        value: checkbox1,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            checkbox1 = value!;
+                          });
+                        },
+                      ),
+                      SizedBox(width: 125),
+                      Center(
+                        child: Text(
+                          'פרטי מטופל',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'AlmoniTzarAAA', // Updated font family
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -389,13 +419,28 @@ class _PastDocForConfirmationState extends State<PastDocForConfirmation> {
                     borderRadius: BorderRadius.circular(30),
                     color: const Color.fromARGB(255, 255, 118, 44),
                   ),
-                  child: Text(
-                    'ממצאים רפואיים',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'AlmoniTzarAAA', // Updated font family
-                    ),
+                  child: Row(
+                    children: [
+                      Checkbox(
+                        value: checkbox1,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            checkbox1 = value!;
+                          });
+                        },
+                      ),
+                      SizedBox(width: 125),
+                      Center(
+                        child: Text(
+                          'ממצאים רפואיים',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'AlmoniTzarAAA', // Updated font family
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -520,13 +565,28 @@ class _PastDocForConfirmationState extends State<PastDocForConfirmation> {
                     borderRadius: BorderRadius.circular(30),
                     color: const Color.fromARGB(255, 255, 118, 44),
                   ),
-                  child: Text(
-                    'מדדים רפואיים',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'AlmoniTzarAAA', // Updated font family
-                    ),
+                  child: Row(
+                    children: [
+                      Checkbox(
+                        value: checkbox1,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            checkbox1 = value!;
+                          });
+                        },
+                      ),
+                      SizedBox(width: 125),
+                      Center(
+                        child: Text(
+                          'פרטי מטופל',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'AlmoniTzarAAA', // Updated font family
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),

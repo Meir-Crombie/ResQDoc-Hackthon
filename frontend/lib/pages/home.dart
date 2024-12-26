@@ -126,10 +126,6 @@ class _HomeState extends State<Home> {
             const Color.fromARGB(255, 255, 123, 0), // App bar background color
         title: Row(
           children: const [
-            Icon(
-              Icons.home, // Home icon
-              color: Color.fromARGB(255, 0, 0, 0), // Icon color
-            ),
             SizedBox(width: 10), // Spacing between icon and title
             Text(
               '',
@@ -224,9 +220,9 @@ class _HomeState extends State<Home> {
                   },
                 ),
                 ListTile(
-                    leading: const Icon(Icons.confirmation_num), // Info icon
+                    leading: const Icon(Icons.manage_accounts), // Info icon
                     title: const Text(
-                      'אישור מנהל',
+                      'מנהל',
                       style: TextStyle(
                         fontFamily: 'AlmoniTzarAAA', // Updated font family
                       ),
@@ -234,7 +230,7 @@ class _HomeState extends State<Home> {
                     onTap: () {
                       Navigator.pop(context); // Close the drawer
                       Navigator.pushNamed(
-                          context, '/admin'); // Navigate to settings
+                          context, '/maneger'); // Navigate to settings
                     }),
                 ListTile(
                   leading: const Icon(Icons.settings), // Settings icon
