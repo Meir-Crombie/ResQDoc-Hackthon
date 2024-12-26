@@ -220,9 +220,9 @@ class _HomeState extends State<Home> {
                   },
                 ),
                 ListTile(
-                    leading: const Icon(Icons.confirmation_num), // Info icon
+                    leading: const Icon(Icons.manage_accounts), // Info icon
                     title: const Text(
-                      'אישור מנהל',
+                      'מנהל',
                       style: TextStyle(
                         fontFamily: 'AlmoniTzarAAA', // Updated font family
                       ),
@@ -230,7 +230,7 @@ class _HomeState extends State<Home> {
                     onTap: () {
                       Navigator.pop(context); // Close the drawer
                       Navigator.pushNamed(
-                          context, '/admin'); // Navigate to settings
+                          context, '/maneger'); // Navigate to settings
                     }),
                 ListTile(
                   leading: const Icon(Icons.settings), // Settings icon

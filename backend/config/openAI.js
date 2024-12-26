@@ -6,25 +6,6 @@ function logWithTimestamp(message) {
   const timestamp = new Date().toISOString();
   console.log(`[${timestamp}] ${message}`);
 }
-
-const BackendJSONSmaple = {
-  "Phase One": {
-    Location: "Jerusalem",
-    "Call Accepted At": "15:00",
-  },
-  "Phase Three": {
-    "Main Couse": "Animal bite",
-  },
-  "Phase Four": {
-    "Treatments Given": ["CPR", "epipen"],
-    "Took At": "15:13",
-  },
-  "Phase Five": {
-    Status: "Patient R.I.P ☠️",
-    "Call Closed At": "15:40",
-  },
-};
-
 //The template of the form
 export const medicalTemplate = {
   patientDetails: {
@@ -76,7 +57,7 @@ const deploymentName = "whisper";
 
 //The fieled auto fill Ai connection object
 const groq = new Groq({
-  apiKey: "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",
+  apiKey: "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",
 });
 
 function getWhissperClient() {
@@ -166,100 +147,93 @@ The response in JSON which im expecting you to deliver:
   return completion.choices[0].message.content;
 }
 
-async function getSummeryFilled(txt) {
-  logWithTimestamp("Step Five: Connecting to Groq -> llama3 Model ...");
-  logWithTimestamp("Step Six: Processing form filling ...");
-  const completion = await groq.chat.completions.create({
-    messages: [
-      {
-        role: "system",
-        content: `
+async function FinalVersionFormFilled(trans) {
+  try {
+    logWithTimestamp("Step Five: Connecting to Groq -> llama3 Model ...");
+    logWithTimestamp("Step Six: Processing form filling ...");
 
-        You are a medical data extraction system.
-        Im looking to summorize the key points and the important details of an medical crisis
-        You are given a JSON object which contains the values of an inscidient of a patient
-        inside of it you'll find the treatment which the patient has been given, the anameza of the call and more details
-        im asking you to understand the data which is stored there, analyze it, and return a new JSON formatted reponsed which in it the fields are filled with value 
-        , values that are asssosiated with thier JSON title
-
-        The reponsed JSON foramt is:
-        ${BackendJSONSmaple}
-
-        Here is an exmaple for a past JSON and the expected JSON reponse
-
-        The request:
+    const completion = await groq.chat.completions.create({
+      messages: [
         {
-        "patientDetails": {
-            "idOrPassport": "123456789",
-            "firstName": "אורי",
-            "lastName": "מאיר",
-            "age": "22",
-            "gender": "זכר",
-            "city": "ירושלים",
-            "street": "לאה גולדברג",
-            "houseNumber": "12",
-            "phone": "0535002312",
-            "email": "yedidia@gmail.com"
-        },
-        "smartData": {
-            "findings": {
-                "diagnosis": "",
-                "patientStatus": "חלש מאוד",
-                "mainComplaint": "כאבים בבטן ושלשולים",
-                "anamnesis": "אורי, בן 22, פנה עקב תחושת סחרחורת, כאבים בבטן ושלשולים מאז הלילה. ראה עצמו יושב ברחוב לאחר עילפון. נפל קדימה במהלך העילפון ויש נפיחות במצח. לא ידע שתכלל.",
-                "medicalSensitivities": "רגיש לבוטנים",
-                "statusWhenFound": "יושב ברחוב לאחר עילפון",
-                "CaseFound": "פצוע"
-            },
-            "medicalMetrics": {
-                "bloodPressure": {
-                    "value": "100/60",
-                    "time": ""
-                },
-                "Heart Rate": "110",
-                "Lung Auscultation": "תקין",
-                "consciousnessLevel": "מלאה",
-                "breathingRate": "22 לדקה",
-                "breathingCondition": "קושי בנשימה בשל פגיעה בקני הנשימה",
-                "skinCondition": "חיוור ומזיע",
-                "lungCondition": "תקין",
-                "CO2Level": "גבוה"
-            }
-        }
-}
+          role: "system",
+          content: `
+You are about to get a hebrew speech of an indevidual about a medical event, it would include values of the following subjects:
+Full name,
+(Israeli)Id
+(In israel)City
+Allergies - (Either does he have an allergie or not)
+Type of pain
+blood presure
 
-the response that im expecting you to provide:
+im expecting you to return a JSON formated response which the keys would be the fields and the corresponding values for the keys would fit the fields
+Here is the structure of the JSON repsonse file:
 {
-  "Phase One": {
-    "Location": "Jerusalem",
-    "Call Accepted At": "15:00",
-  },
-  "Phase Three": {
-    "Main Couse": "אורי, בן 22, פנה עקב תחושת סחרחורת, כאבים בבטן ושלשולים מאז הלילה. ראה עצמו יושב ברחוב לאחר עילפון. נפל קדימה במהלך העילפון ויש נפיחות במצח. לא ידע שתכלל.",
-  },
-  "Phase Four": {
-    "Treatments Given": ["החייאה"],
-    "Took At": "15:13",
-  },
-  "Phase Five": {
-    "Status": "טופל ללא הפניה",
-    "Call Closed At": "15:40",
-  },
+  "name": "",
+  "age": "",
+  "id": "",
+  "city": "",
+  "allergies": "",
+  "pain": "",
+  "bloodPressure": ""
 }
 
+The values that you'll expect from the request would be categorized by the fields
+here is the dataset for each field, the options are saparated by the | sign:
 
-Thank you
+name: דניאל כהן | משה גת | יוסי לוי | דן בנט
+age: 20 | 13 | 47 | 60
+id:  1234 | 6758 | 4879 | 5193
+city: ירושלים | צפת | אשקלון | תל אביב
+allergies: כן | לא
+pain: ראש | כתף | יד שבורה | דימום
+bloodPressure:  180/40 | 160/70 | 120/35 | 90/130
+
+To help you analize better the given request, here are two samples of speechs that you'll might recive and the response json that im expecting you to deliver in these cases
+
+Case 1:
+The Request
+שלום, מה השם שלך דניאל כהן בן כמה אתה 20 תעודת זהות בבקשה? 1234 מאיפה אתה ירושלים יש לך אלרגיות כלשהן כן איפה כואב לך בכתף
+לחץ הדם שלך נמדד, זה 160 על 70 בסדר תודה, אני אעביר את המידע לצוות
+The expected response:
+{
+  "name": "דניאל כהן",
+  "age": 20,
+  "id": "1234",
+  "city": "ירושלים",
+  "allergies": "כן",
+  "pain": "כתף",
+  "bloodPressure": "160/70"
+}
+
+Case 2:
+The reqeust
+שלום, מה השם שלך משה גת בן כמה אתה 13 תעודת זהות בבקשה 4879 מאיפה אתה צפת יש לך אלרגיות כלשהן לא
+איפה כואב לך בראש לחץ הדם שלך נמדד זה 120 על 35 בסדר תודה אני אעביר את המידע לצוות
+The expected response
+  {
+    "name": "משה גת",
+    "age": 13,
+    "id": 4879,
+    "city": "צפת",
+    "allergies": "לא",
+    "pain": "ראש",
+    "bloodPressure": "120/35"
+  },
+Make sure that all the fields including the keys and the values are in string type and not an int
         `,
-      },
-      {
-        role: "user",
-        content: `Here is the transcript which im requesting from you to provide the JSON by its values: ${txt}`,
-      },
-    ],
-    model: "llama3-8b-8192",
-  });
-  logWithTimestamp("Step Seven: Form data been recived succefully ...");
-  return completion.choices[0].message.content;
+        },
+        {
+          role: "user",
+          content: `Here is the transcript which im requesting from you to provide the JSON by its values: ${trans}`,
+        },
+      ],
+      model: "llama3-8b-8192",
+    });
+    logWithTimestamp("Step Seven: Form data been recived succefully ...");
+    return completion.choices[0].message.content;
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 //Converting to a valid value
@@ -317,5 +291,5 @@ export {
   formatModelResponse,
   getJsonFieldsFilled,
   logWithTimestamp,
-  getSummeryFilled,
+  FinalVersionFormFilled,
 };
