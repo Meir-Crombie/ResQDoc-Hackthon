@@ -17,6 +17,8 @@ class _PastDocForConfirmationState extends State<PastDocForConfirmation> {
   bool checkbox2 = false;
   bool checkbox3 = false;
   bool checkbox4 = false;
+  bool checkbox5 = false;
+
   @override
   void initState() {
     super.initState();
@@ -119,24 +121,37 @@ class _PastDocForConfirmationState extends State<PastDocForConfirmation> {
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: DefaultTextField(
-                        labelText: 'מזהה כונן',
-                        jsonPath: ['response', 'eventDetails', 'id'],
-                        jsonFile: 'file${widget.fileNum}',
-                      ),
+                child: Container(
+                  color: checkbox1
+                      ? Colors.green
+                      : Colors
+                          .transparent, // אם checkbox1 הוא true, הצבע ירוק, אחרת צבע שקוף
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: DefaultTextField(
+                            labelText: 'מזהה כונן',
+                            jsonPath: ['response', 'eventDetails', 'id'],
+                            jsonFile: 'file${widget.fileNum}',
+                          ),
+                        ),
+                        SizedBox(width: 8),
+                        Expanded(
+                          child: DefaultTextField(
+                            labelText: 'שם כונן',
+                            jsonPath: [
+                              'response',
+                              'patientDetails',
+                              'firstName'
+                            ],
+                            jsonFile: 'file${widget.fileNum}',
+                          ),
+                        ),
+                      ],
                     ),
-                    SizedBox(width: 8),
-                    Expanded(
-                      child: DefaultTextField(
-                        labelText: 'שם כונן',
-                        jsonPath: ['response', 'patientDetails', 'firstName'],
-                        jsonFile: 'file${widget.fileNum}',
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ),
               Padding(
@@ -152,10 +167,10 @@ class _PastDocForConfirmationState extends State<PastDocForConfirmation> {
                   child: Row(
                     children: [
                       Checkbox(
-                        value: checkbox1,
+                        value: checkbox2,
                         onChanged: (bool? value) {
                           setState(() {
-                            checkbox1 = value!;
+                            checkbox2 = value!;
                           });
                         },
                       ),
@@ -277,10 +292,10 @@ class _PastDocForConfirmationState extends State<PastDocForConfirmation> {
                   child: Row(
                     children: [
                       Checkbox(
-                        value: checkbox1,
+                        value: checkbox3,
                         onChanged: (bool? value) {
                           setState(() {
-                            checkbox1 = value!;
+                            checkbox3 = value!;
                           });
                         },
                       ),
@@ -422,10 +437,10 @@ class _PastDocForConfirmationState extends State<PastDocForConfirmation> {
                   child: Row(
                     children: [
                       Checkbox(
-                        value: checkbox1,
+                        value: checkbox4,
                         onChanged: (bool? value) {
                           setState(() {
-                            checkbox1 = value!;
+                            checkbox4 = value!;
                           });
                         },
                       ),
@@ -568,10 +583,10 @@ class _PastDocForConfirmationState extends State<PastDocForConfirmation> {
                   child: Row(
                     children: [
                       Checkbox(
-                        value: checkbox1,
+                        value: checkbox5,
                         onChanged: (bool? value) {
                           setState(() {
-                            checkbox1 = value!;
+                            checkbox5 = value!;
                           });
                         },
                       ),
