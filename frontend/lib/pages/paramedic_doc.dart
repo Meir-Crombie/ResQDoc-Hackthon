@@ -83,11 +83,14 @@ class _ParamedicDocState extends State<ParamedicDoc> {
   //This method requests from the server the dummy data which is saved in the backend, if failed it will return a local dummy JSON
   Future<dynamic> readJsonFromServer(String fileName) async {
     try {
-      final response =
-          await http.get(Uri.parse('http://20.84.43.139:5000/showCase'));
-      if (response.statusCode == 200) {
-        print("---------- HERE IS THE RESPONSE ----------");
-        return jsonDecode(response.body);
+      if (fileName == "") {
+        final response =
+            await http.get(Uri.parse('http://20.84.43.139:5000/showCase'));
+        if (response.statusCode == 200) {
+          print("---------- HERE IS THE RESPONSE ----------");
+          return jsonDecode(response.body);
+        }
+        throw Exception('Failed to load JSON data');
       } else {
         print("Entering API request");
         // Create multipart request
