@@ -23,6 +23,8 @@ dependencies:
   permission_handler: ^11.3.1
   url_launcher: ^6.0.20
   logger: ^2.5.0
+  flutter_svg: ^0.22.0
+  
 
 dev_dependencies:
   flutter_test:
@@ -41,6 +43,7 @@ flutter:
     - assets/logo_ichud_2.png
     - assets/daniel_pilant.jpg
     - assets/Developer_photos/
+    - assets/images.png
 
   fonts:
     - family: AlmoniTzarAAA
