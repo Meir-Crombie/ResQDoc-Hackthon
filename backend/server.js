@@ -182,14 +182,16 @@ app.post("/analyze", upload.single("audio"), async (req, res) => {
 
 app.post("/final", upload.single("audio"), async (req, res) => {
   try {
-    logWithTimestamp("=============== Analyze Endpoint ===============");
+    logWithTimestamp("=============== Final Endpoint ===============");
     if (!req.file) {
       return res.status(400).send("No audio file uploaded");
     }
     logWithTimestamp("Step One: Getting audio file ...");
     // Only on production
     const audioFilePath = req.file.path;
-    logWithTimestamp("Step Two: Connecting to Whissper Model ...");
+    logWithTimestamp(
+      `Step Two: Connecting to Whissper Model | ${audioFilePath}`
+    );
     const client = getWhissperClient();
 
     logWithTimestamp("Step Three: Processsing audio transcript ...");
@@ -207,19 +209,19 @@ app.post("/final", upload.single("audio"), async (req, res) => {
       "123456789"
 
       If the numbers are not in a row, for example there is a stop between the digits and the conversation switched, present it as a digits and not as single number
+      its important!
       `,
       file: createReadStream(audioFilePath),
     });
-    console.log(resultText);
 
     logWithTimestamp("Step Four: Transcript succefully been generated ...");
     const result = await FinalVersionFormFilled(resultText.text);
-    console.log(result);
 
     logWithTimestamp(
       "Step Eight: Formatting info data into proper JSON file ..."
     );
     const formattedResult = formatModelResponse(result);
+    console.log(result);
 
     logWithTimestamp(
       "Step Nine: Form data been converted into JSON succefully ..."

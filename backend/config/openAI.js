@@ -219,7 +219,7 @@ The expected response
     "pain": "ראש",
     "bloodPressure": "120/35"
   },
-Make sure that all the fields including the keys and the values are in string type and not an int
+Make sure that all the fields including the keys and the values are in string type and not an int!
         `,
         },
         {
