@@ -232,6 +232,8 @@ abstract class SaveToJson {
       // Write back the updated JSON data
       print(jsonEncode(jsonData));
       await file.writeAsString(jsonEncode(jsonData), mode: FileMode.write);
+      jsonData = _initializeJsonVerifedStructure();
+      await file.writeAsString(jsonEncode(jsonData), mode: FileMode.write);
 
       print('Data written to file successfully');
     } catch (e) {
@@ -337,7 +339,11 @@ abstract class SaveToJson {
       currentMap[path.last] = text;
       // Write back the updated JSON data
       print(jsonEncode(jsonData));
-      await file.writeAsString(jsonEncode(jsonData), mode: FileMode.write);
+      final vfilePath =
+          '$directoryPath/verified${StaticTools.nextNum}.json'; // Use the static variable for the file name
+      final vfile = File(vfilePath);
+
+      await vfile.writeAsString(jsonEncode(jsonData), mode: FileMode.write);
 
       print('Data written to file successfully');
     } catch (e) {
@@ -397,7 +403,7 @@ abstract class SaveToJson {
 
   static Map<String, dynamic> _initializeJsonVerifedStructure() {
     return {
-      "vreified": {
+      "verified": {
         "patientDetails": "",
         "smartData": {
           "findings": "",
