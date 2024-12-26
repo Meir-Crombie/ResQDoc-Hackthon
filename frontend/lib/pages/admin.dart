@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:frontend/pages/past_doc.dart';
 import 'package:path_provider/path_provider.dart';
+import 'history_for_maneger.dart';
 
 class AdminsPage extends StatefulWidget {
   @override
@@ -148,8 +149,8 @@ class _AdminsPageState extends State<AdminsPage> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      PastDoc(fileNum: '$missionNum'),
+                                  builder: (context) => PastDocForConfirmation(
+                                      fileNum: '$missionNum'),
                                 ),
                               );
                             },
