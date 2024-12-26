@@ -7,6 +7,7 @@ import {
   getJsonFieldsFilled,
   formatModelResponse,
   logWithTimestamp,
+  getSummeryFilled,
 } from "./config/openAI.js";
 
 const port = process.env.PORT || 5000;
@@ -245,6 +246,35 @@ app.get("/showCase", async (req, res) => {
   } catch (err) {
     logWithTimestamp("Error analyzing transcript:", err.message);
     res.status(500).send("Server Error");
+  }
+});
+
+app.post("/summary", express.json(), async (req, res) => {
+  try {
+    logWithTimestamp("=============== Summary Endpoint ===============");
+    console.log(req.body);
+    if (!req.body) {
+      return res.status(400).json({ error: "No JSON data provided" });
+    }
+
+    const jsonData = req.body;
+
+    if (!jsonData.response) {
+      return res.status(400).json({ error: "No 'response' field in JSON" });
+    }
+    logWithTimestamp("Step One: JSON data received and processed");
+    logWithTimestamp("Step Two: Transcript succefully been generated ...");
+    const result = await getSummeryFilled(jsonData);
+    const formattedResult = formatModelResponse(result);
+    logWithTimestamp(
+      "Step Eight: Formatting info data into proper JSON file ..."
+    );
+    logWithTimestamp("Step Ten: Server responded");
+    res.setHeader("Content-Type", "application/json");
+    res.send(formattedResult);
+  } catch (error) {
+    logWithTimestamp("Error processing JSON:", error.message);
+    res.status(500).json({ error: "Failed to process JSON data" });
   }
 });
 app.listen(port, () => logWithTimestamp(`Server is running on port: ${port}`));
