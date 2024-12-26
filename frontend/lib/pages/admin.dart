@@ -186,9 +186,11 @@ class _AdminsPageState extends State<AdminsPage> {
         readFromJson(['verified', 'eventDetails'], missionNum),
       ]);
 
-      return results.map((result) => result != null).toList();
+      return results
+          .map((result) => (result != "false" && result != null))
+          .toList();
     } catch (e) {
-      return [false, false, false, false];
+      return [false, false, false, false, false];
     }
   }
 
