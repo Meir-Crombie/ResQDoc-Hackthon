@@ -13,24 +13,23 @@ class _SettingsState extends State<Settings> {
   bool _locationAlerts = false; // משתנה להתראות מיקום
   bool _locationReminder = false; // משתנה לתזכורת מיקום
 
-  int _pressedCount = 0; // משתנה למעקב אחר מספר הכפתורים שנלחצו
-  final int _totalButtons = 5; // סך הכל כפתורים
-  List<bool> _buttonPressed =
-      List.filled(5, false); // רשימה למעקב אחר מצב הכפתורים
+  int _checkedCount = 0; // משתנה למעקב אחר מספר ה-checkboxes שנלחצו
+  final int _totalCheckboxes = 4; // סך הכל checkboxes
+  List<bool> _checkboxChecked =
+      List.filled(4, false); // רשימה למעקב אחר מצב ה-checkboxes
 
-  void _incrementPressedCount(int index) {
+  void _toggleCheckbox(int index, bool value) {
     setState(() {
-      if (!_buttonPressed[index]) {
-        _buttonPressed[index] = true;
-        _pressedCount++;
+      if (_checkboxChecked[index] != value) {
+        _checkboxChecked[index] = value;
+        _checkedCount += value ? 1 : -1;
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    double percentage = _pressedCount / _totalButtons;
-
+    double percentage = _checkedCount / _totalCheckboxes;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -382,7 +381,7 @@ class _SettingsState extends State<Settings> {
               ),
             ),
             const SizedBox(height: 20),
-            // Widget to display the percentage of buttons pressed
+            // Widget to display the percentage of checkboxes checked
             Stack(
               children: [
                 Container(
@@ -398,13 +397,15 @@ class _SettingsState extends State<Settings> {
               ],
             ),
             const SizedBox(height: 20),
-            // Row of buttons
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: List.generate(_totalButtons, (index) {
-                return ElevatedButton(
-                  onPressed: () => _incrementPressedCount(index),
-                  child: Text('Button ${index + 1}'),
+            // Row of checkboxes
+            Column(
+              children: List.generate(_totalCheckboxes, (index) {
+                return CheckboxListTile(
+                  title: Text('Checkbox ${index + 1}'),
+                  value: _checkboxChecked[index],
+                  onChanged: (bool? value) {
+                    _toggleCheckbox(index, value!);
+                  },
                 );
               }),
             ),
