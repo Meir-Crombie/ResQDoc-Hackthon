@@ -397,7 +397,7 @@ abstract class SaveToJson {
 
   static Map<String, dynamic> _initializeJsonVerifedStructure() {
     return {
-      "response": {
+      "vreified": {
         "patientDetails": "",
         "smartData": {
           "findings": "",
