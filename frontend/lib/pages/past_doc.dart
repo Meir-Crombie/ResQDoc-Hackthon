@@ -692,53 +692,40 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
     super.dispose();
   }
 
-  Map<String, dynamic> getNestedMap(Map<String, dynamic> map, String key) {
-    if (!map.containsKey(key)) {
-      map[key] = {};
-    }
-    return map[key] as Map<String, dynamic>;
-  }
-
   Future<String> readFromJson(List<String> path, String jsonFile) async {
     try {
       print("data: ${path.join(' -> ')}");
 
-      // Get the directory path and file path
       final directoryPath = (await getApplicationDocumentsDirectory()).path;
       final filePath = '$directoryPath/$jsonFile.json';
       final file = File(filePath);
 
-      // Check if the file exists
       if (!await file.exists()) {
         print('File does not exist: $filePath');
-        return "Invalid value"; // Return a default value
+        return "Invalid value";
       }
 
-      // Read the content of the file
       String content = await file.readAsString();
       if (content.isEmpty) {
         print('File is empty: $filePath');
-        return "Invalid value"; // Return a default value
+        return "Invalid value";
       }
 
-      // Parse the JSON content
       Map<String, dynamic> jsonData = jsonDecode(content);
 
-      // Traverse the path to retrieve the value
       Map<String, dynamic> currentMap = jsonData;
       for (int i = 0; i < path.length - 1; i++) {
         if (!currentMap.containsKey(path[i])) {
           print('Path not found: ${path[i]}');
-          return "Invalid value"; // Return a default value
+          return "Invalid value";
         }
         currentMap = currentMap[path[i]];
       }
 
-      // Return the final value or a default value if the key doesn't exist
       return currentMap[path.last]?.toString() ?? "Invalid value";
     } catch (e) {
       print('Error reading from file: $e');
-      return "Invalid value"; // Return a default value in case of an error
+      return "Invalid value";
     }
   }
 
@@ -752,6 +739,7 @@ class _DefaultTextFieldState extends State<DefaultTextField> {
         padding: const EdgeInsets.all(8),
         child: TextField(
           controller: _controller,
+          readOnly: true, // Makes the TextField non-editable
           decoration: InputDecoration(
             labelText: widget.labelText,
             border: OutlineInputBorder(),

@@ -1,15 +1,47 @@
 {
-  "medicDetails": {
-    "firstName": "אוסאמה",
-    "idOrPassport": "987654321"
-  },
-  "eventDetails": {
-    "timeEventOpened": "21/01/22 13:04:54",
-    "eventId": "QQ334",
-    "eventCity": "ירושלים",
-    "eventStreet": "רחוב יפו",
-    "eventHouseNumber": "15",
-    "caseThatWasLaunched": "חשד לאירוע לבבי",
-    "timeMedicArrived": "21/01/22 13:04:53"
+  "response": {
+    "patientDetails": {
+      "idOrPassport": "123456789",
+      "firstName": "John",
+      "lastName": "Doe",
+      "age": "45",
+      "city": "New York",
+      "street": "5th Avenue",
+      "houseNumber": "123",
+      "phone": "123-456-7890",
+      "email": "johndoe@example.com"
+    },
+    "smartData": {
+      "findings": {
+        "diagnosis": "Hypertension",
+        "patientStatus": "Stable",
+        "mainComplaint": "Chest pain",
+        "anamnesis": "History of high blood pressure",
+        "medicalSensitivities": "None",
+        "statusWhenFound": "Conscious and alert",
+        "caseFound": "At home"
+      },
+      "medicalMetrics": {
+        "bloodPressure": {"value": "140/90", "time": "14:30"},
+        "Heart Rate": "78 bpm",
+        "Lung Auscultation": "Clear",
+        "consciousnessLevel": "Alert",
+        "breathingRate": "16 breaths/min",
+        "breathingCondition": "Normal",
+        "skinCondition": "Normal",
+        "lungCondition": "Normal",
+        "CO2Level": "35 mmHg"
+      }
+    },
+    "eventDetails": {
+      "timeOpened": "14:15",
+      "id": "EVT123456",
+      "city": "New York",
+      "houseNumber": "123",
+      "street": "5th Avenue",
+      "patientName": "John Doe",
+      "missionEvent": "Chest pain emergency",
+      "timeArrived": "14:25"
+    }
   }
 }
