@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:frontend/pages/dup_parmedic.dart';
 import 'package:frontend/pages/paramedic_doc.dart';
 import 'package:record/record.dart';
 import 'package:just_audio/just_audio.dart';
@@ -360,9 +361,7 @@ class _HomeState extends State<Home> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ParamedicDoc(
-                              fileName: "",
-                            ),
+                            builder: (context) => EmptyParamedicDoc(),
                           ),
                         );
                       },
