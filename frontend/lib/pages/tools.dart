@@ -394,4 +394,17 @@ abstract class SaveToJson {
       }
     };
   }
+
+  static Map<String, dynamic> _initializeJsonVerifedStructure() {
+    return {
+      "response": {
+        "patientDetails": "",
+        "smartData": {
+          "findings": "",
+          "medicalMetrics": "",
+        },
+        "eventDetails": "",
+      }
+    };
+  }
 }
