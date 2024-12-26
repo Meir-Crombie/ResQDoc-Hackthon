@@ -5,6 +5,8 @@ import 'package:frontend/pages/past_doc.dart';
 import 'package:path_provider/path_provider.dart';
 
 class MissionsPage extends StatefulWidget {
+  const MissionsPage({super.key});
+
   @override
   _MissionsPageState createState() => _MissionsPageState();
 }

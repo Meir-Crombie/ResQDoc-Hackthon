@@ -179,9 +179,9 @@ class _SettingsState extends State<Settings> {
                         activeColor: const Color.fromARGB(
                             255, 255, 89, 0), // צבע רקע במצב פעיל
                         inactiveTrackColor: Colors.white, // צבע רקע במצב כבוי
-                        thumbColor: MaterialStateProperty.resolveWith<Color>(
-                            (Set<MaterialState> states) {
-                          if (states.contains(MaterialState.selected)) {
+                        thumbColor: WidgetStateProperty.resolveWith<Color>(
+                            (Set<WidgetState> states) {
+                          if (states.contains(WidgetState.selected)) {
                             return Colors.white; // צבע העיגול הפנימי במצב פעיל
                           }
                           return const Color.fromARGB(255, 255, 190,
@@ -222,9 +222,9 @@ class _SettingsState extends State<Settings> {
                         activeColor: const Color.fromARGB(
                             255, 255, 89, 0), // צבע רקע במצב פעיל
                         inactiveTrackColor: Colors.white, // צבע רקע במצב כבוי
-                        thumbColor: MaterialStateProperty.resolveWith<Color>(
-                            (Set<MaterialState> states) {
-                          if (states.contains(MaterialState.selected)) {
+                        thumbColor: WidgetStateProperty.resolveWith<Color>(
+                            (Set<WidgetState> states) {
+                          if (states.contains(WidgetState.selected)) {
                             return Colors.white; // צבע העיגול הפנימי במצב פעיל
                           }
                           return const Color.fromARGB(255, 255, 190,
@@ -265,9 +265,9 @@ class _SettingsState extends State<Settings> {
                         activeColor: const Color.fromARGB(
                             255, 255, 89, 0), // צבע רקע במצב פעיל
                         inactiveTrackColor: Colors.white, // צבע רקע במצב כבוי
-                        thumbColor: MaterialStateProperty.resolveWith<Color>(
-                            (Set<MaterialState> states) {
-                          if (states.contains(MaterialState.selected)) {
+                        thumbColor: WidgetStateProperty.resolveWith<Color>(
+                            (Set<WidgetState> states) {
+                          if (states.contains(WidgetState.selected)) {
                             return Colors.white; // צבע העיגול הפנימי במצב פעיל
                           }
                           return const Color.fromARGB(255, 255, 190,
@@ -334,9 +334,9 @@ class _SettingsState extends State<Settings> {
                         activeColor: const Color.fromARGB(
                             255, 255, 89, 0), // צבע רקע במצב פעיל
                         inactiveTrackColor: Colors.white, // צבע רקע במצב כבוי
-                        thumbColor: MaterialStateProperty.resolveWith<Color>(
-                            (Set<MaterialState> states) {
-                          if (states.contains(MaterialState.selected)) {
+                        thumbColor: WidgetStateProperty.resolveWith<Color>(
+                            (Set<WidgetState> states) {
+                          if (states.contains(WidgetState.selected)) {
                             return Colors.white; // צבע העיגול הפנימי במצב פעיל
                           }
                           return const Color.fromARGB(255, 255, 190,

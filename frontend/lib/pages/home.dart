@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:frontend/pages/history_for_maneger.dart';
 import 'package:frontend/pages/paramedic_doc.dart';
 import 'package:record/record.dart';
 import 'package:just_audio/just_audio.dart';
@@ -220,9 +219,9 @@ class _HomeState extends State<Home> {
                   },
                 ),
                 ListTile(
-                    leading: const Icon(Icons.confirmation_num), // Info icon
+                    leading: const Icon(Icons.manage_accounts), // Info icon
                     title: const Text(
-                      'אישור מנהל',
+                      'מנהל',
                       style: TextStyle(
                         fontFamily: 'AlmoniTzarAAA', // Updated font family
                       ),
@@ -230,7 +229,7 @@ class _HomeState extends State<Home> {
                     onTap: () {
                       Navigator.pop(context); // Close the drawer
                       Navigator.pushNamed(
-                          context, '/admin'); // Navigate to settings
+                          context, '/maneger'); // Navigate to settings
                     }),
                 ListTile(
                   leading: const Icon(Icons.settings), // Settings icon
