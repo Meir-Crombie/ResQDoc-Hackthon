@@ -7,6 +7,24 @@ function logWithTimestamp(message) {
   console.log(`[${timestamp}] ${message}`);
 }
 
+const BackendJSONSmaple = {
+  "Phase One": {
+    Location: "Jerusalem",
+    "Call Accepted At": "15:00",
+  },
+  "Phase Three": {
+    "Main Couse": "Animal bite",
+  },
+  "Phase Four": {
+    "Treatments Given": ["CPR", "epipen"],
+    "Took At": "15:13",
+  },
+  "Phase Five": {
+    Status: "Patient R.I.P ☠️",
+    "Call Closed At": "15:40",
+  },
+};
+
 //The template of the form
 export const medicalTemplate = {
   patientDetails: {
@@ -148,6 +166,102 @@ The response in JSON which im expecting you to deliver:
   return completion.choices[0].message.content;
 }
 
+async function getSummeryFilled(txt) {
+  logWithTimestamp("Step Five: Connecting to Groq -> llama3 Model ...");
+  logWithTimestamp("Step Six: Processing form filling ...");
+  const completion = await groq.chat.completions.create({
+    messages: [
+      {
+        role: "system",
+        content: `
+
+        You are a medical data extraction system.
+        Im looking to summorize the key points and the important details of an medical crisis
+        You are given a JSON object which contains the values of an inscidient of a patient
+        inside of it you'll find the treatment which the patient has been given, the anameza of the call and more details
+        im asking you to understand the data which is stored there, analyze it, and return a new JSON formatted reponsed which in it the fields are filled with value 
+        , values that are asssosiated with thier JSON title
+
+        The reponsed JSON foramt is:
+        ${BackendJSONSmaple}
+
+        Here is an exmaple for a past JSON and the expected JSON reponse
+
+        The request:
+        {
+        "patientDetails": {
+            "idOrPassport": "123456789",
+            "firstName": "אורי",
+            "lastName": "מאיר",
+            "age": "22",
+            "gender": "זכר",
+            "city": "ירושלים",
+            "street": "לאה גולדברג",
+            "houseNumber": "12",
+            "phone": "0535002312",
+            "email": "yedidia@gmail.com"
+        },
+        "smartData": {
+            "findings": {
+                "diagnosis": "",
+                "patientStatus": "חלש מאוד",
+                "mainComplaint": "כאבים בבטן ושלשולים",
+                "anamnesis": "אורי, בן 22, פנה עקב תחושת סחרחורת, כאבים בבטן ושלשולים מאז הלילה. ראה עצמו יושב ברחוב לאחר עילפון. נפל קדימה במהלך העילפון ויש נפיחות במצח. לא ידע שתכלל.",
+                "medicalSensitivities": "רגיש לבוטנים",
+                "statusWhenFound": "יושב ברחוב לאחר עילפון",
+                "CaseFound": "פצוע"
+            },
+            "medicalMetrics": {
+                "bloodPressure": {
+                    "value": "100/60",
+                    "time": ""
+                },
+                "Heart Rate": "110",
+                "Lung Auscultation": "תקין",
+                "consciousnessLevel": "מלאה",
+                "breathingRate": "22 לדקה",
+                "breathingCondition": "קושי בנשימה בשל פגיעה בקני הנשימה",
+                "skinCondition": "חיוור ומזיע",
+                "lungCondition": "תקין",
+                "CO2Level": "גבוה"
+            }
+        }
+}
+
+the response that im expecting you to provide:
+{
+  "Phase One": {
+    "Location": "Jerusalem",
+    "Call Accepted At": "15:00",
+  },
+  "Phase Three": {
+    "Main Couse": "אורי, בן 22, פנה עקב תחושת סחרחורת, כאבים בבטן ושלשולים מאז הלילה. ראה עצמו יושב ברחוב לאחר עילפון. נפל קדימה במהלך העילפון ויש נפיחות במצח. לא ידע שתכלל.",
+  },
+  "Phase Four": {
+    "Treatments Given": ["החייאה"],
+    "Took At": "15:13",
+  },
+  "Phase Five": {
+    "Status": "טופל ללא הפניה",
+    "Call Closed At": "15:40",
+  },
+}
+
+
+Thank you
+        `,
+      },
+      {
+        role: "user",
+        content: `Here is the transcript which im requesting from you to provide the JSON by its values: ${txt}`,
+      },
+    ],
+    model: "llama3-8b-8192",
+  });
+  logWithTimestamp("Step Seven: Form data been recived succefully ...");
+  return completion.choices[0].message.content;
+}
+
 //Converting to a valid value
 function formatModelResponse(modelResponse) {
   try {
@@ -203,4 +317,5 @@ export {
   formatModelResponse,
   getJsonFieldsFilled,
   logWithTimestamp,
+  getSummeryFilled,
 };

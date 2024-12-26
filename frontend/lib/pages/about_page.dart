@@ -95,7 +95,8 @@ class AboutPage extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       GestureDetector(
-                        onTap: () => _launchURL(context, linkedinLinks[index + 1]),
+                        onTap: () =>
+                            _launchURL(context, linkedinLinks[index + 1]),
                         child: CircleAvatar(
                           radius: 40,
                           backgroundImage: AssetImage(
@@ -113,6 +114,7 @@ class AboutPage extends StatelessWidget {
                 },
               ),
             ),
+
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
@@ -128,6 +130,7 @@ class AboutPage extends StatelessWidget {
       ),
     );
   }
+
   final logger = Logger();
   void _launchURL(BuildContext context, String url) async {
     logger.d('Attempting to launch URL: $url');
@@ -154,7 +157,6 @@ class AboutPage extends StatelessWidget {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }
-
 
 class Tuple2<T1, T2> {
   final T1 item1;
