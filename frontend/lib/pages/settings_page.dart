@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -11,11 +10,26 @@ class Settings extends StatefulWidget {
 class _SettingsState extends State<Settings> {
   bool _trackLocation = false; // משתנה למעקב מיקום
   bool _learningMode = false; // משתנה למצב למידה
-  bool _locationAlerts = false; // Define the variable here
-  bool _locationReminder = false; // Define the variable here
+  bool _locationAlerts = false; // משתנה להתראות מיקום
+  bool _locationReminder = false; // משתנה לתזכורת מיקום
+
+  int _checkedCount = 0; // משתנה למעקב אחר מספר ה-checkboxes שנלחצו
+  final int _totalCheckboxes = 4; // סך הכל checkboxes
+  List<bool> _checkboxChecked =
+      List.filled(4, false); // רשימה למעקב אחר מצב ה-checkboxes
+
+  void _toggleCheckbox(int index, bool value) {
+    setState(() {
+      if (_checkboxChecked[index] != value) {
+        _checkboxChecked[index] = value;
+        _checkedCount += value ? 1 : -1;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    double percentage = _checkedCount / _totalCheckboxes;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -154,7 +168,6 @@ class _SettingsState extends State<Settings> {
                 ),
               ),
             ),
-
             const SizedBox(height: 20), // מרווח אנכי
             Container(
               decoration: BoxDecoration(
@@ -181,9 +194,9 @@ class _SettingsState extends State<Settings> {
                         activeColor: const Color.fromARGB(
                             255, 255, 89, 0), // צבע רקע במצב פעיל
                         inactiveTrackColor: Colors.white, // צבע רקע במצב כבוי
-                        thumbColor: WidgetStateProperty.resolveWith<Color>(
-                            (Set<WidgetState> states) {
-                          if (states.contains(WidgetState.selected)) {
+                        thumbColor: MaterialStateProperty.resolveWith<Color>(
+                            (Set<MaterialState> states) {
+                          if (states.contains(MaterialState.selected)) {
                             return Colors.white; // צבע העיגול הפנימי במצב פעיל
                           }
                           return const Color.fromARGB(255, 255, 190,
@@ -224,9 +237,9 @@ class _SettingsState extends State<Settings> {
                         activeColor: const Color.fromARGB(
                             255, 255, 89, 0), // צבע רקע במצב פעיל
                         inactiveTrackColor: Colors.white, // צבע רקע במצב כבוי
-                        thumbColor: WidgetStateProperty.resolveWith<Color>(
-                            (Set<WidgetState> states) {
-                          if (states.contains(WidgetState.selected)) {
+                        thumbColor: MaterialStateProperty.resolveWith<Color>(
+                            (Set<MaterialState> states) {
+                          if (states.contains(MaterialState.selected)) {
                             return Colors.white; // צבע העיגול הפנימי במצב פעיל
                           }
                           return const Color.fromARGB(255, 255, 190,
@@ -267,9 +280,9 @@ class _SettingsState extends State<Settings> {
                         activeColor: const Color.fromARGB(
                             255, 255, 89, 0), // צבע רקע במצב פעיל
                         inactiveTrackColor: Colors.white, // צבע רקע במצב כבוי
-                        thumbColor: WidgetStateProperty.resolveWith<Color>(
-                            (Set<WidgetState> states) {
-                          if (states.contains(WidgetState.selected)) {
+                        thumbColor: MaterialStateProperty.resolveWith<Color>(
+                            (Set<MaterialState> states) {
+                          if (states.contains(MaterialState.selected)) {
                             return Colors.white; // צבע העיגול הפנימי במצב פעיל
                           }
                           return const Color.fromARGB(255, 255, 190,
@@ -336,9 +349,9 @@ class _SettingsState extends State<Settings> {
                         activeColor: const Color.fromARGB(
                             255, 255, 89, 0), // צבע רקע במצב פעיל
                         inactiveTrackColor: Colors.white, // צבע רקע במצב כבוי
-                        thumbColor: WidgetStateProperty.resolveWith<Color>(
-                            (Set<WidgetState> states) {
-                          if (states.contains(WidgetState.selected)) {
+                        thumbColor: MaterialStateProperty.resolveWith<Color>(
+                            (Set<MaterialState> states) {
+                          if (states.contains(MaterialState.selected)) {
                             return Colors.white; // צבע העיגול הפנימי במצב פעיל
                           }
                           return const Color.fromARGB(255, 255, 190,
@@ -366,6 +379,35 @@ class _SettingsState extends State<Settings> {
                   ),
                 ],
               ),
+            ),
+            const SizedBox(height: 20),
+            // Widget to display the percentage of checkboxes checked
+            Stack(
+              children: [
+                Container(
+                  width: double.infinity,
+                  height: 50,
+                  color: Colors.red,
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width * percentage,
+                  height: 50,
+                  color: Colors.green,
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
+            // Row of checkboxes
+            Column(
+              children: List.generate(_totalCheckboxes, (index) {
+                return CheckboxListTile(
+                  title: Text('Checkbox ${index + 1}'),
+                  value: _checkboxChecked[index],
+                  onChanged: (bool? value) {
+                    _toggleCheckbox(index, value!);
+                  },
+                );
+              }),
             ),
           ],
         ),

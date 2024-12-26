@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:frontend/pages/history_for_maneger.dart';
 import 'package:frontend/pages/paramedic_doc.dart';
 import 'package:record/record.dart';
 import 'package:just_audio/just_audio.dart';
@@ -125,6 +126,10 @@ class _HomeState extends State<Home> {
             const Color.fromARGB(255, 255, 123, 0), // App bar background color
         title: Row(
           children: const [
+            Icon(
+              Icons.home, // Home icon
+              color: Color.fromARGB(255, 0, 0, 0), // Icon color
+            ),
             SizedBox(width: 10), // Spacing between icon and title
             Text(
               '',
@@ -218,6 +223,19 @@ class _HomeState extends State<Home> {
                         context, '/history'); // Navigate to history
                   },
                 ),
+                ListTile(
+                    leading: const Icon(Icons.confirmation_num), // Info icon
+                    title: const Text(
+                      'אישור מנהל',
+                      style: TextStyle(
+                        fontFamily: 'AlmoniTzarAAA', // Updated font family
+                      ),
+                    ), // History text
+                    onTap: () {
+                      Navigator.pop(context); // Close the drawer
+                      Navigator.pushNamed(
+                          context, '/admin'); // Navigate to settings
+                    }),
                 ListTile(
                   leading: const Icon(Icons.settings), // Settings icon
                   title: const Text(
