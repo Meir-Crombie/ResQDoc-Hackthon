@@ -92,7 +92,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
           return jsonDecode(response.body);
         }
       } else {
-        print("HELOO AGAIN NIGAA");
+        print("Entering API request");
         // Create multipart request
         var request = http.MultipartRequest(
           'POST',

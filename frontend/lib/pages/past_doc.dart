@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:frontend/Screens/SummeryScreen.dart';
 import 'dart:convert';
 
 import 'package:path_provider/path_provider.dart';
@@ -39,6 +40,16 @@ class _PastDocState extends State<PastDoc> {
         title: Text('תיעוד רפואי מלא'),
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 255, 187, 0),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => SummeryScreen(filepath: widget.fileNum)),
+          );
+        },
+        child: Icon(Icons.info),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
