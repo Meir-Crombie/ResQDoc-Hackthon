@@ -17,7 +17,7 @@ class LeftText extends StatelessWidget {
         Text(
           mainTitle,
           style: TextStyle(
-            color: const Color.fromARGB(255, 0, 0, 0),
+            color: const Color.fromARGB(255, 186, 13, 13),
             fontWeight: FontWeight.bold,
             fontSize: 16,
           ),

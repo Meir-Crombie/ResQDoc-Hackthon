@@ -17,21 +17,21 @@ Future<Map<String, dynamic>> readJson() async {
   return jsonDecode(response);
 }
 
-void main() => runApp(MaterialApp(
-      initialRoute: '/home',
-      routes: {
-        '/home': (context) => Home(),
-        '/paramedic': (context) => ParamedicDoc(
-              fileName: "",
-            ),
-        '/settings': (context) => Settings(),
-        '/about': (context) => AboutPage(),
-        '/past': (context) => MissionsPage(),
-        '/summary': (context) => SummeryScreen(),
-        '/history': (context) => MissionsPage(),
-        '/admin': (context) => AdminsPage(),
-        '/confirmation': (context) => PastDocForConfirmation(),
-        '/maneger': (context) => ManegerDashBoard(),
-        '/paramedic_dup': (context) => EmptyParamedicDoc(),
-      },
-    )); // Material app
+void main() => runApp(
+      MaterialApp(
+        initialRoute: '/home',
+        routes: {
+          '/home': (context) => Home(),
+          '/paramedic': (context) => ParamedicDoc(fileName: ""),
+          '/settings': (context) => Settings(),
+          '/about': (context) => AboutPage(),
+          '/past': (context) => MissionsPage(),
+          '/summary': (context) => SummeryScreen(),
+          '/history': (context) => MissionsPage(),
+          '/admin': (context) => AdminsPage(),
+          '/confirmation': (context) => PastDocForConfirmation(),
+          '/maneger': (context) => ManegerDashBoard(),
+          '/paramedic_dup': (context) => EmptyParamedicDoc(),
+        },
+      ),
+    ); // Material app

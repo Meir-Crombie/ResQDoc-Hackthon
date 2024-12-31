@@ -132,26 +132,13 @@ class _SummeryScreenState extends State<SummeryScreen> {
   @override
   void initState() {
     super.initState();
-    if (widget.filepath != null) {
-      loadJsonFromFile(widget.filepath!).then((data) {
-        setState(() {
-          jsonData = data;
-        });
-      }).catchError((error) {
-        print('Error loading JSON: $error');
-        // Handle error state
-      });
-    }
+    jsonData = DummyBackendJSON;
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     print(jsonData);
-    if (jsonData == null) {
-      return Center(
-        child: CircularProgressIndicator(),
-      );
-    }
     return Scaffold(
       body: Container(
         //Gradient coloring
