@@ -42,47 +42,66 @@ export const medicalTemplate = {
       CO2Level: "",
     },
   },
+  AiModelNotes: {},
 };
 
 //The Whissper Ai connection object
-const Whissper = {
+const WhissperManager = {
   endpoint:
-    "https://bakur-m52vpsgt-swedencentral.openai.azure.com/openai/deployments/whisper/audio/transcriptions?api-version=2024-06-01",
+    "https://bakur-m5c8tt2w-eastus2.openai.azure.com/openai/deployments/Whisper_AudioTranscript/audio/transcriptions?api-version=2024-06-01",
   apiKey:
-    "7vwrlTuBlvTSTJ8AqFj2JbCZZhjkM2LslT8bNKldnJbu2qMNwdiZJQQJ99ALACfhMk5XJ3w3AAAAACOG16Ho",
+    "37m050c3Ps7fVMZ85vBY6NhMn7bLIr5hyVD0xSJcVI2djDl6g6WXJQQJ99ALACHYHv6XJ3w3AAAAACOGF5Cx",
 };
+
 // Required Azure OpenAI deployment name and API version
 const apiVersion = "2024-08-01-preview";
 const deploymentName = "whisper";
 
 //The fieled auto fill Ai connection object
-const groq = new Groq({
-  apiKey: "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",
+const GroqManager = new Groq({
+  apiKey: "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",
 });
 
 function getWhissperClient() {
   return new AzureOpenAI({
-    endpoint: Whissper.endpoint,
-    apiKey: Whissper.apiKey,
+    endpoint: WhissperManager.endpoint,
+    apiKey: WhissperManager.apiKey,
     apiVersion,
     deployment: deploymentName,
   });
 }
 
-//Getting the values from the Ai filed in the JSON fields
-async function getJsonFieldsFilled(txt) {
-  logWithTimestamp("Step Five: Connecting to Groq -> llama3 Model ...");
-  logWithTimestamp("Step Six: Processing form filling ...");
-  const completion = await groq.chat.completions.create({
-    messages: [
-      {
-        role: "system",
-        content: `
-You are a medical data extraction system.
+//Converts the values to a JSON
+function extractAndParseJSON(input) {
+  try {
+    // Extract content between backticks
+    const jsonMatch = input.match(/```([\s\S]*?)```/);
+    if (!jsonMatch) throw new Error("No JSON found between backticks");
+
+    // Clean the string
+    const jsonString = jsonMatch[1]
+      .replace(/^Here is.*?:\n*/g, "") // Remove header text
+      .replace(/\n/g, "") // Remove newlines
+      .trim(); // Remove extra whitespace
+
+    // Parse to JSON
+    return JSON.parse(jsonString);
+  } catch (error) {
+    throw new Error(`Failed to parse JSON: ${error.message}`);
+  }
+}
+
+const GroqPrompt = `You are a medical data extraction system.
 Given a trascript which simulates a trascript of a medical call, Extract information from the Hebrew transcript and fill the medical form template.
 the template is a json object which is structured like that:
-${medicalTemplate}
-Return a JSON object and only a JSON object because im taking the result and converting into JSON object, dont provide any comments and if u really need put it in a new JSON key-value pair called "notations", which matching the template structure with extracted values which fit the template's fields context.
+${JSON.stringify(medicalTemplate, null, 2)}
+
+In the AiModelNotes tag, it would be you ONLY place that you are able to place your comments about the response.
+Since im converting you response into a JSON object, i need you response to be clean with not comments out side of the JSON structure
+If you has something to add and share, you can craete a new tag inside of the AiModelNotes tag, that inside of its you can place you string of content and comment about the response
+
+When you give me the JSON object it self, please put it inside of the \`\`\`\`\`\` mark, in order for me then get the actual response using regex and to convert it into a valid JSON formated reponse
+
 Make sure to fit the values properly to thier field's
 Use empty string for missing information.
 All values should be in Hebrew.
@@ -96,8 +115,12 @@ The trascript:
 האם אתה מרגיש סחרחורת או קוצר נשימה? כן, יש לי תחושת סחרחורת וקצת קשה לי לנשום. האם יש לך היסטוריה של בעיות בלב או התקף לב? לא, אף פעם לא היה לי התקף לב. האם זה התחיל תוך כדי מאמץ או במנוחה? זה התחיל בזמן שהייתי במנוחה, ישבתי בבית על הספה. האם אתה מרגיש כאב נוסף או תופעות נלוות אחרות? כן, אני מרגיש חולשה חזקה וזיעה קרה.
 בדיקת מדדים: לחץ דם 145/95. דופק 110. רמת סוכר 210. חמצן בדם 92%. המטופל במצב יציב אך נראה סובל מאוד.
 
-The response in JSON which im expecting you to deliver:
+The response in JSON which im expecting you to deliver (It starts and end in """ mark):
 
+"""
+Here is your response:
+
+\`\`\`
 {
   "patientDetails": {
     "idOrPassport": "123456789",
@@ -134,25 +157,44 @@ The response in JSON which im expecting you to deliver:
     }
   }
 }
-        `,
-      },
-      {
-        role: "user",
-        content: `Here is the transcript which im requesting from you to provide the JSON by its values: ${txt}`,
-      },
-    ],
-    model: "llama3-8b-8192",
-  });
-  logWithTimestamp("Step Seven: Form data been recived succefully ...");
-  return completion.choices[0].message.content;
+\`\`\`
+Note that .....
+
+"""
+
+This is how am i expectin you to deliver the response
+        `;
+//Getting the values from the Ai filed in the JSON fields
+async function GetJSONFiled(txt) {
+  try {
+    const completion = await GroqManager.chat.completions.create({
+      messages: [
+        {
+          role: "system",
+          content: GroqPrompt,
+        },
+        {
+          role: "user",
+          content: `Here is the transcript which im requesting from you to provide the JSON by its values: ${txt}`,
+        },
+      ],
+      model: "llama3-8b-8192",
+    });
+    console.log(completion.choices[0].message.content);
+    return extractAndParseJSON(completion.choices[0].message.content);
+  } catch (err) {
+    logWithTimestamp(`ERROR: Location: Func-GetJSONFiled, Msg:${err}`);
+    throw new Error("GetJSONFiled: Unable to analyze the transcript");
+  }
 }
 
+//Returns the JSON form filled with partial values to show case the product in the Hackathon
 async function FinalVersionFormFilled(trans) {
   try {
     logWithTimestamp("Step Five: Connecting to Groq -> llama3 Model ...");
     logWithTimestamp("Step Six: Processing form filling ...");
 
-    const completion = await groq.chat.completions.create({
+    const completion = await GroqManager.chat.completions.create({
       messages: [
         {
           role: "system",
@@ -235,60 +277,9 @@ The expected response
   }
 }
 
-//Converting to a valid value
-function formatModelResponse(modelResponse) {
-  try {
-    // Initialize response structure
-    let formattedResponse = {
-      response: {},
-    };
-
-    // Split response by newlines to separate JSON and notes
-    const lines = modelResponse.split("\n");
-    let jsonStartIndex = -1;
-    let jsonEndIndex = -1;
-    let noteCounter = 65; // ASCII for 'A'
-
-    // Find JSON boundaries
-    lines.forEach((line, index) => {
-      if (line.trim().startsWith("{")) jsonStartIndex = index;
-      if (line.trim().endsWith("}")) jsonEndIndex = index;
-    });
-
-    // Extract and parse JSON
-    if (jsonStartIndex !== -1 && jsonEndIndex !== -1) {
-      const jsonString = lines
-        .slice(jsonStartIndex, jsonEndIndex + 1)
-        .join("\n");
-      formattedResponse.response = JSON.parse(jsonString);
-    }
-
-    // Add notes
-    lines.forEach((line, index) => {
-      if (index < jsonStartIndex || index > jsonEndIndex) {
-        const trimmedLine = line.trim();
-        if (
-          trimmedLine &&
-          !trimmedLine.startsWith("{") &&
-          !trimmedLine.endsWith("}")
-        ) {
-          formattedResponse[`Note${String.fromCharCode(noteCounter)}`] =
-            trimmedLine;
-          noteCounter++;
-        }
-      }
-    });
-
-    return JSON.stringify(formattedResponse, null, 2);
-  } catch (error) {
-    throw new Error(`Failed to format response: ${error.message}`);
-  }
-}
-
 export {
   getWhissperClient,
-  formatModelResponse,
-  getJsonFieldsFilled,
+  GetJSONFiled,
   logWithTimestamp,
   FinalVersionFormFilled,
 };

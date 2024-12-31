@@ -1,0 +1,35 @@
+{
+  "patientDetails": {
+  "idOrPassport": "123456789",
+  "firstName": "חיים",
+  "lastName": "לוי",
+  "age": "58",
+  "gender": "זכר",
+  "city": "ירושלים",
+  "street": "רחוב הרצל",
+  "houseNumber": "25",
+  "phone": "",
+  "email": ""
+  },
+  "smartData": {
+  "findings": {
+  "diagnosis": "חשד לאירוע לבבי",
+  "patientStatus": "יציב אך סובל",
+  "mainComplaint": "לחץ חזק בחזה עם הקרנה ליד שמאל וללסת",
+  "anamnesis": "חיים לוי, בן 58, פנה עקב תחושת לחץ חזק בחזה שהחלה במנוחה, עם הקרנה ליד שמאל וללסת, מלווה בסחרחורת, קוצר נשימה, חולשה וזיעה קרה. רקע רפואי כולל סוכרת ולחץ דם גבוה, מעשן כקופסה ביום, לוקח גלוקומין ולוסרטן. בדיקות: לחץ דם 145/95, דופק 110, סוכר 210, סטורציה 92%.",
+  "medicalSensitivities": "אין רגישויות ידועות",
+  "statusWhenFound": "תעוקת חזה",
+  "CaseFound": "חשד לאירוע לבבי"
+  },
+  "medicalMetrics": {
+  "bloodPressure": { "value": "145/95", "time": "" },
+  "Heart Rate": "110",
+  "Lung Auscultation": "תקין",
+  "consciousnessLevel": "מלאה",
+  "breathingRate": "לא ידוע",
+  "breathingCondition": "קוצר נשימה",
+  "skinCondition": "מזיע זיעה קרה",
+  "lungCondition": "",
+  "CO2Level": "92"
+  }
+  }

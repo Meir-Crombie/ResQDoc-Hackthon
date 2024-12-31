@@ -1,12 +1,10 @@
 import express from "express";
 import multer from "multer";
-import { createReadStream, writeFile, unlink } from "fs"; // Added writeFile and unlink
+import { createReadStream } from "fs";
 import crypto from "crypto";
-import { exec } from "child_process"; // Added exec
 import {
   getWhissperClient,
-  getJsonFieldsFilled,
-  formatModelResponse,
+  GetJSONFiled as GetResJSON,
   logWithTimestamp,
   FinalVersionFormFilled,
 } from "./config/openAI.js";
@@ -29,191 +27,120 @@ const upload = multer({ storage: storage });
 
 logWithTimestamp(`Server starting in dev mode`);
 
-app.get("/", (req, res) => {
-  res.send("API Endpoint is served");
-});
+app.get("/", (req, res) => res.send("API Endpoint is served"));
 
-app.post("/final", upload.single("audio"), async (req, res) => {
+const PromptForTranscription = `
+You are provided with an hebrew audio conversation, transcript it into hebrew transcript.
+If the values are numbers such as אחת שתיים שלוש ארבע חמש שש שבע שמונה תשע עשר אפס transcript it to an regular number representation like 1 2 3 4 5 6 7 8 9 0 etc
+If the numbers are in a row, make sure to write it a single number rather single digits all by themselves
+
+Here is an example
+"אחת שתיים שלוש ארבע חמש שש שבע שמונה תשע"
+Im expecting you to provide the transcript as:
+"123456789"
+
+Here is another example:
+"תשע שבע ארבע שלוש"
+Im expecting you to provide the transcript as:
+"9743"
+
+If the numbers are not in a row, for example there is a stop between the digits and the conversation switched, present it as a digits and not as single number`;
+
+//Accepts an audio file path and returns its transcript in Hebrew
+const GetAudioTranscription = async (audioPath) => {
   try {
-    logWithTimestamp("=============== Analyze Endpoint ===============");
-    if (!req.file) {
-      return res.status(400).send("No audio file uploaded");
-    }
-    logWithTimestamp("Step One: Getting audio file ...");
-    // Only on production
-    const audioFilePath = req.file.path;
-    logWithTimestamp("Step Two: Connecting to Whissper Model ...");
     const client = getWhissperClient();
-
-    logWithTimestamp("Step Three: Processsing audio transcript ...");
-    const resultText = await client.audio.transcriptions.create({
+    const result = await client.audio.transcriptions.create({
       model: "whisper",
       language: "he",
-      prompt: `
-      You are provided with an hebrew audio conversation, transcript it into hebrew transcript.
-      If the values are numbers such as אחת שתיים שלוש ארבע חמש שש שבע שמונה תשע עשר אפס transcript it to an regular number representation like 1 2 3 4 5 6 7 8 9 0 etc
-      If the numbers are in a row, make sure to write it a single number rather single digits all by themselves
-
-      here is an example
-      "אחת שתיים שלוש ארבע חמש שש שבע שמונה תשע"
-      Im expecting you to provide the transcript as:
-      "123456789"
-
-      If the numbers are not in a row, for example there is a stop between the digits and the conversation switched, present it as a digits and not as single number
-      `,
-      file: createReadStream(audioFilePath),
+      prompt: PromptForTranscription,
+      file: createReadStream(audioPath),
     });
-    console.log(resultText);
-
-    logWithTimestamp("Step Four: Transcript succefully been generated ...");
-    const result = await FinalVersionFormFilled(resultText.text);
-    console.log(result);
-
-    logWithTimestamp(
-      "Step Eight: Formatting info data into proper JSON file ..."
-    );
-    const formattedResult = formatModelResponse(result);
-
-    logWithTimestamp(
-      "Step Nine: Form data been converted into JSON succefully ..."
-    );
-    logWithTimestamp("Step Ten: Server responded");
-    res.setHeader("Content-Type", "application/json");
-    res.send(formattedResult);
+    return result;
   } catch (err) {
-    console.log(err);
-    logWithTimestamp("Error analyzing transcript:", err.message);
-    res.status(500).send("Server Error");
+    logWithTimestamp(`ERROR: Location: Func-GetAudioTranscription, Msg:${err}`);
+    throw new Error("GetAudioTranscription: Unable to transcript the audio");
   }
-});
+};
 
 // API Endpoint: POST Upload audio and initiate transcription
 app.post("/transcribe", upload.single("audio"), async (req, res) => {
   try {
     logWithTimestamp("=============== Transcribe Endpoint ===============");
     logWithTimestamp("Step One: Getting audio file ...");
-    if (!req.file) {
-      return res.status(400).send("No audio file uploaded");
-    }
+    if (!req.file) return res.status(400).send("No audio file uploaded");
+
     const audioFilePath = req.file.path;
+    logWithTimestamp(`Step Two: Audio accepted, File name: ${audioFilePath}`);
 
-    logWithTimestamp("Step Two: Connecting to Whissper Model ...");
-    const client = getWhissperClient();
+    logWithTimestamp(`Step Three: Requesting Transcription`);
+    const result = await GetAudioTranscription(audioFilePath);
 
-    logWithTimestamp("Step Three: Processsing audio transcript ...");
-    const result = await client.audio.transcriptions.create({
-      model: "whisper",
-      language: "he",
-      prompt: `
-      You are provided with an hebrew audio conversation, transcript it into hebrew transcript.
-      If the values are numbers such as אחת שתיים שלוש ארבע חמש שש שבע שמונה תשע עשר אפס transcript it to an regular number representation like 1 2 3 4 5 6 7 8 9 0 etc
-      If the numbers are in a row, make sure to write it a single number rather single digits all by themselves
-
-      here is an example
-      "אחת שתיים שלוש ארבע חמש שש שבע שמונה תשע"
-      Im expecting you to provide the transcript as:
-      "123456789"
-
-      If the numbers are not in a row, for example there is a stop between the digits and the conversation switched, present it as a digits and not as single number
-      `,
-      file: createReadStream(audioFilePath),
-    });
+    logWithTimestamp(`Step Four: Transcription accepted`);
+    logWithTimestamp(`Transcription:`);
     console.log(result);
-    logWithTimestamp("Step Four: Transcript succefully been generated ...");
-    logWithTimestamp("Step Five: Server responded");
-    res.json({ text: result.text });
+
+    res.on("finish", () => {
+      logWithTimestamp("Step Five: Server responded");
+      console.log("===================================================");
+    });
+
+    res.json(result);
   } catch (err) {
-    logWithTimestamp("Error initiating transcription:", err.message);
-    res.status(500).send("Server Error");
+    logWithTimestamp(`ERROR: Location: POST /transcribe, Msg:${err}`);
+    res.on("finish", () => {
+      logWithTimestamp("Step Seven: Server responded");
+      console.log("===================================================");
+    });
+    res.status(500);
   }
 });
 
+// API Endpoint: POST Upload audio and initiate audio analyzing
 app.post("/analyze", upload.single("audio"), async (req, res) => {
   try {
     logWithTimestamp("=============== Analyze Endpoint ===============");
-    if (!req.file) {
-      return res.status(400).send("No audio file uploaded");
-    }
     logWithTimestamp("Step One: Getting audio file ...");
-    // Only on production
+    if (!req.file) return res.status(400).send("No audio file uploaded");
+
+    // Get the trascription
     const audioFilePath = req.file.path;
-    logWithTimestamp("Step Two: Connecting to Whissper Model ...");
-    const client = getWhissperClient();
+    logWithTimestamp(`Step Two: Audio accepted, File name: ${audioFilePath}`);
 
-    logWithTimestamp("Step Three: Processsing audio transcript ...");
-    const resultText = await client.audio.transcriptions.create({
-      model: "whisper",
-      language: "he",
-      prompt: `
-      You are provided with an hebrew audio conversation, transcript it into hebrew transcript.
-      If the values are numbers such as אחת שתיים שלוש ארבע חמש שש שבע שמונה תשע עשר אפס transcript it to an regular number representation like 1 2 3 4 5 6 7 8 9 0 etc
-      If the numbers are in a row, make sure to write it a single number rather single digits all by themselves
+    logWithTimestamp(`Step Three: Requesting Transcription`);
+    const resultText = await GetAudioTranscription(audioFilePath);
+    logWithTimestamp(`Step Four: Transcription accepted`);
+    logWithTimestamp(`Transcription:`);
+    logWithTimestamp(JSON.stringify(resultText, null, 2));
 
-      here is an example
-      "אחת שתיים שלוש ארבע חמש שש שבע שמונה תשע"
-      Im expecting you to provide the transcript as:
-      "123456789"
-
-      If the numbers are not in a row, for example there is a stop between the digits and the conversation switched, present it as a digits and not as single number
-      `,
-      file: createReadStream(audioFilePath),
+    // Get the result JSON
+    logWithTimestamp(`Step Five: Requesting an analyze`);
+    const result = await GetResJSON(resultText.text);
+    logWithTimestamp(`Step Six: Analyze accepted`);
+    res.on("finish", () => {
+      logWithTimestamp("Step Seven: Server responded");
+      console.log("===================================================");
     });
-    console.log(resultText);
-
-    logWithTimestamp("Step Four: Transcript succefully been generated ...");
-    const result = await getJsonFieldsFilled(resultText.text);
-    console.log(result);
-
-    logWithTimestamp(
-      "Step Eight: Formatting info data into proper JSON file ..."
-    );
-    const formattedResult = formatModelResponse(result);
-
-    logWithTimestamp(
-      "Step Nine: Form data been converted into JSON succefully ..."
-    );
-    logWithTimestamp("Step Ten: Server responded");
-    res.setHeader("Content-Type", "application/json");
-    res.send(formattedResult);
+    res.status(200).json(result);
   } catch (err) {
-    logWithTimestamp("Error analyzing transcript:", err.message);
-    res.status(500).send("Server Error");
+    logWithTimestamp(`ERROR: Location: POST /analyze, Msg:${err}`);
+    res.on("finish", () => {
+      logWithTimestamp("Step Seven: Server responded");
+      console.log("===================================================");
+    });
+    res.status(500);
   }
 });
 
+// API Endpoint: POST Upload a part audio for analyzing (Show case for the finals)
 app.post("/final", upload.single("audio"), async (req, res) => {
   try {
     logWithTimestamp("=============== Final Endpoint ===============");
-    if (!req.file) {
-      return res.status(400).send("No audio file uploaded");
-    }
+    if (!req.file) return res.status(400).send("No audio file uploaded");
     logWithTimestamp("Step One: Getting audio file ...");
     // Only on production
     const audioFilePath = req.file.path;
-    logWithTimestamp(
-      `Step Two: Connecting to Whissper Model | ${audioFilePath}`
-    );
-    const client = getWhissperClient();
-
-    logWithTimestamp("Step Three: Processsing audio transcript ...");
-    const resultText = await client.audio.transcriptions.create({
-      model: "whisper",
-      language: "he",
-      prompt: `
-      You are provided with an hebrew audio conversation, transcript it into hebrew transcript.
-      If the values are numbers such as אחת שתיים שלוש ארבע חמש שש שבע שמונה תשע עשר אפס transcript it to an regular number representation like 1 2 3 4 5 6 7 8 9 0 etc
-      If the numbers are in a row, make sure to write it a single number rather single digits all by themselves
-
-      here is an example
-      "אחת שתיים שלוש ארבע חמש שש שבע שמונה תשע"
-      Im expecting you to provide the transcript as:
-      "123456789"
-      Again, CONVERT ALL NUMBERS WORDS INTO A NUMBER REPRESENTATIONS!
-      If the numbers are not in a row, for example there is a stop between the digits and the conversation switched, present it as a digits and not as single number
-      its important!
-      `,
-      file: createReadStream(audioFilePath),
-    });
+    const resultText = GetAudioTranscription(audioFilePath);
 
     logWithTimestamp("Step Four: Transcript succefully been generated ...");
     const result = await FinalVersionFormFilled(resultText.text);
@@ -221,7 +148,7 @@ app.post("/final", upload.single("audio"), async (req, res) => {
     logWithTimestamp(
       "Step Eight: Formatting info data into proper JSON file ..."
     );
-    const formattedResult = formatModelResponse(result);
+    const formattedResult = ConvertResponseToJSON(result);
     console.log(result);
 
     logWithTimestamp(
@@ -232,53 +159,6 @@ app.post("/final", upload.single("audio"), async (req, res) => {
     res.send(formattedResult);
   } catch (err) {
     logWithTimestamp("Error analyzing transcript:", err.message);
-    res.status(500).send("Server Error");
-  }
-});
-app.post("/pdf", upload.single("jsonFile"), async (req, res) => {
-  try {
-    logWithTimestamp("=============== PDF Endpoint ===============");
-    if (!req.file) {
-      return res.status(400).send("No JSON file uploaded");
-    }
-
-    const jsonFilePath = req.file.path;
-    const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
-    const pdfFileName = `output_${timestamp}.pdf`;
-
-    console.log(jsonFilePath);
-    console.log(pdfFileName);
-
-    // Call the Python script
-    exec(
-      `python ./pdf_report/main.py ${jsonFilePath} ${pdfFileName}`,
-      (error, stdout, stderr) => {
-        if (error) {
-          logWithTimestamp(`Error executing Python script: ${error.message}`);
-          return res.status(500).send("Error generating PDF");
-        }
-        if (stderr) {
-          logWithTimestamp(`Python script stderr: ${stderr}`);
-        }
-        logWithTimestamp(`Python script stdout: ${stdout}`);
-
-        // Read the generated PDF file and send it as response
-        res.setHeader("Content-Type", "application/pdf");
-        createReadStream(pdfFileName).pipe(res);
-
-        // Clean up temporary files
-        unlink(jsonFilePath, (err) => {
-          if (err)
-            logWithTimestamp(`Error deleting temp JSON file: ${err.message}`);
-        });
-        unlink(pdfFileName, (err) => {
-          if (err)
-            logWithTimestamp(`Error deleting temp PDF file: ${err.message}`);
-        });
-      }
-    );
-  } catch (err) {
-    logWithTimestamp(`Error processing PDF request: ${err.message}`);
     res.status(500).send("Server Error");
   }
 });
