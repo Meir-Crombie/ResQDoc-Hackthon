@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'tools.dart';
 import 'package:path/path.dart' as path; // Add this import
 
+const String SERVER_URL = "http://172.208.51.3:5000";
 Future<Map<String, dynamic>> readBackendJson() async {
   final String response = await rootBundle.loadString('data/dummydata.json');
   return jsonDecode(response);
@@ -83,8 +84,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
   Future<dynamic> readJsonFromServer(String fileName) async {
     try {
       if (fileName == "") {
-        final response =
-            await http.get(Uri.parse('http://20.84.43.139:5000/showCase'));
+        final response = await http.get(Uri.parse('$SERVER_URL/showCase'));
         if (response.statusCode == 200) {
           print("---------- HERE IS THE RESPONSE ----------");
           return jsonDecode(response.body);
@@ -95,7 +95,7 @@ class _ParamedicDocState extends State<ParamedicDoc> {
         // Create multipart request
         var request = http.MultipartRequest(
           'POST',
-          Uri.parse('http://20.84.43.139:5000/final'),
+          Uri.parse('$SERVER_URL/final'),
         );
 
         // Add audio file to request
