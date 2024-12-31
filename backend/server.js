@@ -1,6 +1,6 @@
 import express from "express";
 import multer from "multer";
-import { createReadStream } from "fs";
+import { createReadStream, unlink } from "fs";
 import crypto from "crypto";
 import {
   getWhissperClient,
@@ -83,6 +83,11 @@ app.post("/transcribe", upload.single("audio"), async (req, res) => {
     res.on("finish", () => {
       logWithTimestamp("Step Five: Server responded");
       console.log("===================================================");
+      // Delete the audio file after response is sent
+      unlink(audioFilePath, (err) => {
+        if (err) logWithTimestamp(`Error deleting audio file: ${err.message}`);
+        else logWithTimestamp(`Audio file deleted: ${audioFilePath}`);
+      });
     });
 
     res.json(result);
@@ -120,6 +125,11 @@ app.post("/analyze", upload.single("audio"), async (req, res) => {
     res.on("finish", () => {
       logWithTimestamp("Step Seven: Server responded");
       console.log("===================================================");
+      // Delete the audio file after response is sent
+      unlink(audioFilePath, (err) => {
+        if (err) logWithTimestamp(`Error deleting audio file: ${err.message}`);
+        else logWithTimestamp(`Audio file deleted: ${audioFilePath}`);
+      });
     });
     res.status(200).json(result);
   } catch (err) {
@@ -157,9 +167,52 @@ app.post("/final", upload.single("audio"), async (req, res) => {
     logWithTimestamp("Step Ten: Server responded");
     res.setHeader("Content-Type", "application/json");
     res.send(formattedResult);
+
+    res.on("finish", () => {
+      // Delete the audio file after response is sent
+      unlink(audioFilePath, (err) => {
+        if (err) logWithTimestamp(`Error deleting audio file: ${err.message}`);
+        else logWithTimestamp(`Audio file deleted: ${audioFilePath}`);
+      });
+    });
   } catch (err) {
     logWithTimestamp("Error analyzing transcript:", err.message);
     res.status(500).send("Server Error");
+  }
+});
+
+// API Endpoint: POST Upload audio and initiate audio analyzing
+app.get("/demoAnalyze", async (req, res) => {
+  try {
+    logWithTimestamp("=============== Demo Analyze Endpoint ===============");
+    logWithTimestamp("Step One: Getting audio file ...");
+
+    // Get the trascription
+    const audioFilePath = "./AudioDemo1.m4a";
+    logWithTimestamp(`Step Two: Audio accepted, File name: ${audioFilePath}`);
+
+    logWithTimestamp(`Step Three: Requesting Transcription`);
+    const resultText = await GetAudioTranscription(audioFilePath);
+    logWithTimestamp(`Step Four: Transcription accepted`);
+    logWithTimestamp(`Transcription:`);
+    logWithTimestamp(JSON.stringify(resultText, null, 2));
+
+    // Get the result JSON
+    logWithTimestamp(`Step Five: Requesting an analyze`);
+    const result = await GetResJSON(resultText.text);
+    logWithTimestamp(`Step Six: Analyze accepted`);
+    res.on("finish", () => {
+      logWithTimestamp("Step Seven: Server responded");
+      logWithTimestamp("===================================================");
+    });
+    res.status(200).json(result);
+  } catch (err) {
+    logWithTimestamp(`ERROR: Location: POST /analyze, Msg:${err}`);
+    res.on("finish", () => {
+      logWithTimestamp("Step Seven: Server responded");
+      console.log("===================================================");
+    });
+    res.status(500);
   }
 });
 
