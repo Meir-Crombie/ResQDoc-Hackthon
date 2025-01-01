@@ -362,8 +362,9 @@ class _HomeState extends State<Home> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>
-                                ParamedicDocLocal(fileName: ''),
+                            builder: (context) => ParamedicDocLocal(
+                              fileName: '',
+                            ),
                           ),
                         );
                       },
