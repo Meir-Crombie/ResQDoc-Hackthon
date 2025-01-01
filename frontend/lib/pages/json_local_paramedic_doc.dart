@@ -38,43 +38,7 @@ class ParamedicDocLocal extends StatefulWidget {
 
 class _ParamedicDocLocalState extends State<ParamedicDocLocal> {
   final List<FocusNode> focusNodes = [];
-  Map<String, dynamic>? serverJsonData = {
-    "patientDetails": {
-      "idOrPassport": "",
-      "firstName": "חיים",
-      "lastName": "לוי",
-      "age": "58",
-      "gender": "זכר",
-      "city": "ירושלים",
-      "street": "רחוב הרצל",
-      "houseNumber": "25",
-      "phone": "",
-      "email": ""
-    },
-    "smartData": {
-      "findings": {
-        "diagnosis": "חשד לאירוע לבבי",
-        "patientStatus": "יציב אך סובל",
-        "mainComplaint": "לחץ חזק בחזה עם הקרנה ליד שמאל וללסת",
-        "anamnesis":
-            "חיים לוי, בן 58, פנה עקב תחושת לחץ חזק בחזה שהחלה במנוחה. רקע רפואי כולל סוכרת ולחץ דם גבוה, מעשן כקופסה ביום, לוקח גלוקומין ולוסרטן. הלחץ בחזה מלווה בהקרנה ליד שמאל וללסת, מלווה בסחרחורת, קוצר נשימה, חולשה וזיעה קרה. רמת סוכר 210.",
-        "medicalSensitivities": "אין רגישויות ידועות",
-        "statusWhenFound": "תעוקת חזה",
-        "CaseFound": "חשד לאירוע לבבי"
-      },
-      "medicalMetrics": {
-        "bloodPressure": {"value": "145/95", "time": ""},
-        "Heart Rate": "110",
-        "Lung Auscultation": "תקין",
-        "consciousnessLevel": "מלאה",
-        "breathingRate": "לא ידוע",
-        "breathingCondition": "קוצר נשימה",
-        "skinCondition": "מזיע זיעה קרה",
-        "lungCondition": "",
-        "CO2Level": "92"
-      }
-    }
-  };
+  Map<String, dynamic>? serverJsonData;
   Map<String, dynamic>? localJsonData;
   String? errorMessage;
 
