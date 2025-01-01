@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/Screens/FinalForm.dart';
+//import 'package:frontend/Screens/FinalForm.dart';
 import 'package:frontend/pages/admin.dart';
 import 'package:frontend/pages/history_for_maneger.dart';
+import 'package:frontend/pages/json_local_paramedic_doc.dart';
 import 'package:frontend/pages/maneger_dash_board.dart';
 import 'package:frontend/pages/settings_page.dart';
 import 'pages/home.dart';
@@ -24,6 +25,7 @@ void main() => runApp(
         routes: {
           '/home': (context) => Home(),
           '/paramedic': (context) => ParamedicDoc(fileName: ""),
+          '/paramedic_local': (context) => ParamedicDocLocal(fileName: ""),
           '/settings': (context) => Settings(),
           '/about': (context) => AboutPage(),
           '/past': (context) => MissionsPage(),
