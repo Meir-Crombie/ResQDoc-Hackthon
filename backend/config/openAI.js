@@ -48,9 +48,9 @@ export const medicalTemplate = {
 //The Whissper Ai connection object
 const WhissperManager = {
   endpoint:
-    "https://bakur-m5c8tt2w-eastus2.openai.azure.com/openai/deployments/Whisper_AudioTranscript/audio/transcriptions?api-version=2024-06-01",
+    "https://ai-bakuradz3720ai884010610452.openai.azure.com/openai/deployments/whisper/audio/transcriptions?api-version=2024-06-01",
   apiKey:
-    "37m050c3Ps7fVMZ85vBY6NhMn7bLIr5hyVD0xSJcVI2djDl6g6WXJQQJ99ALACHYHv6XJ3w3AAAAACOGF5Cx",
+    "2A8YacGI00iW1Q7sVM6SwuJp9B2f65vgm07WO4oU6kclqy2kTrShJQQJ99BAACHYHv6XJ3w3AAAAACOGNVIv",
 };
 
 // Required Azure OpenAI deployment name and API version
@@ -59,7 +59,7 @@ const deploymentName = "whisper";
 
 //The fieled auto fill Ai connection object
 const GroqManager = new Groq({
-  apiKey: "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",
+  apiKey: "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",
 });
 
 function getWhissperClient() {
@@ -277,9 +277,35 @@ The expected response
   }
 }
 
+async function processTextWithLlama(text) {
+  try {
+    const completion = await GroqManager.chat.completions.create({
+      messages: [
+        {
+          role: "system",
+          content: `
+          This is a WhatsApp group chat logs of the college group Im willing to make a funny summery for this year in context of the group
+          Your task is to provide a funny summery for each meaninful user which was participating noticly in the group Provide a funny summery
+          for each user as shown in hebrew which would be funny and driven by the context of that particular's user's messages`,
+        },
+        {
+          role: "user",
+          content: text,
+        },
+      ],
+      model: "llama-3.3-70b-versatile",
+    });
+    return completion.choices[0].message.content;
+  } catch (err) {
+    logWithTimestamp(`ERROR: Location: Func-processTextWithLlama, Msg:${err}`);
+    throw new Error("processTextWithLlama: Unable to process the text");
+  }
+}
+
 export {
   getWhissperClient,
   GetJSONFiled,
   logWithTimestamp,
   FinalVersionFormFilled,
+  processTextWithLlama, // Export the new function
 };
